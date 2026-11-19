@@ -10,7 +10,6 @@ struct SalonDetailView: View {
     @State private var detail: ScreenLoader<SalonDetail>
     @State private var users: ScreenLoader<ItemList<UserShort>>
     @State private var subscription: ScreenLoader<SubscriptionAnswer>
-    @State private var web: WebLink?
 
     init(salonId: Int, initialName: String? = nil) {
         self.salonId = salonId
@@ -44,7 +43,6 @@ struct SalonDetailView: View {
         .onChange(of: detail.error) { _, e in
             if e?.behaviour == .notFound, detail.value == nil { dismiss() }
         }
-        .sheet(item: $web) { SafariView(url: $0.url).ignoresSafeArea() }
     }
 
     private func load() async {
@@ -268,9 +266,9 @@ struct SalonDetailView: View {
 
     private func linksSection(_ d: SalonDetail) -> some View {
         Section("Links") {
-            linkRow("Dashboard", "rectangle.grid.2x2", d.links?.dashboard)
-            linkRow("Salon page", "globe", d.links?.page)
-            linkRow("Booking page", "calendar.badge.plus", d.links?.booking)
+            linkRow(String(localized: "Dashboard"), "rectangle.grid.2x2", d.links?.dashboard)
+            linkRow(String(localized: "Salon page"), "globe", d.links?.page)
+            linkRow(String(localized: "Booking page"), "calendar.badge.plus", d.links?.booking)
             NavigationLink(value: AppRoute.activity(salonId: salonId, salonName: d.salon.name)) {
                 Label("Activity", systemImage: "list.bullet.rectangle")
             }
@@ -278,12 +276,11 @@ struct SalonDetailView: View {
     }
 
     @ViewBuilder
-    private func linkRow(_ title: LocalizedStringKey, _ icon: String, _ link: String?) -> some View {
+    /// Opens the page inside the app (pushed like any screen), not in Safari.
+    private func linkRow(_ title: String, _ icon: String, _ link: String?) -> some View {
         if let url = Contact.webURL(link) {
-            Button {
-                web = WebLink(url: url)
-            } label: {
-                Label(title, systemImage: icon)
+            NavigationLink(value: AppRoute.web(url: url, title: title)) {
+                Label { Text(verbatim: title) } icon: { Image(systemName: icon) }
             }
             .frame(minHeight: Theme.minTouch)
         }

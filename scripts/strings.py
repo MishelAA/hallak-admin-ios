@@ -259,6 +259,11 @@ AR = {
     "Try another filter.": "جرّب فلترًا آخر.",
     "Type": "النوع",
     "Filter": "فلتر",
+    # In-app web page
+    "The page did not open.": "لم تُفتح الصفحة.",
+    "Back": "رجوع",
+    "Forward": "تقدّم",
+    "Reload": "إعادة تحميل",
     # More
     "Coming next": "قريبًا",
     "Activity": "النشاط",

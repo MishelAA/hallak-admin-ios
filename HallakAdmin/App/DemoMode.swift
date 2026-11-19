@@ -42,6 +42,7 @@ enum DemoMode {
         case "ai": route = .ai
         case "settings": route = .settings
         case "activity": route = .activity(salonId: nil, salonName: nil)
+        case "web": route = .web(url: URL(string: "https://hallak.online/")!, title: "Salon page")
         default: route = nil
         }
         session.open(tab, route.map { .route($0) })

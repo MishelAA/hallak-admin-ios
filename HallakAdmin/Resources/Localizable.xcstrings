@@ -261,6 +261,16 @@
         }
       }
     },
+    "Back": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "رجوع"
+          }
+        }
+      }
+    },
     "Billing": {
       "localizations": {
         "ar": {
@@ -647,6 +657,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "فلتر"
+          }
+        }
+      }
+    },
+    "Forward": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تقدّم"
           }
         }
       }
@@ -1621,6 +1641,16 @@
         }
       }
     },
+    "Reload": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إعادة تحميل"
+          }
+        }
+      }
+    },
     "Replies": {
       "localizations": {
         "ar": {
@@ -1917,6 +1947,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "يُحذف تسجيل الدخول والبيانات المحفوظة من هذا الآيفون."
+          }
+        }
+      }
+    },
+    "The page did not open.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لم تُفتح الصفحة."
           }
         }
       }

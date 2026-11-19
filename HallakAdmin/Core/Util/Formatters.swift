@@ -36,9 +36,11 @@ enum Formatters {
         let f = DateFormatter()
         f.locale = locale
         f.timeZone = lebanon
+        // Arabic short month names are "تشرين ٢"-style: use the full name there.
+        let month = (locale.language.languageCode?.identifier == "ar") ? "MMMM" : "MMM"
         switch date {
-        case .day: f.setLocalizedDateFormatFromTemplate("d MMM yyyy")
-        case .dayTime: f.setLocalizedDateFormatFromTemplate("d MMM yyyy HH:mm")
+        case .day: f.setLocalizedDateFormatFromTemplate("d \(month) yyyy")
+        case .dayTime: f.setLocalizedDateFormatFromTemplate("d \(month) yyyy HH:mm")
         case .time: f.setLocalizedDateFormatFromTemplate("HH:mm")
         }
         return f
