@@ -100,7 +100,8 @@ final class NavigationAndLanguageTests: XCTestCase {
         s.languageSetting = .en
         XCTAssertEqual(s.language, "en")
         s.languageSetting = .system
-        XCTAssertNil(defaults.object(forKey: "AppleLanguages"))
+        // The app's own override is gone (the iPhone's list shows through again).
+        XCTAssertNil(defaults.persistentDomain(forName: suite)?["AppleLanguages"])
     }
 
     func testLogoutClearsNavigation() async {
