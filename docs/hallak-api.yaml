@@ -606,6 +606,63 @@ paths:
           $ref: '#/components/responses/TooMany'
         '404':
           $ref: '#/components/responses/NotFound'
+  /admin/salons/{id}/web-login:
+    post:
+      tags:
+      - Salons
+      summary: One-time link that opens the salon dashboard signed in
+      description: 'Plugin salon-manager-app-login 1.0.0. Administrators only, HTTPS only, and only with an Application Password.
+        The link works once, for 60 seconds. Opening it signs the web view in (WordPress cookie) and redirects to the dashboard;
+        the opening is written to the salon activity log. 404 rest_no_route = the plugin is not installed.'
+      parameters:
+      - $ref: '#/components/parameters/AcceptLanguage'
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          minimum: 1
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                tab:
+                  type: string
+                  description: Dashboard tab slug, empty = overview.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  url:
+                    type: string
+                    example: https://hallak.online/?hallak_app_login=...
+                  expires_in:
+                    type: integer
+                    example: 60
+                  target:
+                    type: string
+                    example: https://hallak.online/salon/emmanuel-hairstyle/
+                  generated_at:
+                    type: string
+                  tz:
+                    type: string
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          description: Not an administrator (smapi_forbidden), not https (smapi_https), or not asked with an Application Password (smapi_app_only).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          $ref: '#/components/responses/NotFound'
   /admin/owners:
     get:
       tags:

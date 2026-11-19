@@ -1,5 +1,6 @@
 import Foundation
 import Observation
+import WebKit
 
 /// Who is logged in, the API client, the lock and the selected tab. One per app.
 @Observable
@@ -154,6 +155,8 @@ final class AppSession {
     func logout(notice: String? = nil) async {
         await client?.clearCache()
         await cache.clear()
+        // The in-app dashboard pages are signed in with a WordPress cookie: remove it too.
+        await WKWebsiteDataStore.default().removeData(ofTypes: WKWebsiteDataStore.allWebsiteDataTypes(), modifiedSince: .distantPast)
         keychain.removeAll()
         faceIDEnabled = false
         client = nil

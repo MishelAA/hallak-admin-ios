@@ -1401,6 +1401,16 @@
         }
       }
     },
+    "Opens signed in as you": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تُفتح باسمك"
+          }
+        }
+      }
+    },
     "Other": {
       "localizations": {
         "ar": {
@@ -1811,6 +1821,16 @@
         }
       }
     },
+    "Signing in to the dashboard…": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "جارٍ الدخول إلى لوحة التحكم…"
+          }
+        }
+      }
+    },
     "Site": {
       "localizations": {
         "ar": {
@@ -2001,6 +2021,16 @@
         }
       }
     },
+    "The site sent a sign-in link for another address, so the dashboard opened without it.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أرسل الموقع رابط دخول لعنوان آخر، ففُتحت لوحة التحكم بدونه."
+          }
+        }
+      }
+    },
     "This account is not an administrator.": {
       "localizations": {
         "ar": {
@@ -2057,6 +2087,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "هذه الشاشة تأتي في النسخ القادمة."
+          }
+        }
+      }
+    },
+    "To open dashboards signed in, install the “Salon Manager – App Login” plugin on the site.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لفتح لوحات التحكم مع تسجيل الدخول، ثبّت إضافة «Salon Manager – App Login» على الموقع."
           }
         }
       }

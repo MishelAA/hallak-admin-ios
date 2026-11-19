@@ -7,8 +7,10 @@ enum AppRoute: Hashable {
     case activity(salonId: Int?, salonName: String?)
     case salonUsers(id: Int, name: String?)
     case lead(Lead)
-    /// A web page inside the app (salon dashboard, salon page, booking page).
+    /// A web page inside the app (salon page, booking page).
     case web(url: URL, title: String)
+    /// A salon's dashboard, opened signed in through the one-time link (falls back to `url`).
+    case dashboard(salonId: Int, url: URL, title: String)
     case health, owners, whatsapp, ai, settings
 }
 
@@ -23,6 +25,7 @@ extension View {
             case let .salonUsers(id, name): SalonUsersView(salonId: id, salonName: name)
             case let .lead(lead): LeadDetailView(lead: lead)
             case let .web(url, title): WebPageView(url: url, title: title)
+            case let .dashboard(salonId, url, title): WebPageView(url: url, title: title, signInSalonId: salonId)
             case .health: HealthView()
             case .owners: OwnersView()
             case .whatsapp: WhatsAppView()

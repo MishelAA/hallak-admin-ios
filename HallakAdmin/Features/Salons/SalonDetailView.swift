@@ -266,12 +266,32 @@ struct SalonDetailView: View {
 
     private func linksSection(_ d: SalonDetail) -> some View {
         Section("Links") {
-            linkRow(String(localized: "Dashboard"), "rectangle.grid.2x2", d.links?.dashboard)
+            dashboardRow(d)
             linkRow(String(localized: "Salon page"), "globe", d.links?.page)
             linkRow(String(localized: "Booking page"), "calendar.badge.plus", d.links?.booking)
             NavigationLink(value: AppRoute.activity(salonId: salonId, salonName: d.salon.name)) {
                 Label("Activity", systemImage: "list.bullet.rectangle")
             }
+        }
+    }
+
+    /// The salon's dashboard, opened inside the app and signed in as you (one-time link).
+    @ViewBuilder
+    private func dashboardRow(_ d: SalonDetail) -> some View {
+        let fallback = Contact.webURL(d.links?.dashboard)
+            ?? d.salon.slug.flatMap { slug in session.credentials.map { $0.site.appendingPathComponent("salon/\(slug)/") } }
+        if let url = fallback {
+            NavigationLink(value: AppRoute.dashboard(salonId: salonId, url: url, title: d.salon.name)) {
+                Label {
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text("Dashboard")
+                        Text("Opens signed in as you").font(.caption).foregroundStyle(Theme.inkSecondary)
+                    }
+                } icon: {
+                    Image(systemName: "rectangle.grid.2x2")
+                }
+            }
+            .frame(minHeight: Theme.minTouch)
         }
     }
 

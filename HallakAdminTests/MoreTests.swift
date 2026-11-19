@@ -112,6 +112,56 @@ final class NavigationAndLanguageTests: XCTestCase {
     }
 }
 
+final class DashboardSignInTests: XCTestCase {
+    func testEndpoint() throws {
+        let e = Endpoint.webLogin(salonId: 7)
+        XCTAssertEqual(e.method, .post)
+        XCTAssertEqual(e.path, "/admin/salons/7/web-login")
+        let body = try XCTUnwrap(e.body)
+        XCTAssertEqual(try JSONSerialization.jsonObject(with: body) as? [String: String], ["tab": ""])
+    }
+
+    func testLinkMustBeTheSameSiteOverHTTPS() {
+        let site = URL(string: "https://hallak.online")!
+        let ok = WebLoginAnswer(url: "https://hallak.online/?hallak_app_login=abc", expiresIn: 60, target: nil)
+        XCTAssertNotNil(ok.safeURL(site: site))
+        XCTAssertNil(WebLoginAnswer(url: "https://evil.example/?hallak_app_login=abc", expiresIn: 60, target: nil).safeURL(site: site))
+        XCTAssertNil(WebLoginAnswer(url: "http://hallak.online/?hallak_app_login=abc", expiresIn: 60, target: nil).safeURL(site: site))
+    }
+
+    func testSendDecodesAndNeverCaches() async throws {
+        StubURLProtocol.reset()
+        defer { StubURLProtocol.reset() }
+        StubURLProtocol.handler = { req in
+            XCTAssertEqual(req.httpMethod, "POST")
+            XCTAssertEqual(req.value(forHTTPHeaderField: "Content-Type"), "application/json; charset=utf-8")
+            return (200, [:], Data(#"{"url":"https://example.test/?hallak_app_login=x","expires_in":60,"target":"https://example.test/salon/a/"}"#.utf8))
+        }
+        let client = try APIClient(credentials: testCredentials, session: StubURLProtocol.session(), cache: ETagCache(folder: nil))
+        let a = try await client.send(.webLogin(salonId: 1), as: WebLoginAnswer.self)
+        XCTAssertEqual(a.expiresIn, 60)
+        XCTAssertNotNil(a.safeURL(site: testCredentials.site))
+        let cached = await client.cached(.webLogin(salonId: 1), as: WebLoginAnswer.self)
+        XCTAssertNil(cached, "Sign-in links are never saved")
+    }
+
+    func testPluginMissingIsRecognised() async throws {
+        StubURLProtocol.reset()
+        defer { StubURLProtocol.reset() }
+        StubURLProtocol.handler = { _ in
+            (404, [:], Data(#"{"code":"rest_no_route","message":"No route was found","data":{"status":404}}"#.utf8))
+        }
+        let client = try APIClient(credentials: testCredentials, session: StubURLProtocol.session(), cache: ETagCache(folder: nil))
+        do {
+            _ = try await client.send(.webLogin(salonId: 1), as: WebLoginAnswer.self)
+            XCTFail("Expected 404")
+        } catch let e as APIError {
+            XCTAssertEqual(e.code, "rest_no_route")
+            XCTAssertEqual(e.status, 404)
+        }
+    }
+}
+
 final class DemoModeTests: XCTestCase {
     func testFixtureRouting() {
         let root = APIClient.apiRoot + "/admin/"

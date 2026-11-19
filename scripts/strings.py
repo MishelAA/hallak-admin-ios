@@ -264,6 +264,13 @@ AR = {
     "Back": "رجوع",
     "Forward": "تقدّم",
     "Reload": "إعادة تحميل",
+    # Dashboard sign-in
+    "Signing in to the dashboard…": "جارٍ الدخول إلى لوحة التحكم…",
+    "The site sent a sign-in link for another address, so the dashboard opened without it.":
+        "أرسل الموقع رابط دخول لعنوان آخر، ففُتحت لوحة التحكم بدونه.",
+    "To open dashboards signed in, install the “Salon Manager – App Login” plugin on the site.":
+        "لفتح لوحات التحكم مع تسجيل الدخول، ثبّت إضافة «Salon Manager – App Login» على الموقع.",
+    "Opens signed in as you": "تُفتح باسمك",
     # More
     "Coming next": "قريبًا",
     "Activity": "النشاط",

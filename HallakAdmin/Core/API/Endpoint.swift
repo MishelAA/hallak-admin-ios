@@ -67,4 +67,24 @@ extension Endpoint {
     static func invoice(_ id: Int) -> Endpoint { Endpoint(.get, "/admin/invoices/\(id)") }
     /// Filters: status (new|done), search
     static func leads(_ q: ListQuery = ListQuery()) -> Endpoint { Endpoint(.get, "/admin/leads", query: q.items) }
+
+    /// Plugin salon-manager-app-login: a one-time link (60 s) that opens the salon dashboard signed in.
+    static func webLogin(salonId: Int, tab: String = "") -> Endpoint {
+        let body = try? JSONSerialization.data(withJSONObject: ["tab": tab])
+        return Endpoint(.post, "/admin/salons/\(salonId)/web-login", body: body)
+    }
+}
+
+/// POST /admin/salons/{id}/web-login
+struct WebLoginAnswer: Decodable, Hashable {
+    let url: String
+    let expiresIn: Int?
+    let target: String?
+
+    /// The link must point to the same site the app is logged in to, over https.
+    func safeURL(site: URL) -> URL? {
+        guard let u = URL(string: url), u.scheme == "https",
+              let host = u.host?.lowercased(), host == site.host?.lowercased() else { return nil }
+        return u
+    }
 }
