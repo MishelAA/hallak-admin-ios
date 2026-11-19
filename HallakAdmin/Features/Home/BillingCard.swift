@@ -4,6 +4,7 @@ import SwiftUI
 struct BillingCard: View {
     let counts: Overview.BillingCounts
     var open: (BillingStatus) -> Void
+    @Environment(\.dynamicTypeSize) private var typeSize
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
@@ -21,7 +22,7 @@ struct BillingCard: View {
                         .accessibilityLabel(Text("\(counts.late) late payments"))
                 }
             }
-            HStack(spacing: 6) {
+            LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 6), count: typeSize.isAccessibilitySize ? 2 : 4), spacing: 6) {
                 cell("Trial", counts.trial, Theme.blue, .trial)
                 cell("Paid", counts.active, Theme.green, .active)
                 cell("Payment due", counts.grace, Theme.orange, .grace)

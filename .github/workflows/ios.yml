@@ -57,14 +57,35 @@ jobs:
             NAME=$1; shift
             xcrun simctl terminate "$SIM_UDID" online.hallak.admin 2>/dev/null || true
             xcrun simctl launch "$SIM_UDID" online.hallak.admin "$@"
-            sleep 6
+            sleep 5
             xcrun simctl io "$SIM_UDID" screenshot "screenshots/$NAME.png"
+          }
+          # Demo mode (Debug build only): the app runs on the test answers, no real login.
+          demo () { # name, language, tab, route
+            shot "$1" -AppleLanguages "($2)" -AppleLocale "$2_LB" -HallakDemo YES -HallakTab "$3" -HallakRoute "$4"
           }
           xcrun simctl ui "$SIM_UDID" appearance light
           shot login-en-light -AppleLanguages "(en)" -AppleLocale en_LB
           shot login-ar-light -AppleLanguages "(ar)" -AppleLocale ar_LB
+          for s in "home home none" "salons salons none" "salon salons salon" "money money none" "invoice money invoice" \
+                   "requests requests none" "lead requests lead" "more more none" "health more health" \
+                   "owners more owners" "whatsapp more whatsapp" "ai more ai" "activity more activity" "settings more settings"; do
+            set -- $s
+            demo "en-light-$1" en "$2" "$3"
+          done
+          for s in "home home none" "salons salons none" "salon salons salon" "money money none" "health more health" "settings more settings"; do
+            set -- $s
+            demo "ar-light-$1" ar "$2" "$3"
+          done
+          xcrun simctl ui "$SIM_UDID" content_size accessibility-extra-large
+          demo en-light-home-xxl en home none
+          xcrun simctl ui "$SIM_UDID" content_size large
           xcrun simctl ui "$SIM_UDID" appearance dark
           shot login-en-dark -AppleLanguages "(en)" -AppleLocale en_LB
+          for s in "home home none" "salon salons salon" "money money none" "requests requests none"; do
+            set -- $s
+            demo "en-dark-$1" en "$2" "$3"
+          done
 
       - name: Build unsigned IPA (for sideloading)
         run: |

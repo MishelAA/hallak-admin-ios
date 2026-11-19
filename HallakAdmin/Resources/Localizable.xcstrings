@@ -21,6 +21,16 @@
         }
       }
     },
+    "%lld chats waiting": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld محادثات تنتظر"
+          }
+        }
+      }
+    },
     "%lld days late": {
       "localizations": {
         "ar": {
@@ -51,6 +61,16 @@
         }
       }
     },
+    "%lld invoices": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld فاتورة"
+          }
+        }
+      }
+    },
     "%lld late payments": {
       "localizations": {
         "ar": {
@@ -61,12 +81,32 @@
         }
       }
     },
+    "%lld requests": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld طلب"
+          }
+        }
+      }
+    },
     "%lld salons": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "%lld صالون"
+          }
+        }
+      }
+    },
+    "%lld summaries": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld ملخصات"
           }
         }
       }
@@ -151,6 +191,26 @@
         }
       }
     },
+    "All types": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "كل الأنواع"
+          }
+        }
+      }
+    },
+    "Any time": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أي وقت"
+          }
+        }
+      }
+    },
     "App": {
       "localizations": {
         "ar": {
@@ -167,6 +227,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "كلمة مرور التطبيق"
+          }
+        }
+      }
+    },
+    "Appointments": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "المواعيد"
           }
         }
       }
@@ -201,6 +271,16 @@
         }
       }
     },
+    "Billing is off": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الاشتراكات مطفأة"
+          }
+        }
+      }
+    },
     "Booking page": {
       "localizations": {
         "ar": {
@@ -217,6 +297,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "البوت"
+          }
+        }
+      }
+    },
+    "Bot off": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "البوت مطفأ"
+          }
+        }
+      }
+    },
+    "Bot on": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "البوت شغّال"
           }
         }
       }
@@ -247,6 +347,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "ملغاة"
+          }
+        }
+      }
+    },
+    "Changing the status and “Create salon from request” come with the next API version.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تغيير الحالة و«إنشاء صالون من الطلب» يأتيان مع نسخة الـ API القادمة."
           }
         }
       }
@@ -391,6 +501,16 @@
         }
       }
     },
+    "Demo request": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "طلب تجربة"
+          }
+        }
+      }
+    },
     "Demo requests": {
       "localizations": {
         "ar": {
@@ -421,6 +541,16 @@
         }
       }
     },
+    "Due soon / late": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مستحق قريبًا / متأخر"
+          }
+        }
+      }
+    },
     "Email": {
       "localizations": {
         "ar": {
@@ -437,6 +567,46 @@
           "stringUnit": {
             "state": "translated",
             "value": "الإنجليزية"
+          }
+        }
+      }
+    },
+    "Environment": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "البيئة"
+          }
+        }
+      }
+    },
+    "Error": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "خطأ"
+          }
+        }
+      }
+    },
+    "Every month": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "كل شهر"
+          }
+        }
+      }
+    },
+    "Every week": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "كل أسبوع"
           }
         }
       }
@@ -471,6 +641,16 @@
         }
       }
     },
+    "Filter": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فلتر"
+          }
+        }
+      }
+    },
     "Hallak": {
       "localizations": {
         "ar": {
@@ -497,6 +677,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "التطبيق مقفل"
+          }
+        }
+      }
+    },
+    "Hallak check %@": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hallak check %@"
           }
         }
       }
@@ -551,12 +741,42 @@
         }
       }
     },
+    "Info": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "معلومة"
+          }
+        }
+      }
+    },
     "Invoice": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "الفاتورة"
+          }
+        }
+      }
+    },
+    "Invoices": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الفواتير"
+          }
+        }
+      }
+    },
+    "Key set": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "المفتاح موجود"
           }
         }
       }
@@ -571,12 +791,32 @@
         }
       }
     },
+    "Last 7 days": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "آخر ٧ أيام"
+          }
+        }
+      }
+    },
     "Last activity": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "آخر نشاط"
+          }
+        }
+      }
+    },
+    "Last error": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "آخر خطأ"
           }
         }
       }
@@ -597,6 +837,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "آخر دخول"
+          }
+        }
+      }
+    },
+    "Limit counted": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يُحسب الحدّ"
+          }
+        }
+      }
+    },
+    "Limit per salon": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الحدّ لكل صالون"
           }
         }
       }
@@ -671,12 +931,32 @@
         }
       }
     },
+    "Message": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الرسالة"
+          }
+        }
+      }
+    },
     "Method": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "طريقة الدفع"
+          }
+        }
+      }
+    },
+    "Model": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "النموذج"
           }
         }
       }
@@ -701,12 +981,32 @@
         }
       }
     },
+    "Month": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الشهر"
+          }
+        }
+      }
+    },
     "Monthly": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "شهري"
+          }
+        }
+      }
+    },
+    "Monthly limit per salon": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الحدّ الشهري لكل صالون"
           }
         }
       }
@@ -741,12 +1041,32 @@
         }
       }
     },
+    "Name, login or email": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الاسم، اسم الدخول أو البريد"
+          }
+        }
+      }
+    },
     "Name, phone or owner": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "الاسم، الهاتف أو المالك"
+          }
+        }
+      }
+    },
+    "Name, salon, phone or email": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الاسم، الصالون، الهاتف أو البريد"
           }
         }
       }
@@ -767,6 +1087,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "لم يدخل أبدًا"
+          }
+        }
+      }
+    },
+    "New": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "جديد"
+          }
+        }
+      }
+    },
+    "New “Book a free demo” requests from the website show here.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "طلبات «احجز تجربة مجانية» من الموقع تظهر هنا."
           }
         }
       }
@@ -801,12 +1141,72 @@
         }
       }
     },
+    "No invoices": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا يوجد فواتير"
+          }
+        }
+      }
+    },
     "No limit": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "بدون حدّ"
+          }
+        }
+      }
+    },
+    "No new requests": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا يوجد طلبات جديدة"
+          }
+        }
+      }
+    },
+    "No owners": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا يوجد مالكون"
+          }
+        }
+      }
+    },
+    "No problems": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا يوجد مشاكل"
+          }
+        }
+      }
+    },
+    "No requests": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا يوجد طلبات"
+          }
+        }
+      }
+    },
+    "No salon": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا يوجد صالون"
           }
         }
       }
@@ -827,6 +1227,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "لا يوجد صالونات بعد"
+          }
+        }
+      }
+    },
+    "Not active": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "غير مفعّل"
           }
         }
       }
@@ -881,12 +1291,42 @@
         }
       }
     },
+    "Nothing unpaid": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا شيء غير مدفوع"
+          }
+        }
+      }
+    },
     "Number linked": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "الرقم مربوط"
+          }
+        }
+      }
+    },
+    "Number not linked": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الرقم غير مربوط"
+          }
+        }
+      }
+    },
+    "Number of barbers": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عدد الحلاقين"
           }
         }
       }
@@ -1091,12 +1531,72 @@
         }
       }
     },
+    "Plan wanted": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الباقة المطلوبة"
+          }
+        }
+      }
+    },
+    "Plans": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الباقات"
+          }
+        }
+      }
+    },
+    "Plugins": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الإضافات"
+          }
+        }
+      }
+    },
     "Price": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "السعر"
+          }
+        }
+      }
+    },
+    "Price in / out": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "السعر دخول / خروج"
+          }
+        }
+      }
+    },
+    "Problems": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "المشاكل"
+          }
+        }
+      }
+    },
+    "Questions": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الأسئلة"
           }
         }
       }
@@ -1117,6 +1617,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "للقراءة فقط في هذه النسخة."
+          }
+        }
+      }
+    },
+    "Replies": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الردود"
           }
         }
       }
@@ -1191,12 +1701,42 @@
         }
       }
     },
+    "Salons keep working %lld days after the date.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تبقى الصالونات تعمل %lld أيام بعد التاريخ."
+          }
+        }
+      }
+    },
+    "Same as iPhone": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مثل الآيفون"
+          }
+        }
+      }
+    },
     "Search the activity": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "ابحث في النشاط"
+          }
+        }
+      }
+    },
+    "Sent": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أُرسل"
           }
         }
       }
@@ -1211,12 +1751,32 @@
         }
       }
     },
+    "Settings": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الإعدادات"
+          }
+        }
+      }
+    },
     "Share": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "مشاركة"
+          }
+        }
+      }
+    },
+    "Show": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عرض"
           }
         }
       }
@@ -1237,6 +1797,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "عنوان الموقع"
+          }
+        }
+      }
+    },
+    "Some texts change after you close and open the app again.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بعض النصوص تتغير بعد إغلاق التطبيق وفتحه من جديد."
           }
         }
       }
@@ -1321,6 +1891,26 @@
         }
       }
     },
+    "The Hallak Billing plugin is not active on the site.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إضافة Hallak Billing غير مفعّلة على الموقع."
+          }
+        }
+      }
+    },
+    "The Hallak check plugin is not active": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إضافة Hallak check غير مفعّلة"
+          }
+        }
+      }
+    },
     "The login and the saved data are removed from this iPhone.": {
       "localizations": {
         "ar": {
@@ -1401,6 +1991,16 @@
         }
       }
     },
+    "This plugin is off": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "هذه الإضافة مطفأة"
+          }
+        }
+      }
+    },
     "This salon has its own limit.": {
       "localizations": {
         "ar": {
@@ -1461,6 +2061,16 @@
         }
       }
     },
+    "Try another filter.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "جرّب فلترًا آخر."
+          }
+        }
+      }
+    },
     "Try another search or filter.": {
       "localizations": {
         "ar": {
@@ -1471,12 +2081,32 @@
         }
       }
     },
+    "Turn it on in wp-admin to see it here.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فعّلها في wp-admin لتظهر هنا."
+          }
+        }
+      }
+    },
     "Turn on Face ID for Hallak Admin": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "تفعيل Face ID لتطبيق حلّاق"
+          }
+        }
+      }
+    },
+    "Type": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "النوع"
           }
         }
       }
@@ -1531,6 +2161,26 @@
         }
       }
     },
+    "Up to date": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "محدّث"
+          }
+        }
+      }
+    },
+    "Update": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تحديث متوفر"
+          }
+        }
+      }
+    },
     "Updated %@": {
       "localizations": {
         "ar": {
@@ -1581,6 +2231,16 @@
         }
       }
     },
+    "Warning": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تنبيه"
+          }
+        }
+      }
+    },
     "WhatsApp": {
       "localizations": {
         "ar": {
@@ -1597,6 +2257,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "بوت واتساب"
+          }
+        }
+      }
+    },
+    "When": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "متى"
           }
         }
       }

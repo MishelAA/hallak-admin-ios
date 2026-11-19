@@ -5,7 +5,14 @@ struct HomeView: View {
     @Environment(AppSession.self) private var session
     @State private var loader = ScreenLoader<Overview>(.overview)
 
-    private let columns = [GridItem(.adaptive(minimum: 160), spacing: 12)]
+    @Environment(\.dynamicTypeSize) private var typeSize
+
+    /// Two cards per row; one per row with the biggest text sizes.
+    private var columns: [GridItem] {
+        typeSize.isAccessibilitySize
+            ? [GridItem(.flexible())]
+            : [GridItem(.adaptive(minimum: 160), spacing: 12)]
+    }
 
     var body: some View {
         ScrollView {

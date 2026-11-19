@@ -34,6 +34,8 @@ targets:
         CFBundleAllowMixedLocalizations: true
         UILaunchScreen:
           UIColorName: Cream
+          UIImageName: LaunchLogo
+          UIImageRespectsSafeAreaInsets: true
         UISupportedInterfaceOrientations:
           - UIInterfaceOrientationPortrait
         UIRequiresFullScreen: true

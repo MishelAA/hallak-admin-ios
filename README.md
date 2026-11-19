@@ -13,9 +13,9 @@ iOS 17+, Swift / SwiftUI, no third-party packages. English + Arabic (RTL).
 | M1 | Project, API client, models, tests, CI | done |
 | M2 | Login, Keychain, Face ID, Home | done |
 | M3 | Salons | done |
-| M4 | Money and Requests | next |
-| M5 | More | |
-| M6 | Polish and Arabic | |
+| M4 | Money and Requests | done |
+| M5 | More | done |
+| M6 | Polish and Arabic | done (check on the phone for a week) |
 
 ## Layout
 
@@ -41,7 +41,9 @@ Every push to `main` runs `.github/workflows/ios.yml` on a cloud Mac:
 
 1. `xcodegen generate` (the Xcode project is generated, not committed)
 2. unit tests on the newest iPhone simulator
-3. screenshots of the app (light and dark), as an artifact
+3. screenshots of every screen (English, Arabic, dark, largest text) in **demo mode**, as an artifact.
+   Demo mode exists only in Debug builds: `-HallakDemo YES` makes the app read `HallakAdmin/DemoData`
+   (the test answers) instead of the network. The Release IPA leaves DemoData out.
 4. **unsigned IPA** `HallakAdmin-unsigned.ipa`, as an artifact (install with Sideloadly / AltStore, which
    sign it with your Apple ID)
 5. **TestFlight** upload, only when these repository secrets exist:
