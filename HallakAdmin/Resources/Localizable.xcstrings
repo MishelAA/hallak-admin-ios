@@ -281,6 +281,16 @@
         }
       }
     },
+    "Billing in wp-admin": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الاشتراكات في wp-admin"
+          }
+        }
+      }
+    },
     "Billing is off": {
       "localizations": {
         "ar": {
@@ -1391,6 +1401,16 @@
         }
       }
     },
+    "Open dashboard": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "افتح لوحة التحكم"
+          }
+        }
+      }
+    },
     "Open invoice": {
       "localizations": {
         "ar": {
@@ -1401,12 +1421,32 @@
         }
       }
     },
-    "Opens signed in as you": {
+    "Open on the website": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "تُفتح باسمك"
+            "value": "افتح على الموقع"
+          }
+        }
+      }
+    },
+    "Open wp-admin": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "افتح wp-admin"
+          }
+        }
+      }
+    },
+    "Opens inside the app, signed in as you.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تُفتح داخل التطبيق، مسجّلًا باسمك."
           }
         }
       }
@@ -1591,6 +1631,16 @@
         }
       }
     },
+    "Plugins check": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فحص الإضافات"
+          }
+        }
+      }
+    },
     "Price": {
       "localizations": {
         "ar": {
@@ -1737,6 +1787,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "الصالونات"
+          }
+        }
+      }
+    },
+    "Salons in wp-admin": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الصالونات في wp-admin"
           }
         }
       }
@@ -2021,12 +2081,12 @@
         }
       }
     },
-    "The site sent a sign-in link for another address, so the dashboard opened without it.": {
+    "The site sent a sign-in link for another address, so the page opened without it.": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "أرسل الموقع رابط دخول لعنوان آخر، ففُتحت لوحة التحكم بدونه."
+            "value": "أرسل الموقع رابط دخول لعنوان آخر، ففُتحت الصفحة بدونه."
           }
         }
       }
@@ -2091,12 +2151,12 @@
         }
       }
     },
-    "To open dashboards signed in, install the “Salon Manager – App Login” plugin on the site.": {
+    "To open pages signed in, update the Salon Manager – API plugin to 1.1.": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "لفتح لوحات التحكم مع تسجيل الدخول، ثبّت إضافة «Salon Manager – App Login» على الموقع."
+            "value": "لفتح الصفحات مع تسجيل الدخول، حدّث إضافة Salon Manager – API إلى 1.1."
           }
         }
       }
@@ -2317,6 +2377,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "تنبيه"
+          }
+        }
+      }
+    },
+    "Website": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الموقع"
           }
         }
       }

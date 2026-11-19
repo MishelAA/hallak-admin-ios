@@ -2,13 +2,14 @@ import SwiftUI
 import WebKit
 
 /// A web page shown inside the app (salon dashboard, salon page, booking page), pushed like any screen.
-/// For a salon dashboard (`signInSalonId`), the app first asks the site for a one-time sign-in link
-/// (plugin salon-manager-app-login), so the dashboard opens signed in as you.
+/// With `signIn`, the app first asks for a one-time sign-in link (POST /admin/login-link, API 1.1):
+/// a new link on every opening, used at once and never saved, so the page opens signed in as you.
 /// Links inside the page stay here; phone, WhatsApp and mail links open their apps.
 struct WebPageView: View {
-    let url: URL
+    /// The page itself (without signing in). Optional when only the sign-in link knows it (wp-admin pages).
+    var url: URL?
     let title: String
-    var signInSalonId: Int?
+    var signIn: LinkTarget?
 
     @Environment(AppSession.self) private var session
     @State private var model = WebPageModel()
@@ -73,7 +74,7 @@ struct WebPageView: View {
                     Spacer()
                     Button { model.reload() } label: { Image(systemName: "arrow.clockwise") }
                         .accessibilityLabel(Text("Reload"))
-                    if let current = model.currentURL, current.query?.contains("hallak_app_login") != true {
+                    if let current = model.currentURL, current.query?.contains("hallak_open") != true {
                         ShareLink(item: current) { Image(systemName: "square.and.arrow.up") }
                             .accessibilityLabel(Text("Share"))
                     }
@@ -89,27 +90,31 @@ struct WebPageView: View {
     private func start() async {
         model.started = true
         model.error = nil
-        guard let salonId = signInSalonId, let client = session.client else {
-            model.load(url)
+        guard let target = signIn, let client = session.client else {
+            if let url { model.load(url) } else { model.error = APIError.offline.userMessage }
             return
         }
         model.isSigningIn = true
         defer { model.isSigningIn = false }
         do {
-            let answer = try await client.send(.webLogin(salonId: salonId), as: WebLoginAnswer.self)
+            let answer = try await client.send(.loginLink(target), as: LoginLinkAnswer.self)
             if let link = answer.safeURL(site: client.credentials.site) {
                 model.notice = nil
                 model.load(link)
-            } else {
-                model.notice = String(localized: "The site sent a sign-in link for another address, so the dashboard opened without it.")
+            } else if let url {
+                model.notice = String(localized: "The site sent a sign-in link for another address, so the page opened without it.")
                 model.load(url)
+            } else {
+                model.error = APIError.badAnswer.userMessage
             }
         } catch let e as APIError {
             if await session.handleSessionError(e) { return }
-            if e.status == 404 && (e.code == "rest_no_route" || e.code == "smapi_no_core") {
-                // The site does not have the App Login plugin yet: open the page as it is.
-                model.notice = String(localized: "To open dashboards signed in, install the “Salon Manager – App Login” plugin on the site.")
+            if e.status == 404 && e.code == "rest_no_route", let url {
+                // The site still has API 1.0: open the page as it is.
+                model.notice = String(localized: "To open pages signed in, update the Salon Manager – API plugin to 1.1.")
                 model.load(url)
+            } else if e.status == 404 && e.code == "rest_no_route" {
+                model.error = String(localized: "To open pages signed in, update the Salon Manager – API plugin to 1.1.")
             } else {
                 model.error = e.userMessage
             }

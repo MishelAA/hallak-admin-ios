@@ -16,6 +16,19 @@ struct MoreView: View {
                 if session.me?.hasWhatsApp ?? true { row(.whatsapp, "WhatsApp bot", "message") }
                 if session.me?.hasAI ?? true { row(.ai, "AI assistant", "sparkles") }
             }
+            if session.me?.canOpenLinks ?? true {
+                Section {
+                    web("wp-admin", String(localized: "Open wp-admin"), "wrench.and.screwdriver")
+                    web("salons", String(localized: "Salons in wp-admin"), "scissors")
+                    if session.me?.hasBilling ?? true { web("billing", String(localized: "Billing in wp-admin"), "creditcard") }
+                    if session.me?.hasCheck ?? true { web("check", String(localized: "Plugins check"), "checklist") }
+                    web("site", String(localized: "Website"), "globe", fallback: session.credentials?.site)
+                } header: {
+                    Text("Open on the website")
+                } footer: {
+                    Text("Opens inside the app, signed in as you.")
+                }
+            }
             Section {
                 row(.settings, "Settings", "gearshape")
             } footer: {
@@ -27,6 +40,14 @@ struct MoreView: View {
         .scrollContentBackground(.hidden)
         .background(Theme.background)
         .navigationTitle("More")
+    }
+
+    /// A wp-admin / website page opened signed in (POST /admin/login-link, `to`).
+    private func web(_ to: String, _ title: String, _ icon: String, fallback: URL? = nil) -> some View {
+        NavigationLink(value: AppRoute.signedIn(.platform(to), title: title, fallback: fallback)) {
+            Label { Text(verbatim: title) } icon: { Image(systemName: icon) }
+        }
+        .frame(minHeight: Theme.minTouch)
     }
 
     private func row(_ route: AppRoute, _ title: LocalizedStringKey, _ icon: String) -> some View {

@@ -68,18 +68,38 @@ extension Endpoint {
     /// Filters: status (new|done), search
     static func leads(_ q: ListQuery = ListQuery()) -> Endpoint { Endpoint(.get, "/admin/leads", query: q.items) }
 
-    /// Plugin salon-manager-app-login: a one-time link (60 s) that opens the salon dashboard signed in.
-    static func webLogin(salonId: Int, tab: String = "") -> Endpoint {
-        let body = try? JSONSerialization.data(withJSONObject: ["tab": tab])
-        return Endpoint(.post, "/admin/salons/\(salonId)/web-login", body: body)
+    /// API 1.1: a one-time sign-in link (works once, 2 minutes) for a salon page or a wp-admin page.
+    static func loginLink(_ target: LinkTarget) -> Endpoint {
+        let body = try? JSONSerialization.data(withJSONObject: target.body, options: [.sortedKeys])
+        return Endpoint(.post, "/admin/login-link", body: body)
     }
 }
 
-/// POST /admin/salons/{id}/web-login
-struct WebLoginAnswer: Decodable, Hashable {
+/// Where a one-time sign-in link leads (POST /admin/login-link).
+enum LinkTarget: Hashable {
+    /// A salon: `to` = dashboard (with optional `tab`), page or booking.
+    case salon(id: Int, tab: String = "", to: String = "dashboard")
+    /// A platform page: wp-admin, salons, billing, check, site.
+    case platform(String)
+
+    var body: [String: Any] {
+        switch self {
+        case let .salon(id, tab, to):
+            var b: [String: Any] = ["salon_id": id, "to": to]
+            if !tab.isEmpty { b["tab"] = tab }
+            return b
+        case let .platform(to):
+            return ["to": to]
+        }
+    }
+}
+
+/// POST /admin/login-link → 201 {url, expires_in, opens}
+struct LoginLinkAnswer: Decodable, Hashable {
     let url: String
     let expiresIn: Int?
-    let target: String?
+    /// The page it will open (for display).
+    let opens: String?
 
     /// The link must point to the same site the app is logged in to, over https.
     func safeURL(site: URL) -> URL? {

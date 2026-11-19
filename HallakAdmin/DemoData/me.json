@@ -9,7 +9,8 @@
   "language": "en",
   "can": {
     "read": true,
-    "write": false
+    "write": false,
+    "open_links": true
   },
   "site": {
     "name": "Hallak",

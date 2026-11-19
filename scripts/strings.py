@@ -264,13 +264,20 @@ AR = {
     "Back": "رجوع",
     "Forward": "تقدّم",
     "Reload": "إعادة تحميل",
-    # Dashboard sign-in
+    # Sign-in links (API 1.1)
     "Signing in to the dashboard…": "جارٍ الدخول إلى لوحة التحكم…",
-    "The site sent a sign-in link for another address, so the dashboard opened without it.":
-        "أرسل الموقع رابط دخول لعنوان آخر، ففُتحت لوحة التحكم بدونه.",
-    "To open dashboards signed in, install the “Salon Manager – App Login” plugin on the site.":
-        "لفتح لوحات التحكم مع تسجيل الدخول، ثبّت إضافة «Salon Manager – App Login» على الموقع.",
-    "Opens signed in as you": "تُفتح باسمك",
+    "The site sent a sign-in link for another address, so the page opened without it.":
+        "أرسل الموقع رابط دخول لعنوان آخر، ففُتحت الصفحة بدونه.",
+    "To open pages signed in, update the Salon Manager – API plugin to 1.1.":
+        "لفتح الصفحات مع تسجيل الدخول، حدّث إضافة Salon Manager – API إلى 1.1.",
+    "Open dashboard": "افتح لوحة التحكم",
+    "Opens inside the app, signed in as you.": "تُفتح داخل التطبيق، مسجّلًا باسمك.",
+    "Open on the website": "افتح على الموقع",
+    "Open wp-admin": "افتح wp-admin",
+    "Salons in wp-admin": "الصالونات في wp-admin",
+    "Billing in wp-admin": "الاشتراكات في wp-admin",
+    "Plugins check": "فحص الإضافات",
+    "Website": "الموقع",
     # More
     "Coming next": "قريبًا",
     "Activity": "النشاط",

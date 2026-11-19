@@ -29,6 +29,8 @@ struct Me: Decodable, Hashable {
     struct Can: Decodable, Hashable {
         let read: Bool?
         let write: Bool?
+        /// API 1.1: POST /admin/login-link is available.
+        let openLinks: Bool?
     }
     struct Plugins: Decodable, Hashable {
         let billing: Bool?
@@ -54,6 +56,8 @@ struct Me: Decodable, Hashable {
 
     /// false in API 1.0: action buttons stay hidden until 1.1.
     var canWrite: Bool { can?.write ?? false }
+    /// Sign-in links (API 1.1). Unknown (older answer) counts as yes: the app falls back if the route is missing.
+    var canOpenLinks: Bool { can?.openLinks ?? true }
     // A missing flag counts as "on": the API also leaves out sections whose plugin is off.
     var hasBilling: Bool { site?.plugins?.billing ?? true }
     var hasWhatsApp: Bool { site?.plugins?.whatsapp ?? true }

@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: Hallak admin API
-  version: 1.0.0
+  version: 1.1.0
   description: 'Private API for the Hallak super-admin iPhone app (plugin salon-manager-api). Read-only in 1.0. Login: HTTP Basic with your WordPress
     username and an Application Password, over HTTPS. Only administrators are allowed. Times are Lebanon time (Asia/Beirut). Lists: page / per_page
     (max 100). Every answer has generated_at and tz. GET answers send an ETag: send it back in If-None-Match to get 304 when nothing changed.
@@ -94,7 +94,10 @@ paths:
                         type: boolean
                       write:
                         type: boolean
-                        description: false in API 1.0 (changes come in 1.1)
+                        description: false for now (changes come later)
+                      open_links:
+                        type: boolean
+                        description: 'true from API 1.1: POST /admin/login-link is available'
                   site:
                     type: object
                     properties:
@@ -604,63 +607,6 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '429':
           $ref: '#/components/responses/TooMany'
-        '404':
-          $ref: '#/components/responses/NotFound'
-  /admin/salons/{id}/web-login:
-    post:
-      tags:
-      - Salons
-      summary: One-time link that opens the salon dashboard signed in
-      description: 'Plugin salon-manager-app-login 1.0.0. Administrators only, HTTPS only, and only with an Application Password.
-        The link works once, for 60 seconds. Opening it signs the web view in (WordPress cookie) and redirects to the dashboard;
-        the opening is written to the salon activity log. 404 rest_no_route = the plugin is not installed.'
-      parameters:
-      - $ref: '#/components/parameters/AcceptLanguage'
-      - name: id
-        in: path
-        required: true
-        schema:
-          type: integer
-          minimum: 1
-      requestBody:
-        required: false
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                tab:
-                  type: string
-                  description: Dashboard tab slug, empty = overview.
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  url:
-                    type: string
-                    example: https://hallak.online/?hallak_app_login=...
-                  expires_in:
-                    type: integer
-                    example: 60
-                  target:
-                    type: string
-                    example: https://hallak.online/salon/emmanuel-hairstyle/
-                  generated_at:
-                    type: string
-                  tz:
-                    type: string
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          description: Not an administrator (smapi_forbidden), not https (smapi_https), or not asked with an Application Password (smapi_app_only).
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
         '404':
           $ref: '#/components/responses/NotFound'
   /admin/owners:
@@ -1261,6 +1207,69 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         '403':
           $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooMany'
+  /admin/login-link:
+    post:
+      tags:
+      - Connection
+      summary: One-time sign-in link (open a salon dashboard or wp-admin without logging in)
+      description: 'Returns a link that works ONCE, for 2 minutes. Open it in the in-app browser: the website signs the super admin in
+        there (normal WordPress cookie) and goes to the page. Ask for a new link every time the user taps; never store or share it.
+        Only administrators get links. Opening is listed in wp-admin → Salons → iPhone app (API).'
+      parameters:
+      - $ref: '#/components/parameters/AcceptLanguage'
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                salon_id:
+                  type: integer
+                  description: Open this salon. Without it, `to` chooses a platform page.
+                tab:
+                  type: string
+                  description: 'With salon_id: dashboard tab (visits, customers, appointments, queue, staff, attendance, services, inventory,
+                    expenses, prepaid, loyalty, messages, mypage, analytics, reports, assistant, whatsapp, branches, subscription, activity,
+                    settings, account). Empty = Overview.'
+                to:
+                  type: string
+                  enum: [dashboard, page, booking, wp-admin, salons, billing, check, site]
+      responses:
+        '201':
+          description: Link created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  url:
+                    type: string
+                    example: https://hallak.online/?hallak_open=3f9a…
+                  expires_in:
+                    type: integer
+                    example: 120
+                  opens:
+                    type: string
+                    description: The page it will open (for display).
+                  generated_at:
+                    type: string
+                  tz:
+                    type: string
+        '400':
+          description: 'smapi_bad_target: unknown `to`.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
         '429':
           $ref: '#/components/responses/TooMany'
 components:

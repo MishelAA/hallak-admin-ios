@@ -1,4 +1,4 @@
-"""Writes the JSON fixtures used by the unit tests (one per endpoint of API 1.0.1).
+"""Writes the JSON fixtures used by the unit tests (one per endpoint of API 1.1.0).
 
 Values are realistic but invented: no real passwords, tokens or customer data.
 Run:  python scripts/make_fixtures.py
@@ -70,7 +70,7 @@ FIXTURES = {
     },
     "me": {
         "user": {"id": 2, "username": "mishel-app", "name": "Mishel", "email": "admin@example.com", "last_login": "2026-11-19 13:00"},
-        "language": "en", "can": {"read": True, "write": False},
+        "language": "en", "can": {"read": True, "write": False, "open_links": True},
         "site": {
             "name": "Hallak", "url": "https://hallak.online", "wordpress": "6.8.3", "hallak_core": "1.4.2", "api": "1.0.1",
             "plugins": {"billing": True, "site": True, "whatsapp": True, "ai": False, "check": True},
@@ -218,6 +218,10 @@ FIXTURES = {
              "cost": usd(0.81), "limit": 200, "own_limit": None, "questions": 140, "summaries": 4},
         ],
         **META,
+    },
+    "login-link": {
+        "url": "https://hallak.online/?hallak_open=" + "0" * 64, "expires_in": 120,
+        "opens": "https://hallak.online/salon/emmanuel-hairstyle/appointments/", **META,
     },
     "error_not_found": {"code": "smapi_not_found", "message": "Salon not found.", "data": {"status": 404}},
     "error_login": {

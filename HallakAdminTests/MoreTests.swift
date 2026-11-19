@@ -112,40 +112,56 @@ final class NavigationAndLanguageTests: XCTestCase {
     }
 }
 
-final class DashboardSignInTests: XCTestCase {
-    func testEndpoint() throws {
-        let e = Endpoint.webLogin(salonId: 7)
+final class LoginLinkTests: XCTestCase {
+    private func body(_ e: Endpoint) throws -> [String: AnyHashable] {
+        let data = try XCTUnwrap(e.body)
+        return try XCTUnwrap(JSONSerialization.jsonObject(with: data) as? [String: AnyHashable])
+    }
+
+    func testSalonTabBody() throws {
+        let e = Endpoint.loginLink(.salon(id: 12, tab: "appointments"))
         XCTAssertEqual(e.method, .post)
-        XCTAssertEqual(e.path, "/admin/salons/7/web-login")
-        let body = try XCTUnwrap(e.body)
-        XCTAssertEqual(try JSONSerialization.jsonObject(with: body) as? [String: String], ["tab": ""])
+        XCTAssertEqual(e.path, "/admin/login-link")
+        XCTAssertEqual(try body(e), ["salon_id": 12, "tab": "appointments", "to": "dashboard"])
+    }
+
+    func testOverviewPageAndPlatformBodies() throws {
+        XCTAssertEqual(try body(.loginLink(.salon(id: 3))), ["salon_id": 3, "to": "dashboard"], "Empty tab = Overview: not sent")
+        XCTAssertEqual(try body(.loginLink(.salon(id: 3, to: "booking"))), ["salon_id": 3, "to": "booking"])
+        XCTAssertEqual(try body(.loginLink(.platform("wp-admin"))), ["to": "wp-admin"])
     }
 
     func testLinkMustBeTheSameSiteOverHTTPS() {
         let site = URL(string: "https://hallak.online")!
-        let ok = WebLoginAnswer(url: "https://hallak.online/?hallak_app_login=abc", expiresIn: 60, target: nil)
-        XCTAssertNotNil(ok.safeURL(site: site))
-        XCTAssertNil(WebLoginAnswer(url: "https://evil.example/?hallak_app_login=abc", expiresIn: 60, target: nil).safeURL(site: site))
-        XCTAssertNil(WebLoginAnswer(url: "http://hallak.online/?hallak_app_login=abc", expiresIn: 60, target: nil).safeURL(site: site))
+        XCTAssertNotNil(LoginLinkAnswer(url: "https://hallak.online/?hallak_open=abc", expiresIn: 120, opens: nil).safeURL(site: site))
+        XCTAssertNil(LoginLinkAnswer(url: "https://evil.example/?hallak_open=abc", expiresIn: 120, opens: nil).safeURL(site: site))
+        XCTAssertNil(LoginLinkAnswer(url: "http://hallak.online/?hallak_open=abc", expiresIn: 120, opens: nil).safeURL(site: site))
     }
 
-    func testSendDecodesAndNeverCaches() async throws {
+    func testFixtureAndMeFlag() throws {
+        let a = try Fixture.decode(LoginLinkAnswer.self, "login-link")
+        XCTAssertEqual(a.expiresIn, 120)
+        XCTAssertNotNil(a.safeURL(site: URL(string: "https://hallak.online")!))
+        XCTAssertTrue(try Fixture.decode(Me.self, "me").canOpenLinks)
+    }
+
+    func testSendDecodes201AndNeverCaches() async throws {
         StubURLProtocol.reset()
         defer { StubURLProtocol.reset() }
         StubURLProtocol.handler = { req in
             XCTAssertEqual(req.httpMethod, "POST")
             XCTAssertEqual(req.value(forHTTPHeaderField: "Content-Type"), "application/json; charset=utf-8")
-            return (200, [:], Data(#"{"url":"https://example.test/?hallak_app_login=x","expires_in":60,"target":"https://example.test/salon/a/"}"#.utf8))
+            return (201, [:], Data(#"{"url":"https://example.test/?hallak_open=x","expires_in":120,"opens":"https://example.test/salon/a/"}"#.utf8))
         }
         let client = try APIClient(credentials: testCredentials, session: StubURLProtocol.session(), cache: ETagCache(folder: nil))
-        let a = try await client.send(.webLogin(salonId: 1), as: WebLoginAnswer.self)
-        XCTAssertEqual(a.expiresIn, 60)
+        let a = try await client.send(.loginLink(.salon(id: 1)), as: LoginLinkAnswer.self)
+        XCTAssertEqual(a.expiresIn, 120)
         XCTAssertNotNil(a.safeURL(site: testCredentials.site))
-        let cached = await client.cached(.webLogin(salonId: 1), as: WebLoginAnswer.self)
+        let cached = await client.cached(.loginLink(.salon(id: 1)), as: LoginLinkAnswer.self)
         XCTAssertNil(cached, "Sign-in links are never saved")
     }
 
-    func testPluginMissingIsRecognised() async throws {
+    func testOldAPIIsRecognised() async throws {
         StubURLProtocol.reset()
         defer { StubURLProtocol.reset() }
         StubURLProtocol.handler = { _ in
@@ -153,7 +169,7 @@ final class DashboardSignInTests: XCTestCase {
         }
         let client = try APIClient(credentials: testCredentials, session: StubURLProtocol.session(), cache: ETagCache(folder: nil))
         do {
-            _ = try await client.send(.webLogin(salonId: 1), as: WebLoginAnswer.self)
+            _ = try await client.send(.loginLink(.platform("wp-admin")), as: LoginLinkAnswer.self)
             XCTFail("Expected 404")
         } catch let e as APIError {
             XCTAssertEqual(e.code, "rest_no_route")

@@ -264,35 +264,74 @@ struct SalonDetailView: View {
         }
     }
 
+    /// Open the salon's own dashboard inside the app, signed in as you (API 1.1 one-time links):
+    /// "Open dashboard", "Appointments", "Visits", "Customers", then the salon page and booking page.
     private func linksSection(_ d: SalonDetail) -> some View {
-        Section("Links") {
-            dashboardRow(d)
-            linkRow(String(localized: "Salon page"), "globe", d.links?.page)
-            linkRow(String(localized: "Booking page"), "calendar.badge.plus", d.links?.booking)
-            NavigationLink(value: AppRoute.activity(salonId: salonId, salonName: d.salon.name)) {
+        let dashboard = Contact.webURL(d.links?.dashboard)
+            ?? d.salon.slug.flatMap { slug in session.credentials.map { $0.site.appendingPathComponent("salon/\(slug)/") } }
+        let name = d.salon.name
+        let signedIn = session.me?.canOpenLinks ?? true
+        return Section {
+            if signedIn {
+                dashboardButton(String(localized: "Open dashboard"), "rectangle.grid.2x2", tab: "", fallback: dashboard, name: name, prominent: true)
+                LazyVGrid(columns: [GridItem(.adaptive(minimum: 100), spacing: 8)], spacing: 8) {
+                    dashboardButton(String(localized: "Appointments"), "calendar", tab: "appointments", fallback: dashboard, name: name)
+                    dashboardButton(String(localized: "Visits"), "scissors", tab: "visits", fallback: dashboard, name: name)
+                    dashboardButton(String(localized: "Customers"), "person.2", tab: "customers", fallback: dashboard, name: name)
+                }
+                .buttonStyle(.plain)
+                .listRowInsets(EdgeInsets(top: 8, leading: 12, bottom: 8, trailing: 12))
+                pageRow(String(localized: "Salon page"), "globe", to: "page", link: d.links?.page)
+                pageRow(String(localized: "Booking page"), "calendar.badge.plus", to: "booking", link: d.links?.booking)
+            } else {
+                linkRow(String(localized: "Open dashboard"), "rectangle.grid.2x2", d.links?.dashboard)
+                linkRow(String(localized: "Salon page"), "globe", d.links?.page)
+                linkRow(String(localized: "Booking page"), "calendar.badge.plus", d.links?.booking)
+            }
+            NavigationLink(value: AppRoute.activity(salonId: salonId, salonName: name)) {
                 Label("Activity", systemImage: "list.bullet.rectangle")
+            }
+        } header: {
+            Text("Dashboard")
+        } footer: {
+            if signedIn { Text("Opens inside the app, signed in as you.") }
+        }
+    }
+
+    /// One dashboard tab, opened signed in. A new one-time link is asked for on every tap.
+    @ViewBuilder
+    private func dashboardButton(_ title: String, _ icon: String, tab: String, fallback: URL?, name: String, prominent: Bool = false) -> some View {
+        let route = AppRoute.signedIn(.salon(id: salonId, tab: tab, to: "dashboard"),
+                                      title: tab.isEmpty ? name : "\(name) · \(title)", fallback: fallback)
+        if prominent {
+            NavigationLink(value: route) {
+                Label { Text(verbatim: title).bold() } icon: { Image(systemName: icon) }
+            }
+            .frame(minHeight: Theme.minTouch)
+        } else {
+            // Several buttons share one row: plain buttons (not links) so each opens only its own page.
+            Button {
+                Haptics.tap()
+                session.push(route)
+            } label: {
+                VStack(spacing: 4) {
+                    Image(systemName: icon).font(.title3)
+                    Text(verbatim: title).font(.caption).lineLimit(1).minimumScaleFactor(0.8)
+                }
+                .foregroundStyle(Theme.ink)
+                .frame(maxWidth: .infinity, minHeight: 60)
+                .background(RoundedRectangle(cornerRadius: 10).fill(Theme.background))
             }
         }
     }
 
-    /// The salon's dashboard, opened inside the app and signed in as you (one-time link).
+    /// Salon page / booking page through the sign-in link (to: page / booking).
     @ViewBuilder
-    private func dashboardRow(_ d: SalonDetail) -> some View {
-        let fallback = Contact.webURL(d.links?.dashboard)
-            ?? d.salon.slug.flatMap { slug in session.credentials.map { $0.site.appendingPathComponent("salon/\(slug)/") } }
-        if let url = fallback {
-            NavigationLink(value: AppRoute.dashboard(salonId: salonId, url: url, title: d.salon.name)) {
-                Label {
-                    VStack(alignment: .leading, spacing: 2) {
-                        Text("Dashboard")
-                        Text("Opens signed in as you").font(.caption).foregroundStyle(Theme.inkSecondary)
-                    }
-                } icon: {
-                    Image(systemName: "rectangle.grid.2x2")
-                }
-            }
-            .frame(minHeight: Theme.minTouch)
+    private func pageRow(_ title: String, _ icon: String, to: String, link: String?) -> some View {
+        NavigationLink(value: AppRoute.signedIn(.salon(id: salonId, to: to), title: title, fallback: Contact.webURL(link))) {
+            Label { Text(verbatim: title) } icon: { Image(systemName: icon) }
         }
+        .frame(minHeight: Theme.minTouch)
     }
 
     @ViewBuilder

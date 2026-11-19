@@ -215,6 +215,9 @@ final class AppSession {
 
     func path(_ tab: Tab) -> [AppRoute] { paths[tab] ?? [] }
 
+    /// Opens a screen on top of the current tab.
+    func push(_ route: AppRoute) { paths[selectedTab, default: []].append(route) }
+
     // MARK: Helpers
 
     private func makeClient(_ c: Credentials) throws -> APIClient {

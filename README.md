@@ -68,14 +68,17 @@ On a Mac: `brew install xcodegen && xcodegen generate && open HallakAdmin.xcodep
 - Unknown JSON fields are ignored; missing sections hide their card.
 - 401 and 429 are never retried.
 
-## Server plugin: salon dashboards inside the app
+## Open pages signed in (API 1.1)
 
-`server/salon-manager-app-login-1.0.0.zip` adds one endpoint to the site,
-`POST /wp-json/hallak/v1/admin/salons/{id}/web-login`, that returns a one-time link (60 s, usable once).
-In the app, Salon → Dashboard opens that link in the in-app page, which signs it in as you and shows
-that salon's dashboard (administrators already have access to every salon through `sm_manage_all_salons`).
+`POST /admin/login-link` (salon-manager-api 1.1.0) returns a one-time link (works once, 2 minutes).
+The app asks for a new one on every tap and opens it in the in-app web screen, which the site signs in
+as you with a normal WordPress cookie:
 
-Install: wp-admin → Plugins → Add New → Upload Plugin → the zip → Activate. Nothing to set up.
-Safety: administrators only, HTTPS only, only with an Application Password, one-time and short-lived,
-every opening is written to the salon's activity log. Log out in the app also removes the web login.
-Without the plugin, the dashboard still opens, at the WordPress login page, with a note in the app.
+- Salon → **Open dashboard**, **Appointments**, **Visits**, **Customers** (`salon_id` + `tab`), **Salon page**,
+  **Booking page** (`to: page / booking`).
+- More → **Open wp-admin**, **Salons in wp-admin**, **Billing in wp-admin**, **Plugins check**, **Website**
+  (`to: wp-admin / salons / billing / check / site`).
+
+Links are never saved or shared (Share is hidden while a sign-in link is on screen). Log out in the app also
+removes the web login. On a site still on API 1.0 (404 `rest_no_route`) the page opens without signing in,
+with a note to update the API plugin.
