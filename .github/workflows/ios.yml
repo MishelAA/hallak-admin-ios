@@ -52,13 +52,19 @@ jobs:
         continue-on-error: true
         run: |
           xcrun simctl bootstatus "$SIM_UDID" -b
-          xcrun simctl launch "$SIM_UDID" online.hallak.admin
-          sleep 6
           mkdir -p screenshots
-          xcrun simctl io "$SIM_UDID" screenshot screenshots/start-light.png
+          shot () { # name, then launch arguments
+            NAME=$1; shift
+            xcrun simctl terminate "$SIM_UDID" online.hallak.admin 2>/dev/null || true
+            xcrun simctl launch "$SIM_UDID" online.hallak.admin "$@"
+            sleep 6
+            xcrun simctl io "$SIM_UDID" screenshot "screenshots/$NAME.png"
+          }
+          xcrun simctl ui "$SIM_UDID" appearance light
+          shot login-en-light -AppleLanguages "(en)" -AppleLocale en_LB
+          shot login-ar-light -AppleLanguages "(ar)" -AppleLocale ar_LB
           xcrun simctl ui "$SIM_UDID" appearance dark
-          sleep 3
-          xcrun simctl io "$SIM_UDID" screenshot screenshots/start-dark.png
+          shot login-en-dark -AppleLanguages "(en)" -AppleLocale en_LB
 
       - name: Build unsigned IPA (for sideloading)
         run: |
@@ -66,6 +72,7 @@ jobs:
           xcodebuild -project HallakAdmin.xcodeproj -scheme HallakAdmin -configuration Release \
             -sdk iphoneos -destination 'generic/platform=iOS' -derivedDataPath build \
             CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY="" \
+            CURRENT_PROJECT_VERSION=${{ github.run_number }} \
             build > build.log 2>&1 || { grep -E "error:" build.log | head -50; tail -40 build.log; exit 1; }
           mkdir -p Payload dist
           cp -R build/Build/Products/Release-iphoneos/HallakAdmin.app Payload/

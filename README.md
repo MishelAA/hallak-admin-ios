@@ -11,8 +11,8 @@ iOS 17+, Swift / SwiftUI, no third-party packages. English + Arabic (RTL).
 | Milestone | What | State |
 | --- | --- | --- |
 | M1 | Project, API client, models, tests, CI | done |
-| M2 | Login, Keychain, Face ID, Home | next |
-| M3 | Salons | |
+| M2 | Login, Keychain, Face ID, Home | done |
+| M3 | Salons | next |
 | M4 | Money and Requests | |
 | M5 | More | |
 | M6 | Polish and Arabic | |
@@ -30,7 +30,7 @@ HallakAdmin/
   Design/         Theme (brief colors, light + dark)
   Resources/      Assets.xcassets (icon, logo, barber, colors), Localizable.xcstrings (en, ar)
 HallakAdminTests/ JSON fixtures for every endpoint + tests
-scripts/          make_fixtures.py (regenerates the fixtures), pick_simulator.sh (CI)
+scripts/          make_fixtures.py (test answers), strings.py (en + ar catalogs), check_strings.py, pick_simulator.sh (CI)
 fastlane/         Fastfile: tests, beta (TestFlight)
 .github/workflows/ios.yml
 ```

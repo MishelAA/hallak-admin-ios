@@ -1,0 +1,38 @@
+{
+  "sourceLanguage": "en",
+  "strings": {
+    "CFBundleDisplayName": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حلّاق أدمن"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hallak Admin"
+          }
+        }
+      }
+    },
+    "NSFaceIDUsageDescription": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Face ID يُبقي تطبيق حلّاق مقفلًا عندما لا تستخدمه."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Face ID keeps the Hallak admin app locked when you are not using it."
+          }
+        }
+      }
+    }
+  },
+  "version": "1.0"
+}
