@@ -137,7 +137,11 @@ struct SalonDetailView: View {
                 if let email = o.email, !email.isEmpty {
                     if let url = Contact.mailURL(email) {
                         Link(destination: url) {
-                            LabeledContent { Text(verbatim: email) } label: { Text("Email") }
+                            LabeledContent {
+                                Text(verbatim: email).foregroundStyle(Theme.actionRed)
+                            } label: {
+                                Text("Email").foregroundStyle(Theme.ink)
+                            }
                         }
                     }
                 }

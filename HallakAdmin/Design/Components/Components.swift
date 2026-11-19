@@ -57,7 +57,8 @@ struct StatCard<Detail: View>: View {
             .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
-        .disabled(action == nil)
+        // A card without an action is just information: not dimmed like a disabled button.
+        .allowsHitTesting(action != nil)
         .accessibilityElement(children: .combine)
         .accessibilityAddTraits(action == nil ? [] : .isButton)
     }

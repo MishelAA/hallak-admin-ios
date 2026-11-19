@@ -120,7 +120,11 @@ struct SalonsView: View {
                 }
             } header: {
                 if loader.loadedOnce, !loader.items.isEmpty {
-                    Text("\(loader.list.total) salons")
+                    HStack {
+                        Text("\(loader.list.total) salons")
+                        Spacer()
+                        UpdatedLabel(generatedAt: loader.generatedAt, isLoading: loader.isLoading)
+                    }
                 }
             }
         }
@@ -130,9 +134,6 @@ struct SalonsView: View {
         .navigationTitle("Salons")
         .searchable(text: $query.search, prompt: Text("Name, phone or owner"))
         .toolbar {
-            ToolbarItem(placement: .topBarLeading) {
-                UpdatedLabel(generatedAt: loader.generatedAt, isLoading: loader.isLoading)
-            }
             ToolbarItem(placement: .topBarTrailing) {
                 Menu {
                     Picker(selection: $query.sort) {

@@ -33,7 +33,8 @@ struct ContactButton: View {
     let title: LocalizedStringKey
     let systemImage: String
     let url: URL?
-    var tint: Color = Theme.navy
+    /// Ink = navy in light mode, cream in dark mode (navy would vanish on the dark background).
+    var tint: Color = Theme.ink
     @Environment(\.openURL) private var openURL
 
     var body: some View {

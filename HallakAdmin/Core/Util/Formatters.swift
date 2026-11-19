@@ -26,6 +26,12 @@ enum Formatters {
 
     static func isDayOnly(_ text: String?) -> Bool { (text?.count ?? 0) == 10 }
 
+    /// The app language, with Western digits in Arabic too (the same 0-9 as money and the API).
+    static var appLocale: Locale {
+        let lang = Bundle.main.preferredLocalizations.first ?? "en"
+        return lang.hasPrefix("ar") ? Locale(identifier: "ar_LB@numbers=latn") : Locale.current
+    }
+
     private static func display(_ date: Style, locale: Locale) -> DateFormatter {
         let f = DateFormatter()
         f.locale = locale
@@ -41,7 +47,7 @@ enum Formatters {
     enum Style { case day, dayTime, time }
 
     /// "17 Nov 2026" / "17 Nov 2026, 22:45" in the app language. Falls back to the raw text.
-    static func show(_ text: String?, _ style: Style? = nil, locale: Locale = .current) -> String {
+    static func show(_ text: String?, _ style: Style? = nil, locale: Locale = Formatters.appLocale) -> String {
         guard let text, !text.isEmpty else { return "–" }
         guard let d = date(text) else { return text }
         let s = style ?? (isDayOnly(text) ? .day : .dayTime)
@@ -56,7 +62,7 @@ enum Formatters {
     }
 
     /// "2 h ago", relative to `now` (both in Lebanon time).
-    static func relative(_ text: String?, now: Date = Date(), locale: Locale = .current) -> String? {
+    static func relative(_ text: String?, now: Date = Date(), locale: Locale = Formatters.appLocale) -> String? {
         guard let d = date(text) else { return nil }
         let f = RelativeDateTimeFormatter()
         f.locale = locale
