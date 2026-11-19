@@ -1,0 +1,1776 @@
+openapi: 3.1.0
+info:
+  title: Hallak admin API
+  version: 1.0.0
+  description: 'Private API for the Hallak super-admin iPhone app (plugin salon-manager-api). Read-only in 1.0. Login: HTTP Basic with your WordPress
+    username and an Application Password, over HTTPS. Only administrators are allowed. Times are Lebanon time (Asia/Beirut). Lists: page / per_page
+    (max 100). Every answer has generated_at and tz. GET answers send an ETag: send it back in If-None-Match to get 304 when nothing changed.
+    Limits: 120 requests per minute; 10 wrong passwords from one address lock it for 15 minutes (429).'
+servers:
+- url: https://hallak.online/wp-json/hallak/v1
+  description: Live
+security:
+- appPassword: []
+tags:
+- name: Connection
+- name: Home
+- name: Salons
+- name: Billing
+- name: Requests
+- name: More
+paths:
+  /admin/ping:
+    get:
+      tags:
+      - Connection
+      summary: Test the login
+      description: Use it on the first-launch screen. A 401 with code `smapi_no_auth_header` means the server removes the Authorization header
+        (fix in wp-admin → Salons → iPhone app (API)).
+      parameters:
+      - $ref: '#/components/parameters/AcceptLanguage'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                  user:
+                    type: string
+                  site:
+                    type: string
+                  wordpress:
+                    type: string
+                  hallak_core:
+                    type: string
+                  api:
+                    type: string
+                    example: 1.0.0
+                  https:
+                    type: boolean
+                  generated_at:
+                    type: string
+                    example: 2026-11-17 22:45
+                    description: When the answer was made (Lebanon time).
+                  tz:
+                    type: string
+                    example: Asia/Beirut
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooMany'
+  /admin/me:
+    get:
+      tags:
+      - Connection
+      summary: You and the site
+      description: Your profile, language, what you can do, and which Hallak plugins are active (hide screens whose plugin is off).
+      parameters:
+      - $ref: '#/components/parameters/AcceptLanguage'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user:
+                    $ref: '#/components/schemas/UserShort'
+                  language:
+                    type: string
+                    enum:
+                    - en
+                    - ar
+                  can:
+                    type: object
+                    properties:
+                      read:
+                        type: boolean
+                      write:
+                        type: boolean
+                        description: false in API 1.0 (changes come in 1.1)
+                  site:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                      url:
+                        type: string
+                      wordpress:
+                        type: string
+                      hallak_core:
+                        type: string
+                      api:
+                        type: string
+                      plugins:
+                        type: object
+                        properties:
+                          billing:
+                            type: boolean
+                          site:
+                            type: boolean
+                          whatsapp:
+                            type: boolean
+                          ai:
+                            type: boolean
+                          check:
+                            type: boolean
+                  generated_at:
+                    type: string
+                    example: 2026-11-17 22:45
+                    description: When the answer was made (Lebanon time).
+                  tz:
+                    type: string
+                    example: Asia/Beirut
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooMany'
+  /admin/overview:
+    get:
+      tags:
+      - Home
+      summary: Home screen numbers
+      description: Salons by status and billing, money (MRR, paid this month, unpaid), new demo requests, WhatsApp and AI this month, plugin problems.
+        Sections are missing when their plugin is not active.
+      parameters:
+      - $ref: '#/components/parameters/AcceptLanguage'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Overview'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooMany'
+  /admin/health:
+    get:
+      tags:
+      - Home
+      summary: Plugins check
+      description: 'The Hallak check report: each plugin, installed and latest version, and the problems with how to fix them.'
+      parameters:
+      - $ref: '#/components/parameters/AcceptLanguage'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  available:
+                    type: boolean
+                  check_version:
+                    type: string
+                  environment:
+                    type: object
+                    additionalProperties:
+                      type: string
+                  plugins:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        number:
+                          type: integer
+                        folder:
+                          type: string
+                        name:
+                          type: string
+                        installed:
+                          type:
+                          - string
+                          - 'null'
+                        latest:
+                          type:
+                          - string
+                          - 'null'
+                        active:
+                          type: boolean
+                        up_to_date:
+                          type:
+                          - boolean
+                          - 'null'
+                  problems:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        level:
+                          type: string
+                          enum:
+                          - error
+                          - warn
+                          - info
+                        text:
+                          type: string
+                  generated_at:
+                    type: string
+                    example: 2026-11-17 22:45
+                    description: When the answer was made (Lebanon time).
+                  tz:
+                    type: string
+                    example: Asia/Beirut
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooMany'
+  /admin/activity:
+    get:
+      tags:
+      - Home
+      summary: Activity log (all salons)
+      description: Newest first.
+      parameters:
+      - $ref: '#/components/parameters/AcceptLanguage'
+      - name: salon_id
+        in: query
+        required: false
+        schema:
+          type: integer
+        description: Only this salon.
+      - name: type
+        in: query
+        required: false
+        schema:
+          type: string
+        description: 'Object type: appointment, visit, customer, billing…'
+      - name: action
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Exact action, e.g. appointment_online.
+      - name: from
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date
+        description: From this day.
+      - name: to
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date
+        description: Until this day.
+      - name: search
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Text in the summary.
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          default: 1
+        description: Page number.
+      - name: per_page
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 25
+        description: Items per page (max 100).
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Activity'
+                  page:
+                    type: integer
+                    example: 1
+                  per_page:
+                    type: integer
+                    example: 25
+                  total:
+                    type: integer
+                    example: 4
+                  pages:
+                    type: integer
+                    example: 1
+                  generated_at:
+                    type: string
+                    example: 2026-11-17 22:45
+                    description: When the answer was made (Lebanon time).
+                  tz:
+                    type: string
+                    example: Asia/Beirut
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooMany'
+  /admin/features:
+    get:
+      tags:
+      - Salons
+      summary: Features that can be switched on/off
+      description: '`default: false` = optional feature, off until switched on for a salon.'
+      parameters:
+      - $ref: '#/components/parameters/AcceptLanguage'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        slug:
+                          type: string
+                        label:
+                          type: string
+                        help:
+                          type: string
+                        default:
+                          type: boolean
+                  generated_at:
+                    type: string
+                    example: 2026-11-17 22:45
+                    description: When the answer was made (Lebanon time).
+                  tz:
+                    type: string
+                    example: Asia/Beirut
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooMany'
+  /admin/salons:
+    get:
+      tags:
+      - Salons
+      summary: List of salons
+      description: Search looks in name, slug, phone (digits), address, owner login, email and name.
+      parameters:
+      - $ref: '#/components/parameters/AcceptLanguage'
+      - name: search
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Text or phone digits.
+      - name: status
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - active
+          - suspended
+        description: Account status.
+      - name: billing
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - free
+          - trial
+          - active
+          - grace
+          - overdue
+        description: Billing status.
+      - name: owner_id
+        in: query
+        required: false
+        schema:
+          type: integer
+        description: Salons of one owner (branches).
+      - name: sort
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - new
+          - name
+          - until
+          - activity
+          default: new
+        description: new = newest first, until = paid-until date (soonest first), activity = last activity first.
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          default: 1
+        description: Page number.
+      - name: per_page
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 25
+        description: Items per page (max 100).
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Salon'
+                  page:
+                    type: integer
+                    example: 1
+                  per_page:
+                    type: integer
+                    example: 25
+                  total:
+                    type: integer
+                    example: 4
+                  pages:
+                    type: integer
+                    example: 1
+                  generated_at:
+                    type: string
+                    example: 2026-11-17 22:45
+                    description: When the answer was made (Lebanon time).
+                  tz:
+                    type: string
+                    example: Asia/Beirut
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooMany'
+  /admin/salons/{id}:
+    get:
+      tags:
+      - Salons
+      summary: One salon
+      description: Everything about one salon.
+      parameters:
+      - $ref: '#/components/parameters/AcceptLanguage'
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          minimum: 1
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SalonDetail'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooMany'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /admin/salons/{id}/users:
+    get:
+      tags:
+      - Salons
+      summary: Owner and team logins of a salon
+      description: 'role: owner, staff or other. No passwords.'
+      parameters:
+      - $ref: '#/components/parameters/AcceptLanguage'
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          minimum: 1
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      allOf:
+                      - $ref: '#/components/schemas/UserShort'
+                      - type: object
+                        properties:
+                          role:
+                            type: string
+                            enum:
+                            - owner
+                            - staff
+                            - other
+                  generated_at:
+                    type: string
+                    example: 2026-11-17 22:45
+                    description: When the answer was made (Lebanon time).
+                  tz:
+                    type: string
+                    example: Asia/Beirut
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooMany'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /admin/salons/{id}/subscription:
+    get:
+      tags:
+      - Billing
+      summary: Subscription of a salon
+      description: Plan, cycle, price, paid-until and the open (unpaid) invoice if any.
+      parameters:
+      - $ref: '#/components/parameters/AcceptLanguage'
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          minimum: 1
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  salon_id:
+                    type: integer
+                  subscription:
+                    anyOf:
+                    - $ref: '#/components/schemas/Billing'
+                    - type: 'null'
+                  open_invoice:
+                    anyOf:
+                    - $ref: '#/components/schemas/Invoice'
+                    - type: 'null'
+                  generated_at:
+                    type: string
+                    example: 2026-11-17 22:45
+                    description: When the answer was made (Lebanon time).
+                  tz:
+                    type: string
+                    example: Asia/Beirut
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooMany'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /admin/owners:
+    get:
+      tags:
+      - Salons
+      summary: Owners with their salons
+      description: ''
+      parameters:
+      - $ref: '#/components/parameters/AcceptLanguage'
+      - name: search
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Name, login or email.
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          default: 1
+        description: Page number.
+      - name: per_page
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 25
+        description: Items per page (max 100).
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      allOf:
+                      - $ref: '#/components/schemas/UserShort'
+                      - type: object
+                        properties:
+                          salons:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                id:
+                                  type: integer
+                                name:
+                                  type: string
+                                status:
+                                  type: string
+                  page:
+                    type: integer
+                    example: 1
+                  per_page:
+                    type: integer
+                    example: 25
+                  total:
+                    type: integer
+                    example: 4
+                  pages:
+                    type: integer
+                    example: 1
+                  generated_at:
+                    type: string
+                    example: 2026-11-17 22:45
+                    description: When the answer was made (Lebanon time).
+                  tz:
+                    type: string
+                    example: Asia/Beirut
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooMany'
+  /admin/billing/summary:
+    get:
+      tags:
+      - Billing
+      summary: Money screen
+      description: MRR, paid this month, unpaid, salons per billing status, salons due within 30 days (or late), payment methods.
+      parameters:
+      - $ref: '#/components/parameters/AcceptLanguage'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  currency:
+                    type: string
+                  mrr:
+                    $ref: '#/components/schemas/Money'
+                  paid_this_month:
+                    $ref: '#/components/schemas/Money'
+                  unpaid:
+                    type: object
+                    properties:
+                      count:
+                        type: integer
+                      amount:
+                        $ref: '#/components/schemas/Money'
+                  salons:
+                    type: object
+                    properties:
+                      free:
+                        type: integer
+                      trial:
+                        type: integer
+                      active:
+                        type: integer
+                      grace:
+                        type: integer
+                      overdue:
+                        type: integer
+                  due_soon:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        salon_id:
+                          type: integer
+                        salon_name:
+                          type: string
+                        status:
+                          type: string
+                        until:
+                          type:
+                          - string
+                          - 'null'
+                          format: date
+                        days_left:
+                          type:
+                          - integer
+                          - 'null'
+                  grace_days:
+                    type: integer
+                  methods:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        slug:
+                          type: string
+                        label:
+                          type: string
+                  generated_at:
+                    type: string
+                    example: 2026-11-17 22:45
+                    description: When the answer was made (Lebanon time).
+                  tz:
+                    type: string
+                    example: Asia/Beirut
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooMany'
+  /admin/plans:
+    get:
+      tags:
+      - Billing
+      summary: Plans
+      description: ''
+      parameters:
+      - $ref: '#/components/parameters/AcceptLanguage'
+      - name: active
+        in: query
+        required: false
+        schema:
+          type: integer
+          enum:
+          - 0
+          - 1
+        description: 1 = only active plans.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Plan'
+                  generated_at:
+                    type: string
+                    example: 2026-11-17 22:45
+                    description: When the answer was made (Lebanon time).
+                  tz:
+                    type: string
+                    example: Asia/Beirut
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooMany'
+  /admin/invoices:
+    get:
+      tags:
+      - Billing
+      summary: Invoices
+      description: Newest first.
+      parameters:
+      - $ref: '#/components/parameters/AcceptLanguage'
+      - name: status
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - unpaid
+          - paid
+          - void
+        description: ''
+      - name: salon_id
+        in: query
+        required: false
+        schema:
+          type: integer
+        description: ''
+      - name: from
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date
+        description: Created from.
+      - name: to
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date
+        description: Created until.
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          default: 1
+        description: Page number.
+      - name: per_page
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 25
+        description: Items per page (max 100).
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Invoice'
+                  page:
+                    type: integer
+                    example: 1
+                  per_page:
+                    type: integer
+                    example: 25
+                  total:
+                    type: integer
+                    example: 4
+                  pages:
+                    type: integer
+                    example: 1
+                  generated_at:
+                    type: string
+                    example: 2026-11-17 22:45
+                    description: When the answer was made (Lebanon time).
+                  tz:
+                    type: string
+                    example: Asia/Beirut
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooMany'
+  /admin/invoices/{id}:
+    get:
+      tags:
+      - Billing
+      summary: One invoice
+      description: ''
+      parameters:
+      - $ref: '#/components/parameters/AcceptLanguage'
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          minimum: 1
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  invoice:
+                    $ref: '#/components/schemas/Invoice'
+                  generated_at:
+                    type: string
+                    example: 2026-11-17 22:45
+                    description: When the answer was made (Lebanon time).
+                  tz:
+                    type: string
+                    example: Asia/Beirut
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooMany'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /admin/leads:
+    get:
+      tags:
+      - Requests
+      summary: Demo requests from the website
+      description: Newest first. `new` = how many are still new.
+      parameters:
+      - $ref: '#/components/parameters/AcceptLanguage'
+      - name: status
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - new
+          - done
+        description: ''
+      - name: search
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Name, salon, phone, email.
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          default: 1
+        description: Page number.
+      - name: per_page
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 25
+        description: Items per page (max 100).
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Lead'
+                  page:
+                    type: integer
+                    example: 1
+                  per_page:
+                    type: integer
+                    example: 25
+                  total:
+                    type: integer
+                    example: 4
+                  pages:
+                    type: integer
+                    example: 1
+                  new:
+                    type: integer
+                  generated_at:
+                    type: string
+                    example: 2026-11-17 22:45
+                    description: When the answer was made (Lebanon time).
+                  tz:
+                    type: string
+                    example: Asia/Beirut
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooMany'
+  /admin/whatsapp:
+    get:
+      tags:
+      - More
+      summary: WhatsApp bot (platform)
+      description: 'Settings (never the keys: only `key_set`) and use per salon this month.'
+      parameters:
+      - $ref: '#/components/parameters/AcceptLanguage'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  month:
+                    type: string
+                    example: 2026-11
+                  model:
+                    type: string
+                  limit:
+                    type: integer
+                  key_set:
+                    type: boolean
+                  prices:
+                    type: object
+                    properties:
+                      in:
+                        type: number
+                      out:
+                        type: number
+                  last_error:
+                    type:
+                    - object
+                    - 'null'
+                    properties:
+                      at:
+                        type:
+                        - string
+                        - 'null'
+                      text:
+                        type: string
+                  totals:
+                    type: object
+                    properties:
+                      replies:
+                        type: integer
+                      cost:
+                        $ref: '#/components/schemas/Money'
+                  salons:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        salon_id:
+                          type: integer
+                        salon_name:
+                          type: string
+                        feature_on:
+                          type: boolean
+                        tokens:
+                          type: object
+                          properties:
+                            in:
+                              type: integer
+                            out:
+                              type: integer
+                        cost:
+                          $ref: '#/components/schemas/Money'
+                        limit:
+                          type: integer
+                        own_limit:
+                          type:
+                          - integer
+                          - 'null'
+                        bot_on:
+                          type: boolean
+                        number_linked:
+                          type: boolean
+                        replies:
+                          type: integer
+                        chats_need_team:
+                          type: integer
+                  generated_at:
+                    type: string
+                    example: 2026-11-17 22:45
+                    description: When the answer was made (Lebanon time).
+                  tz:
+                    type: string
+                    example: Asia/Beirut
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooMany'
+  /admin/ai:
+    get:
+      tags:
+      - More
+      summary: AI assistant (platform)
+      description: Settings and use per salon this month.
+      parameters:
+      - $ref: '#/components/parameters/AcceptLanguage'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  month:
+                    type: string
+                  model:
+                    type: string
+                  limit:
+                    type: integer
+                  weekly:
+                    type: boolean
+                  key_set:
+                    type: boolean
+                  prices:
+                    type: object
+                    properties:
+                      in:
+                        type: number
+                      out:
+                        type: number
+                  totals:
+                    type: object
+                    properties:
+                      questions:
+                        type: integer
+                      cost:
+                        $ref: '#/components/schemas/Money'
+                  salons:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        salon_id:
+                          type: integer
+                        salon_name:
+                          type: string
+                        feature_on:
+                          type: boolean
+                        tokens:
+                          type: object
+                          properties:
+                            in:
+                              type: integer
+                            out:
+                              type: integer
+                        cost:
+                          $ref: '#/components/schemas/Money'
+                        limit:
+                          type: integer
+                        own_limit:
+                          type:
+                          - integer
+                          - 'null'
+                        questions:
+                          type: integer
+                        summaries:
+                          type: integer
+                  generated_at:
+                    type: string
+                    example: 2026-11-17 22:45
+                    description: When the answer was made (Lebanon time).
+                  tz:
+                    type: string
+                    example: Asia/Beirut
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooMany'
+components:
+  securitySchemes:
+    appPassword:
+      type: http
+      scheme: basic
+      description: username:application-password (WordPress → Users → Profile → Application Passwords). Spaces in the password are allowed.
+  parameters:
+    AcceptLanguage:
+      name: Accept-Language
+      in: header
+      required: false
+      schema:
+        type: string
+        enum:
+        - en
+        - ar
+        default: en
+      description: Language of labels and error messages.
+  responses:
+    Unauthorized:
+      description: 'Not logged in. Codes: smapi_no_auth_header (the header did not reach the server), smapi_login (wrong username or password).'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Forbidden:
+      description: Logged in but not an administrator (smapi_forbidden), or not https (smapi_https).
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Not found (smapi_not_found), or the plugin for it is not active (smapi_no_billing, smapi_no_site, smapi_no_whatsapp, smapi_no_ai).
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    TooMany:
+      description: 'smapi_slow_down (more than 120 requests in a minute) or smapi_locked (too many wrong passwords: 15 minutes).'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    Money:
+      type: object
+      properties:
+        amount:
+          type: number
+          example: 25.5
+        currency:
+          type: string
+          example: USD
+          description: USD or LBP. LBP amounts are whole numbers.
+        display:
+          type: string
+          example: $25.50
+          description: Ready to show.
+      required:
+      - amount
+      - currency
+      - display
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+          example: smapi_not_found
+        message:
+          type: string
+          example: Salon not found.
+          description: In the language of Accept-Language.
+        data:
+          type: object
+          properties:
+            status:
+              type: integer
+              example: 404
+            field:
+              type: string
+              description: The field that is wrong, when there is one.
+      required:
+      - code
+      - message
+    Paging:
+      type: object
+      properties:
+        page:
+          type: integer
+          example: 1
+        per_page:
+          type: integer
+          example: 25
+        total:
+          type: integer
+          example: 4
+        pages:
+          type: integer
+          example: 1
+    UserShort:
+      type: object
+      properties:
+        id:
+          type: integer
+        username:
+          type: string
+        name:
+          type: string
+        email:
+          type: string
+        last_login:
+          type:
+          - string
+          - 'null'
+          example: 2026-11-17 09:12
+    Billing:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+          - free
+          - trial
+          - active
+          - grace
+          - overdue
+          description: free = not billed, grace = payment due (still working), overdue = past the grace days.
+        status_label:
+          type: string
+          example: Paid
+        plan_id:
+          type:
+          - integer
+          - 'null'
+        plan:
+          type:
+          - string
+          - 'null'
+          example: Pro
+        cycle:
+          type: string
+          enum:
+          - month
+          - year
+        price:
+          anyOf:
+          - $ref: '#/components/schemas/Money'
+          - type: 'null'
+        monthly:
+          anyOf:
+          - $ref: '#/components/schemas/Money'
+          - type: 'null'
+        own_price:
+          type: boolean
+        until:
+          type:
+          - string
+          - 'null'
+          format: date
+          example: '2026-12-07'
+        days_left:
+          type:
+          - integer
+          - 'null'
+          example: 20
+          description: Negative when the date has passed.
+        grace_end:
+          type:
+          - string
+          - 'null'
+          format: date
+        trial:
+          type: boolean
+    Salon:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        slug:
+          type: string
+          example: emmanuel-hairstyle
+        name:
+          type: string
+          example: Emmanuel Hairstyle
+        phone:
+          type: string
+        address:
+          type: string
+        currency:
+          type: string
+          enum:
+          - USD
+          - LBP
+        language:
+          type: string
+          enum:
+          - en
+          - ar
+        status:
+          type: string
+          enum:
+          - active
+          - suspended
+        created_at:
+          type:
+          - string
+          - 'null'
+        last_activity:
+          type:
+          - string
+          - 'null'
+          description: Last line in the activity log.
+        owner:
+          type:
+          - object
+          - 'null'
+          properties:
+            id:
+              type: integer
+            username:
+              type: string
+            name:
+              type: string
+            email:
+              type: string
+        billing:
+          anyOf:
+          - $ref: '#/components/schemas/Billing'
+          - type: 'null'
+    SalonDetail:
+      type: object
+      properties:
+        salon:
+          allOf:
+          - $ref: '#/components/schemas/Salon'
+          - type: object
+            properties:
+              notes:
+                type: string
+              fx:
+                type:
+                - object
+                - 'null'
+                properties:
+                  second:
+                    type: string
+                    example: LBP
+                  rate:
+                    type: number
+                    example: 89500
+        features:
+          type: array
+          items:
+            type: object
+            properties:
+              slug:
+                type: string
+              label:
+                type: string
+              'on':
+                type: boolean
+        links:
+          type: object
+          properties:
+            dashboard:
+              type:
+              - string
+              - 'null'
+            page:
+              type:
+              - string
+              - 'null'
+            booking:
+              type:
+              - string
+              - 'null'
+            whatsapp:
+              type:
+              - string
+              - 'null'
+              description: wa.me link to the salon phone.
+        invoices:
+          type: array
+          items:
+            $ref: '#/components/schemas/Invoice'
+        month:
+          type: object
+          properties:
+            visits:
+              type: integer
+            revenue:
+              $ref: '#/components/schemas/Money'
+            customers:
+              type:
+              - integer
+              - 'null'
+        whatsapp:
+          type: object
+          properties:
+            feature_on:
+              type: boolean
+            bot_on:
+              type: boolean
+            number_linked:
+              type: boolean
+            replies_month:
+              type: integer
+            limit:
+              type: integer
+              description: 0 = no limit
+            own_limit:
+              type: boolean
+            chats_need_team:
+              type: integer
+            cost_month:
+              $ref: '#/components/schemas/Money'
+        ai:
+          type: object
+          properties:
+            feature_on:
+              type: boolean
+            questions_month:
+              type: integer
+            limit:
+              type: integer
+            own_limit:
+              type: boolean
+            cost_month:
+              $ref: '#/components/schemas/Money'
+        generated_at:
+          type: string
+          example: 2026-11-17 22:45
+          description: When the answer was made (Lebanon time).
+        tz:
+          type: string
+          example: Asia/Beirut
+    Invoice:
+      type: object
+      properties:
+        id:
+          type: integer
+        number:
+          type: string
+          example: HL-2026-0012
+        salon_id:
+          type: integer
+        salon_name:
+          type: string
+        plan:
+          type: string
+        period_from:
+          type:
+          - string
+          - 'null'
+          format: date
+        period_to:
+          type:
+          - string
+          - 'null'
+          format: date
+        months:
+          type: integer
+        amount:
+          $ref: '#/components/schemas/Money'
+        status:
+          type: string
+          enum:
+          - unpaid
+          - paid
+          - void
+        method:
+          type:
+          - string
+          - 'null'
+          enum:
+          - cash
+          - whish
+          - omt
+          - bank
+          - other
+          - null
+        method_label:
+          type:
+          - string
+          - 'null'
+        paid_at:
+          type:
+          - string
+          - 'null'
+        note:
+          type: string
+        created_at:
+          type:
+          - string
+          - 'null'
+    Plan:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        price_month:
+          $ref: '#/components/schemas/Money'
+        price_year:
+          $ref: '#/components/schemas/Money'
+        features:
+          type: array
+          items:
+            type: string
+            description: Feature slug, see /admin/features
+        note:
+          type: string
+        active:
+          type: boolean
+    Lead:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        salon:
+          type: string
+        phone:
+          type: string
+        email:
+          type: string
+        plan:
+          type: string
+        barbers:
+          type: string
+        message:
+          type: string
+        status:
+          type: string
+          enum:
+          - new
+          - done
+        created_at:
+          type:
+          - string
+          - 'null'
+        whatsapp:
+          type:
+          - string
+          - 'null'
+          example: https://wa.me/96176123456
+    Activity:
+      type: object
+      properties:
+        id:
+          type: integer
+        salon_id:
+          type: integer
+        salon_name:
+          type:
+          - string
+          - 'null'
+        action:
+          type: string
+          example: appointment_online
+        summary:
+          type: string
+        object_type:
+          type:
+          - string
+          - 'null'
+        object_id:
+          type:
+          - integer
+          - 'null'
+        by:
+          type:
+          - object
+          - 'null'
+          properties:
+            id:
+              type: integer
+            name:
+              type: string
+        details:
+          type:
+          - object
+          - 'null'
+        at:
+          type:
+          - string
+          - 'null'
+    Overview:
+      type: object
+      properties:
+        salons:
+          type: object
+          properties:
+            total:
+              type: integer
+            active:
+              type: integer
+            suspended:
+              type: integer
+        billing:
+          type: object
+          properties:
+            free:
+              type: integer
+            trial:
+              type: integer
+            active:
+              type: integer
+            grace:
+              type: integer
+            overdue:
+              type: integer
+        money:
+          type: object
+          properties:
+            mrr:
+              $ref: '#/components/schemas/Money'
+            paid_this_month:
+              $ref: '#/components/schemas/Money'
+            unpaid:
+              type: object
+              properties:
+                count:
+                  type: integer
+                amount:
+                  $ref: '#/components/schemas/Money'
+        leads:
+          type: object
+          properties:
+            new:
+              type: integer
+        whatsapp:
+          type: object
+          properties:
+            replies_month:
+              type: integer
+            cost_month:
+              $ref: '#/components/schemas/Money'
+            chats_need_team:
+              type: integer
+        ai:
+          type: object
+          properties:
+            questions_month:
+              type: integer
+            summaries_month:
+              type: integer
+            cost_month:
+              $ref: '#/components/schemas/Money'
+        health:
+          type: object
+          properties:
+            errors:
+              type: integer
+            warnings:
+              type: integer
+        activity_today:
+          type: integer
+        generated_at:
+          type: string
+          example: 2026-11-17 22:45
+          description: When the answer was made (Lebanon time).
+        tz:
+          type: string
+          example: Asia/Beirut

@@ -1,0 +1,45 @@
+{
+  "items": [
+    {
+      "id": 9001,
+      "salon_id": 1,
+      "salon_name": "Emmanuel Hairstyle",
+      "action": "appointment_online",
+      "summary": "New online booking: Karim, haircut, 20 Nov 16:00",
+      "object_type": "appointment",
+      "object_id": 551,
+      "by": null,
+      "details": {
+        "service": "Haircut",
+        "price": 10,
+        "online": true
+      },
+      "at": "2026-11-19 12:40"
+    },
+    {
+      "id": 9000,
+      "salon_id": 7,
+      "salon_name": null,
+      "action": "billing_invoice_created",
+      "summary": "Invoice HL-2026-0015 created",
+      "object_type": "billing",
+      "object_id": 15,
+      "by": {
+        "id": 2,
+        "name": "Mishel"
+      },
+      "details": {
+        "nested": {
+          "a": 1
+        }
+      },
+      "at": "2026-11-16 09:00"
+    }
+  ],
+  "page": 1,
+  "per_page": 2,
+  "total": 57,
+  "pages": 29,
+  "generated_at": "2026-11-19 13:13",
+  "tz": "Asia/Beirut"
+}

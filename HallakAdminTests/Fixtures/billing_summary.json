@@ -1,0 +1,76 @@
+{
+  "currency": "USD",
+  "mrr": {
+    "amount": 690,
+    "currency": "USD",
+    "display": "$690"
+  },
+  "paid_this_month": {
+    "amount": 520,
+    "currency": "USD",
+    "display": "$520"
+  },
+  "unpaid": {
+    "count": 4,
+    "amount": {
+      "amount": 170,
+      "currency": "USD",
+      "display": "$170"
+    }
+  },
+  "salons": {
+    "free": 2,
+    "trial": 3,
+    "active": 16,
+    "grace": 1,
+    "overdue": 1
+  },
+  "due_soon": [
+    {
+      "salon_id": 7,
+      "salon_name": "Studio 7",
+      "status": "grace",
+      "until": "2026-11-16",
+      "days_left": -3
+    },
+    {
+      "salon_id": 1,
+      "salon_name": "Emmanuel Hairstyle",
+      "status": "active",
+      "until": "2026-12-07",
+      "days_left": 18
+    },
+    {
+      "salon_id": 9,
+      "salon_name": "Rami Cuts",
+      "status": "trial",
+      "until": null,
+      "days_left": null
+    }
+  ],
+  "grace_days": 7,
+  "methods": [
+    {
+      "slug": "cash",
+      "label": "Cash"
+    },
+    {
+      "slug": "whish",
+      "label": "Whish"
+    },
+    {
+      "slug": "omt",
+      "label": "OMT"
+    },
+    {
+      "slug": "bank",
+      "label": "Bank transfer"
+    },
+    {
+      "slug": "other",
+      "label": "Other"
+    }
+  ],
+  "generated_at": "2026-11-19 13:13",
+  "tz": "Asia/Beirut"
+}

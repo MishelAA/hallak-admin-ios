@@ -1,0 +1,76 @@
+import Foundation
+
+/// GET /admin/ping
+struct Ping: Decodable, Hashable {
+    let ok: Bool
+    let user: String?
+    let site: String?
+    let wordpress: String?
+    let hallakCore: String?
+    let api: String?
+    let https: Bool?
+    let generatedAt: String?
+}
+
+/// UserShort (+ role on /salons/{id}/users: owner | staff | other).
+struct UserShort: Decodable, Hashable, Identifiable {
+    let id: Int
+    let username: String?
+    let name: String?
+    let email: String?
+    let lastLogin: String?
+    let role: String?
+
+    var displayName: String { (name?.isEmpty == false ? name : username) ?? "#\(id)" }
+}
+
+/// GET /admin/me
+struct Me: Decodable, Hashable {
+    struct Can: Decodable, Hashable {
+        let read: Bool?
+        let write: Bool?
+    }
+    struct Plugins: Decodable, Hashable {
+        let billing: Bool?
+        let site: Bool?
+        let whatsapp: Bool?
+        let ai: Bool?
+        let check: Bool?
+    }
+    struct Site: Decodable, Hashable {
+        let name: String?
+        let url: String?
+        let wordpress: String?
+        let hallakCore: String?
+        let api: String?
+        let plugins: Plugins?
+    }
+
+    let user: UserShort?
+    let language: String?
+    let can: Can?
+    let site: Site?
+    let generatedAt: String?
+
+    /// false in API 1.0: action buttons stay hidden until 1.1.
+    var canWrite: Bool { can?.write ?? false }
+    // A missing flag counts as "on": the API also leaves out sections whose plugin is off.
+    var hasBilling: Bool { site?.plugins?.billing ?? true }
+    var hasWhatsApp: Bool { site?.plugins?.whatsapp ?? true }
+    var hasAI: Bool { site?.plugins?.ai ?? true }
+    var hasCheck: Bool { site?.plugins?.check ?? true }
+    var hasSite: Bool { site?.plugins?.site ?? true }
+}
+
+/// GET /admin/features
+struct Feature: Decodable, Hashable, Identifiable {
+    let slug: String
+    let label: String?
+    let help: String?
+    /// false = optional feature, off until switched on for a salon.
+    let isDefault: Bool?
+
+    var id: String { slug }
+
+    private enum CodingKeys: String, CodingKey { case slug, label, help, isDefault = "default" }
+}

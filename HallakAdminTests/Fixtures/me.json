@@ -1,0 +1,30 @@
+{
+  "user": {
+    "id": 2,
+    "username": "mishel-app",
+    "name": "Mishel",
+    "email": "admin@example.com",
+    "last_login": "2026-11-19 13:00"
+  },
+  "language": "en",
+  "can": {
+    "read": true,
+    "write": false
+  },
+  "site": {
+    "name": "Hallak",
+    "url": "https://hallak.online",
+    "wordpress": "6.8.3",
+    "hallak_core": "1.4.2",
+    "api": "1.0.1",
+    "plugins": {
+      "billing": true,
+      "site": true,
+      "whatsapp": true,
+      "ai": false,
+      "check": true
+    }
+  },
+  "generated_at": "2026-11-19 13:13",
+  "tz": "Asia/Beirut"
+}

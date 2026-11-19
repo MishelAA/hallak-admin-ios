@@ -1,0 +1,129 @@
+{
+  "salon": {
+    "id": 1,
+    "slug": "emmanuel-hairstyle",
+    "name": "Emmanuel Hairstyle",
+    "phone": "+961 70 123 456",
+    "address": "Jounieh, main road",
+    "currency": "USD",
+    "language": "ar",
+    "status": "active",
+    "created_at": "2026-09-02 10:15",
+    "last_activity": "2026-11-19 12:40",
+    "owner": {
+      "id": 118,
+      "username": "gio",
+      "name": "Gio Emmanuel",
+      "email": "gio@example.com"
+    },
+    "billing": {
+      "status": "active",
+      "status_label": "Paid",
+      "plan_id": 2,
+      "plan": "Pro",
+      "cycle": "month",
+      "price": {
+        "amount": 30,
+        "currency": "USD",
+        "display": "$30"
+      },
+      "monthly": {
+        "amount": 30,
+        "currency": "USD",
+        "display": "$30"
+      },
+      "own_price": false,
+      "until": "2026-12-07",
+      "days_left": 18,
+      "grace_end": null,
+      "trial": false
+    },
+    "notes": "Pays on the 7th.",
+    "fx": {
+      "second": "LBP",
+      "rate": 89500
+    }
+  },
+  "features": [
+    {
+      "slug": "appointments",
+      "label": "Appointments",
+      "on": true
+    },
+    {
+      "slug": "wabot",
+      "label": "WhatsApp bot",
+      "on": true
+    },
+    {
+      "slug": "loyalty",
+      "label": "Loyalty",
+      "on": false
+    }
+  ],
+  "links": {
+    "dashboard": "https://hallak.online/salon/emmanuel-hairstyle/",
+    "page": "https://hallak.online/s/emmanuel-hairstyle/",
+    "booking": "https://hallak.online/booking/emmanuel-hairstyle/",
+    "whatsapp": "https://wa.me/96170123456"
+  },
+  "invoices": [
+    {
+      "id": 12,
+      "number": "HL-2026-0012",
+      "salon_id": 1,
+      "salon_name": "Emmanuel Hairstyle",
+      "plan": "Pro",
+      "period_from": "2026-11-07",
+      "period_to": "2026-12-07",
+      "months": 1,
+      "amount": {
+        "amount": 30,
+        "currency": "USD",
+        "display": "$30"
+      },
+      "status": "paid",
+      "method": "whish",
+      "method_label": "Whish",
+      "paid_at": "2026-11-07 18:02",
+      "note": "",
+      "created_at": "2026-11-07 17:55"
+    }
+  ],
+  "month": {
+    "visits": 312,
+    "revenue": {
+      "amount": 3120.5,
+      "currency": "USD",
+      "display": "$3,120.50"
+    },
+    "customers": 201
+  },
+  "whatsapp": {
+    "feature_on": true,
+    "bot_on": true,
+    "number_linked": true,
+    "replies_month": 640,
+    "limit": 1000,
+    "own_limit": false,
+    "chats_need_team": 1,
+    "cost_month": {
+      "amount": 2.1,
+      "currency": "USD",
+      "display": "$2.10"
+    }
+  },
+  "ai": {
+    "feature_on": false,
+    "questions_month": 0,
+    "limit": 0,
+    "own_limit": false,
+    "cost_month": {
+      "amount": 0,
+      "currency": "USD",
+      "display": "$0"
+    }
+  },
+  "generated_at": "2026-11-19 13:13",
+  "tz": "Asia/Beirut"
+}

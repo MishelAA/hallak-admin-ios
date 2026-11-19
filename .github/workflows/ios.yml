@@ -1,0 +1,92 @@
+name: iOS
+
+# Push to main or run by hand (Actions → iOS → Run workflow).
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: ios-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: macos-latest
+    timeout-minutes: 45
+    env:
+      # TestFlight runs only when these secrets exist (see README).
+      ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+      ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+      ASC_KEY_P8: ${{ secrets.ASC_KEY_P8 }}
+      APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Select the newest Xcode
+        run: |
+          XCODE=$(ls -d /Applications/Xcode_*.app | grep -vi beta | sort -V | tail -1)
+          sudo xcode-select -s "$XCODE"
+          xcodebuild -version
+
+      - name: Generate the Xcode project
+        run: |
+          brew install xcodegen
+          xcodegen generate
+
+      - name: Unit tests (iPhone simulator)
+        run: |
+          UDID=$(bash scripts/pick_simulator.sh)
+          echo "SIM_UDID=$UDID" >> "$GITHUB_ENV"
+          set +e
+          xcodebuild test -project HallakAdmin.xcodeproj -scheme HallakAdmin \
+            -destination "id=$UDID" -resultBundlePath TestResults.xcresult \
+            CODE_SIGNING_ALLOWED=NO > test.log 2>&1
+          STATUS=$?
+          set -e
+          grep -E "error:|Test Case .* failed|Executed [0-9]+ test" test.log | head -80 || true
+          tail -25 test.log
+          exit $STATUS
+
+      - name: Screenshot of the app
+        continue-on-error: true
+        run: |
+          xcrun simctl bootstatus "$SIM_UDID" -b
+          xcrun simctl launch "$SIM_UDID" online.hallak.admin
+          sleep 6
+          mkdir -p screenshots
+          xcrun simctl io "$SIM_UDID" screenshot screenshots/start-light.png
+          xcrun simctl ui "$SIM_UDID" appearance dark
+          sleep 3
+          xcrun simctl io "$SIM_UDID" screenshot screenshots/start-dark.png
+
+      - name: Build unsigned IPA (for sideloading)
+        run: |
+          set -o pipefail
+          xcodebuild -project HallakAdmin.xcodeproj -scheme HallakAdmin -configuration Release \
+            -sdk iphoneos -destination 'generic/platform=iOS' -derivedDataPath build \
+            CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY="" \
+            build > build.log 2>&1 || { grep -E "error:" build.log | head -50; tail -40 build.log; exit 1; }
+          mkdir -p Payload dist
+          cp -R build/Build/Products/Release-iphoneos/HallakAdmin.app Payload/
+          zip -qry dist/HallakAdmin-unsigned.ipa Payload
+          ls -la dist
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: HallakAdmin-ipa
+          path: dist/HallakAdmin-unsigned.ipa
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: screenshots-and-logs
+          path: |
+            screenshots/
+            test.log
+            build.log
+          if-no-files-found: ignore
+
+      - name: TestFlight (only when the App Store Connect secrets are set)
+        if: env.ASC_KEY_ID != '' && env.ASC_ISSUER_ID != '' && env.ASC_KEY_P8 != '' && env.APPLE_TEAM_ID != ''
+        run: fastlane beta

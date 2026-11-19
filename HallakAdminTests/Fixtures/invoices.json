@@ -1,0 +1,52 @@
+{
+  "items": [
+    {
+      "id": 15,
+      "number": "HL-2026-0015",
+      "salon_id": 7,
+      "salon_name": "Studio 7",
+      "plan": "Basic",
+      "period_from": "2026-11-16",
+      "period_to": "2027-11-16",
+      "months": 12,
+      "amount": {
+        "amount": 240,
+        "currency": "USD",
+        "display": "$240"
+      },
+      "status": "unpaid",
+      "method": null,
+      "method_label": null,
+      "paid_at": null,
+      "note": "Asked to pay by OMT",
+      "created_at": "2026-11-16 09:00"
+    },
+    {
+      "id": 12,
+      "number": "HL-2026-0012",
+      "salon_id": 1,
+      "salon_name": "Emmanuel Hairstyle",
+      "plan": "Pro",
+      "period_from": "2026-11-07",
+      "period_to": "2026-12-07",
+      "months": 1,
+      "amount": {
+        "amount": 30,
+        "currency": "USD",
+        "display": "$30"
+      },
+      "status": "paid",
+      "method": "whish",
+      "method_label": "Whish",
+      "paid_at": "2026-11-07 18:02",
+      "note": "",
+      "created_at": "2026-11-07 17:55"
+    }
+  ],
+  "page": 1,
+  "per_page": 25,
+  "total": 2,
+  "pages": 1,
+  "generated_at": "2026-11-19 13:13",
+  "tz": "Asia/Beirut"
+}

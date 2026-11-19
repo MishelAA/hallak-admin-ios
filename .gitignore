@@ -1,0 +1,19 @@
+# Xcode / generated
+*.xcodeproj
+xcuserdata/
+DerivedData/
+build/
+HallakAdmin/Info.plist
+# Secrets: never commit
+Config/Local.xcconfig
+.env
+*.p8
+*.p12
+*.cer
+*.mobileprovision
+fastlane/report.xml
+fastlane/README.md
+# Outputs
+*.ipa
+dist/
+*.xcresult

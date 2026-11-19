@@ -1,0 +1,98 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "%lld days late" : {
+      "localizations" : {
+        "ar" : { "stringUnit" : { "state" : "translated", "value" : "متأخر %lld يوم" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "%lld days late" } }
+      }
+    },
+    "%lld days left" : {
+      "localizations" : {
+        "ar" : { "stringUnit" : { "state" : "translated", "value" : "باقي %lld يوم" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "%lld days left" } }
+      }
+    },
+    "Hallak" : {
+      "localizations" : {
+        "ar" : { "stringUnit" : { "state" : "translated", "value" : "حلّاق" } }
+      }
+    },
+    "Hallak Admin" : {
+      "localizations" : {
+        "ar" : { "stringUnit" : { "state" : "translated", "value" : "حلّاق - الإدارة" } }
+      }
+    },
+    "Locked for 15 minutes after wrong passwords." : {
+      "localizations" : {
+        "ar" : { "stringUnit" : { "state" : "translated", "value" : "مقفل لمدة ١٥ دقيقة بعد كلمات مرور خاطئة." } }
+      }
+    },
+    "No connection." : {
+      "localizations" : {
+        "ar" : { "stringUnit" : { "state" : "translated", "value" : "لا يوجد اتصال." } }
+      }
+    },
+    "Not found." : {
+      "localizations" : {
+        "ar" : { "stringUnit" : { "state" : "translated", "value" : "غير موجود." } }
+      }
+    },
+    "Server problem, try again." : {
+      "localizations" : {
+        "ar" : { "stringUnit" : { "state" : "translated", "value" : "مشكلة في الخادم، حاول مرة أخرى." } }
+      }
+    },
+    "Something went wrong." : {
+      "localizations" : {
+        "ar" : { "stringUnit" : { "state" : "translated", "value" : "حدث خطأ ما." } }
+      }
+    },
+    "The server did not receive the login. In wp-admin → Salons → iPhone app (API) press Fix the server." : {
+      "localizations" : {
+        "ar" : { "stringUnit" : { "state" : "translated", "value" : "لم يصل تسجيل الدخول إلى الخادم. في wp-admin ← Salons ← iPhone app (API) اضغط Fix the server." } }
+      }
+    },
+    "The server sent an answer the app does not understand." : {
+      "localizations" : {
+        "ar" : { "stringUnit" : { "state" : "translated", "value" : "أرسل الخادم ردًا لا يفهمه التطبيق." } }
+      }
+    },
+    "The site must use https." : {
+      "localizations" : {
+        "ar" : { "stringUnit" : { "state" : "translated", "value" : "يجب أن يستخدم الموقع https." } }
+      }
+    },
+    "This account is not an administrator." : {
+      "localizations" : {
+        "ar" : { "stringUnit" : { "state" : "translated", "value" : "هذا الحساب ليس مديرًا." } }
+      }
+    },
+    "This is not an Application Password." : {
+      "localizations" : {
+        "ar" : { "stringUnit" : { "state" : "translated", "value" : "هذه ليست كلمة مرور تطبيق (Application Password)." } }
+      }
+    },
+    "Today" : {
+      "localizations" : {
+        "ar" : { "stringUnit" : { "state" : "translated", "value" : "اليوم" } }
+      }
+    },
+    "Too many requests, wait a minute." : {
+      "localizations" : {
+        "ar" : { "stringUnit" : { "state" : "translated", "value" : "طلبات كثيرة، انتظر دقيقة." } }
+      }
+    },
+    "Unknown username." : {
+      "localizations" : {
+        "ar" : { "stringUnit" : { "state" : "translated", "value" : "اسم المستخدم غير معروف." } }
+      }
+    },
+    "Version 1 is on its way. Login and the Home screen come in the next build." : {
+      "localizations" : {
+        "ar" : { "stringUnit" : { "state" : "translated", "value" : "النسخة الأولى في الطريق. تسجيل الدخول والشاشة الرئيسية في النسخة القادمة." } }
+      }
+    }
+  },
+  "version" : "1.0"
+}

@@ -1,0 +1,24 @@
+{
+  "items": [
+    {
+      "slug": "appointments",
+      "label": "Appointments",
+      "help": "Online booking and the calendar.",
+      "default": true
+    },
+    {
+      "slug": "wabot",
+      "label": "WhatsApp bot",
+      "help": "Answers customers on WhatsApp.",
+      "default": false
+    },
+    {
+      "slug": "loyalty",
+      "label": "Loyalty",
+      "help": "Points and free visits.",
+      "default": false
+    }
+  ],
+  "generated_at": "2026-11-19 13:13",
+  "tz": "Asia/Beirut"
+}

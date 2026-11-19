@@ -1,0 +1,44 @@
+default_platform(:ios)
+
+platform :ios do
+  desc "Unit tests on an iPhone simulator"
+  lane :tests do
+    run_tests(project: "HallakAdmin.xcodeproj", scheme: "HallakAdmin", device: ENV["SIM_DEVICE"])
+  end
+
+  desc "Build with automatic signing (App Store Connect API key) and upload to TestFlight"
+  lane :beta do
+    setup_ci
+
+    key_path = File.expand_path("../build/AuthKey.p8", __dir__)
+    FileUtils.mkdir_p(File.dirname(key_path))
+    File.write(key_path, Base64.decode64(ENV.fetch("ASC_KEY_P8")))
+
+    api_key = app_store_connect_api_key(
+      key_id: ENV.fetch("ASC_KEY_ID"),
+      issuer_id: ENV.fetch("ASC_ISSUER_ID"),
+      key_filepath: key_path
+    )
+
+    build_number = ENV.fetch("GITHUB_RUN_NUMBER", "1")
+    auth = "-allowProvisioningUpdates " \
+           "-authenticationKeyPath #{key_path} " \
+           "-authenticationKeyID #{ENV.fetch('ASC_KEY_ID')} " \
+           "-authenticationKeyIssuerID #{ENV.fetch('ASC_ISSUER_ID')}"
+
+    build_app(
+      project: "HallakAdmin.xcodeproj",
+      scheme: "HallakAdmin",
+      configuration: "Release",
+      export_method: "app-store",
+      xcargs: "#{auth} APPLE_TEAM_ID=#{ENV.fetch('APPLE_TEAM_ID')} CURRENT_PROJECT_VERSION=#{build_number}",
+      export_xcargs: auth,
+      output_directory: "dist",
+      output_name: "HallakAdmin.ipa"
+    )
+
+    upload_to_testflight(api_key: api_key, skip_waiting_for_build_processing: true)
+  ensure
+    File.delete(key_path) if key_path && File.exist?(key_path)
+  end
+end

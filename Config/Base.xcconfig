@@ -1,0 +1,4 @@
+// Defaults. Your Team ID goes in Config/Local.xcconfig (gitignored) or is injected by CI.
+APP_BUNDLE_ID = online.hallak.admin
+APPLE_TEAM_ID =
+#include? "Local.xcconfig"

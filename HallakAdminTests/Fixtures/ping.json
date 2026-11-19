@@ -1,0 +1,11 @@
+{
+  "ok": true,
+  "user": "mishel-app",
+  "site": "https://hallak.online",
+  "wordpress": "6.8.3",
+  "hallak_core": "1.4.2",
+  "api": "1.0.1",
+  "https": true,
+  "generated_at": "2026-11-19 13:13",
+  "tz": "Asia/Beirut"
+}
