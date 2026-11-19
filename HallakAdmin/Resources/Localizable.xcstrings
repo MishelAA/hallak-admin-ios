@@ -51,6 +51,26 @@
         }
       }
     },
+    "%lld late payments": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld دفعات متأخرة"
+          }
+        }
+      }
+    },
+    "%lld salons": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld صالون"
+          }
+        }
+      }
+    },
     "AI assistant": {
       "localizations": {
         "ar": {
@@ -71,6 +91,16 @@
         }
       }
     },
+    "Active": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "شغّال"
+          }
+        }
+      }
+    },
     "Activity": {
       "localizations": {
         "ar": {
@@ -87,6 +117,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "النشاط اليوم"
+          }
+        }
+      }
+    },
+    "All": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الكل"
+          }
+        }
+      }
+    },
+    "All %lld logins": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "كل الحسابات (%lld)"
           }
         }
       }
@@ -121,6 +171,16 @@
         }
       }
     },
+    "Arabic": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "العربية"
+          }
+        }
+      }
+    },
     "Asks again after 5 minutes in the background.": {
       "localizations": {
         "ar": {
@@ -141,12 +201,62 @@
         }
       }
     },
+    "Booking page": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "صفحة الحجز"
+          }
+        }
+      }
+    },
+    "Bot": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "البوت"
+          }
+        }
+      }
+    },
+    "Call": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اتصال"
+          }
+        }
+      }
+    },
     "Cancel": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "إلغاء"
+          }
+        }
+      }
+    },
+    "Cancelled": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ملغاة"
+          }
+        }
+      }
+    },
+    "Chats waiting for the team": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "محادثات تنتظر الفريق"
           }
         }
       }
@@ -211,6 +321,76 @@
         }
       }
     },
+    "Cost this month": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "كلفة هذا الشهر"
+          }
+        }
+      }
+    },
+    "Created": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تاريخ الإنشاء"
+          }
+        }
+      }
+    },
+    "Currency": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "العملة"
+          }
+        }
+      }
+    },
+    "Customers": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الزبائن"
+          }
+        }
+      }
+    },
+    "Cycle": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الدورة"
+          }
+        }
+      }
+    },
+    "Dashboard": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لوحة التحكم"
+          }
+        }
+      }
+    },
+    "Days left": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الأيام الباقية"
+          }
+        }
+      }
+    },
     "Demo requests": {
       "localizations": {
         "ar": {
@@ -241,12 +421,52 @@
         }
       }
     },
+    "Email": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "البريد"
+          }
+        }
+      }
+    },
+    "English": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الإنجليزية"
+          }
+        }
+      }
+    },
     "Expected every month (MRR)": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "المتوقع كل شهر (MRR)"
+          }
+        }
+      }
+    },
+    "Feature": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الميزة"
+          }
+        }
+      }
+    },
+    "Features": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الميزات"
           }
         }
       }
@@ -331,6 +551,66 @@
         }
       }
     },
+    "Invoice": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الفاتورة"
+          }
+        }
+      }
+    },
+    "Language": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اللغة"
+          }
+        }
+      }
+    },
+    "Last activity": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "آخر نشاط"
+          }
+        }
+      }
+    },
+    "Last invoices": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "آخر الفواتير"
+          }
+        }
+      }
+    },
+    "Last login": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "آخر دخول"
+          }
+        }
+      }
+    },
+    "Links": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الروابط"
+          }
+        }
+      }
+    },
     "Lock the app with %@? It asks again after 5 minutes in the background.": {
       "localizations": {
         "ar": {
@@ -391,6 +671,16 @@
         }
       }
     },
+    "Method": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "طريقة الدفع"
+          }
+        }
+      }
+    },
     "Money": {
       "localizations": {
         "ar": {
@@ -411,6 +701,26 @@
         }
       }
     },
+    "Monthly": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "شهري"
+          }
+        }
+      }
+    },
+    "Months": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الأشهر"
+          }
+        }
+      }
+    },
     "More": {
       "localizations": {
         "ar": {
@@ -421,12 +731,112 @@
         }
       }
     },
+    "Name": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الاسم"
+          }
+        }
+      }
+    },
+    "Name, phone or owner": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الاسم، الهاتف أو المالك"
+          }
+        }
+      }
+    },
+    "Never": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أبدًا"
+          }
+        }
+      }
+    },
+    "Never logged in": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لم يدخل أبدًا"
+          }
+        }
+      }
+    },
+    "Newest": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الأحدث"
+          }
+        }
+      }
+    },
+    "No activity yet": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا يوجد نشاط بعد"
+          }
+        }
+      }
+    },
     "No connection.": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "لا يوجد اتصال."
+          }
+        }
+      }
+    },
+    "No limit": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بدون حدّ"
+          }
+        }
+      }
+    },
+    "No salon matches": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا يوجد صالون مطابق"
+          }
+        }
+      }
+    },
+    "No salons yet": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا يوجد صالونات بعد"
+          }
+        }
+      }
+    },
+    "Not billed": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بدون اشتراك"
           }
         }
       }
@@ -451,12 +861,62 @@
         }
       }
     },
+    "Note": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ملاحظة"
+          }
+        }
+      }
+    },
+    "Notes": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ملاحظات"
+          }
+        }
+      }
+    },
+    "Number linked": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الرقم مربوط"
+          }
+        }
+      }
+    },
+    "Off": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مطفأ"
+          }
+        }
+      }
+    },
     "Offline – showing data from %@": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "بدون اتصال – بيانات الساعة %@"
+          }
+        }
+      }
+    },
+    "On": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "شغّال"
           }
         }
       }
@@ -471,12 +931,42 @@
         }
       }
     },
+    "Open invoice": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فاتورة غير مدفوعة"
+          }
+        }
+      }
+    },
+    "Other": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "آخر"
+          }
+        }
+      }
+    },
     "Overdue": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "متأخر"
+          }
+        }
+      }
+    },
+    "Owner": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "المالك"
           }
         }
       }
@@ -501,12 +991,32 @@
         }
       }
     },
+    "Paid at": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تاريخ الدفع"
+          }
+        }
+      }
+    },
     "Paid this month": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "مدفوع هذا الشهر"
+          }
+        }
+      }
+    },
+    "Paid until": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مدفوع حتى"
           }
         }
       }
@@ -531,6 +1041,96 @@
         }
       }
     },
+    "Payment due until": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الدفع مستحق حتى"
+          }
+        }
+      }
+    },
+    "Per month": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بالشهر"
+          }
+        }
+      }
+    },
+    "Period": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الفترة"
+          }
+        }
+      }
+    },
+    "Phone": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الهاتف"
+          }
+        }
+      }
+    },
+    "Plan": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الباقة"
+          }
+        }
+      }
+    },
+    "Price": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "السعر"
+          }
+        }
+      }
+    },
+    "Questions this month": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أسئلة هذا الشهر"
+          }
+        }
+      }
+    },
+    "Read only in this version.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "للقراءة فقط في هذه النسخة."
+          }
+        }
+      }
+    },
+    "Replies this month": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ردود هذا الشهر"
+          }
+        }
+      }
+    },
     "Requests": {
       "localizations": {
         "ar": {
@@ -551,6 +1151,36 @@
         }
       }
     },
+    "Revenue": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "المدخول"
+          }
+        }
+      }
+    },
+    "Salon": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الصالون"
+          }
+        }
+      }
+    },
+    "Salon page": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "صفحة الصالون"
+          }
+        }
+      }
+    },
     "Salons": {
       "localizations": {
         "ar": {
@@ -561,12 +1191,32 @@
         }
       }
     },
+    "Search the activity": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ابحث في النشاط"
+          }
+        }
+      }
+    },
     "Server problem, try again.": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "مشكلة في الخادم، حاول مرة أخرى."
+          }
+        }
+      }
+    },
+    "Share": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مشاركة"
           }
         }
       }
@@ -601,12 +1251,72 @@
         }
       }
     },
+    "Sort": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الترتيب"
+          }
+        }
+      }
+    },
+    "Staff": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "موظف"
+          }
+        }
+      }
+    },
+    "Status": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الحالة"
+          }
+        }
+      }
+    },
+    "Subscription": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الاشتراك"
+          }
+        }
+      }
+    },
     "Super admin": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "المدير العام"
+          }
+        }
+      }
+    },
+    "Suspended": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "موقوف"
+          }
+        }
+      }
+    },
+    "Team logins": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حسابات الفريق"
           }
         }
       }
@@ -681,6 +1391,26 @@
         }
       }
     },
+    "This month": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "هذا الشهر"
+          }
+        }
+      }
+    },
+    "This salon has its own limit.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لهذا الصالون حدّ خاص."
+          }
+        }
+      }
+    },
     "This screen comes in the next builds.": {
       "localizations": {
         "ar": {
@@ -731,6 +1461,16 @@
         }
       }
     },
+    "Try another search or filter.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "جرّب بحثًا أو فلترًا آخر."
+          }
+        }
+      }
+    },
     "Turn on Face ID for Hallak Admin": {
       "localizations": {
         "ar": {
@@ -767,6 +1507,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "افتح بـ %@"
+          }
+        }
+      }
+    },
+    "Unpaid": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "غير مدفوعة"
           }
         }
       }
@@ -821,6 +1571,26 @@
         }
       }
     },
+    "Visits": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الزيارات"
+          }
+        }
+      }
+    },
+    "WhatsApp": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "واتساب"
+          }
+        }
+      }
+    },
     "WhatsApp bot": {
       "localizations": {
         "ar": {
@@ -841,6 +1611,26 @@
         }
       }
     },
+    "Yearly": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "سنوي"
+          }
+        }
+      }
+    },
+    "Yes": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نعم"
+          }
+        }
+      }
+    },
     "Your normal wp-admin password does not work here. If you lose the phone, revoke this Application Password in the same place: the app stops working at once.": {
       "localizations": {
         "ar": {
@@ -857,6 +1647,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "تغييرات في كل الصالونات"
+          }
+        }
+      }
+    },
+    "months": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أشهر"
           }
         }
       }

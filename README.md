@@ -12,8 +12,8 @@ iOS 17+, Swift / SwiftUI, no third-party packages. English + Arabic (RTL).
 | --- | --- | --- |
 | M1 | Project, API client, models, tests, CI | done |
 | M2 | Login, Keychain, Face ID, Home | done |
-| M3 | Salons | next |
-| M4 | Money and Requests | |
+| M3 | Salons | done |
+| M4 | Money and Requests | next |
 | M5 | More | |
 | M6 | Polish and Arabic | |
 

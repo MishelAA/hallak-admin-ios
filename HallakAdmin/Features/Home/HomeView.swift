@@ -68,15 +68,7 @@ struct HomeView: View {
         }
 
         if let b = o.billing {
-            StatCard(title: "Billing", systemImage: "creditcard", value: nil, badge: b.late,
-                     action: { session.open(.salons, .salons(billing: b.late > 0 ? .overdue : nil)) }) {
-                HStack(spacing: 0) {
-                    billingCell("Trial", b.trial, Theme.blue)
-                    billingCell("Paid", b.active, Theme.green)
-                    billingCell("Payment due", b.grace, Theme.orange)
-                    billingCell("Overdue", b.overdue, Theme.red)
-                }
-            }
+            BillingCard(counts: b) { status in session.open(.salons, .salons(billing: status)) }
         }
 
         if let m = o.money {
@@ -143,20 +135,6 @@ struct HomeView: View {
                 }
             }
         }
-    }
-
-    private func billingCell(_ label: LocalizedStringKey, _ value: Int?, _ color: Color) -> some View {
-        VStack(spacing: 2) {
-            Text(verbatim: number(value) ?? "0")
-                .font(.title3.bold().monospacedDigit())
-                .foregroundStyle(color)
-            Text(label)
-                .font(.caption2)
-                .lineLimit(2)
-                .multilineTextAlignment(.center)
-                .minimumScaleFactor(0.8)
-        }
-        .frame(maxWidth: .infinity)
     }
 
     private func number(_ n: Int?) -> String? {

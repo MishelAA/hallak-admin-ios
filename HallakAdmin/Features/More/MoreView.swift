@@ -9,9 +9,14 @@ struct MoreView: View {
     var body: some View {
         @Bindable var session = session
         List {
+            Section {
+                NavigationLink(value: AppRoute.activity(salonId: nil, salonName: nil)) {
+                    Label("Activity", systemImage: "list.bullet.rectangle")
+                }
+            }
+
             Section("Coming next") {
                 comingRow("Health", "stethoscope", show: session.me?.hasCheck ?? true)
-                comingRow("Activity", "list.bullet.rectangle", show: true)
                 comingRow("Owners", "person.2", show: true)
                 comingRow("WhatsApp bot", "message", show: session.me?.hasWhatsApp ?? true)
                 comingRow("AI assistant", "sparkles", show: session.me?.hasAI ?? true)
