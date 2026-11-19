@@ -1,0 +1,37 @@
+{
+  "items": [
+    {
+      "id": 31,
+      "name": "Karim",
+      "salon": "Karim Barbershop",
+      "phone": "+961 76 123 456",
+      "email": "karim@example.com",
+      "plan": "Pro",
+      "barbers": "3",
+      "message": "I want to try online booking.",
+      "status": "new",
+      "created_at": "2026-11-19 11:02",
+      "whatsapp": "https://wa.me/96176123456"
+    },
+    {
+      "id": 30,
+      "name": "Elie",
+      "salon": "Elie Style",
+      "phone": 96103111222,
+      "email": "",
+      "plan": "",
+      "barbers": 2,
+      "message": "",
+      "status": "done",
+      "created_at": "2026-11-12 16:40",
+      "whatsapp": null
+    }
+  ],
+  "page": 1,
+  "per_page": 25,
+  "total": 2,
+  "pages": 1,
+  "new": 1,
+  "generated_at": "2026-11-19 13:13",
+  "tz": "Asia/Beirut"
+}

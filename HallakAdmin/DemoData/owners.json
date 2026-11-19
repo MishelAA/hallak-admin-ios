@@ -1,0 +1,37 @@
+{
+  "items": [
+    {
+      "id": 118,
+      "username": "gio",
+      "name": "Gio Emmanuel",
+      "email": "gio@example.com",
+      "last_login": "2026-11-19 09:12",
+      "salons": [
+        {
+          "id": 1,
+          "name": "Emmanuel Hairstyle",
+          "status": "active"
+        },
+        {
+          "id": 4,
+          "name": "Emmanuel Kaslik",
+          "status": "active"
+        }
+      ]
+    },
+    {
+      "id": 140,
+      "username": "rami",
+      "name": "",
+      "email": "rami@example.com",
+      "last_login": null,
+      "salons": []
+    }
+  ],
+  "page": 1,
+  "per_page": 25,
+  "total": 2,
+  "pages": 1,
+  "generated_at": "2026-11-19 13:13",
+  "tz": "Asia/Beirut"
+}

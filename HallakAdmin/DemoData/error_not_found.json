@@ -1,0 +1,7 @@
+{
+  "code": "smapi_not_found",
+  "message": "Salon not found.",
+  "data": {
+    "status": 404
+  }
+}

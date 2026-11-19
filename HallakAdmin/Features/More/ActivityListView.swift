@@ -1,18 +1,85 @@
 import SwiftUI
 
-/// GET /admin/activity: newest first, infinite scroll. M3: optional salon filter; M5 adds the other filters.
+/// What the Activity list asks for: salon, type, date range, search.
+struct ActivityQuery: Hashable {
+    enum Kind: String, CaseIterable, Identifiable {
+        case all, appointment, visit, customer, billing
+        var id: String { rawValue }
+        var label: LocalizedStringKey {
+            switch self {
+            case .all: return "All types"
+            case .appointment: return "Appointments"
+            case .visit: return "Visits"
+            case .customer: return "Customers"
+            case .billing: return "Billing"
+            }
+        }
+    }
+
+    enum Range: String, CaseIterable, Identifiable {
+        case any, today, week, month
+        var id: String { rawValue }
+        var label: LocalizedStringKey {
+            switch self {
+            case .any: return "Any time"
+            case .today: return "Today"
+            case .week: return "Last 7 days"
+            case .month: return "This month"
+            }
+        }
+    }
+
+    var salonId: Int?
+    var kind = Kind.all
+    var range = Range.any
+    var search = ""
+
+    /// Days in Lebanon time, "yyyy-MM-dd".
+    func params(now: Date = Date()) -> [String: String] {
+        var p: [String: String] = [:]
+        if let salonId { p["salon_id"] = String(salonId) }
+        if kind != .all { p["type"] = kind.rawValue }
+        let s = search.trimmingCharacters(in: .whitespaces)
+        if !s.isEmpty { p["search"] = s }
+
+        var cal = Calendar(identifier: .gregorian)
+        cal.timeZone = Formatters.lebanon
+        let day = DateFormatter()
+        day.locale = Locale(identifier: "en_US_POSIX")
+        day.timeZone = Formatters.lebanon
+        day.dateFormat = "yyyy-MM-dd"
+        let today = day.string(from: now)
+        switch range {
+        case .any: break
+        case .today:
+            p["from"] = today; p["to"] = today
+        case .week:
+            p["from"] = day.string(from: cal.date(byAdding: .day, value: -6, to: now) ?? now); p["to"] = today
+        case .month:
+            let start = cal.date(from: cal.dateComponents([.year, .month], from: now)) ?? now
+            p["from"] = day.string(from: start); p["to"] = today
+        }
+        return p
+    }
+
+    var isFiltered: Bool { kind != .all || range != .any }
+}
+
+/// GET /admin/activity: newest first, infinite scroll, filters salon / type / dates / search.
 struct ActivityListView: View {
     var salonId: Int?
     var salonName: String?
     @Environment(AppSession.self) private var session
     @State private var loader: PagedLoader<Activity>
-    @State private var search = ""
+    @State private var query: ActivityQuery
+    @State private var lastSearch = ""
 
     init(salonId: Int? = nil, salonName: String? = nil) {
         self.salonId = salonId
         self.salonName = salonName
-        let filters = salonId.map { ["salon_id": String($0)] } ?? [:]
-        _loader = State(initialValue: PagedLoader(filters: filters) { .activity($0) })
+        let q = ActivityQuery(salonId: salonId)
+        _query = State(initialValue: q)
+        _loader = State(initialValue: PagedLoader(filters: q.params()) { .activity($0) })
     }
 
     var body: some View {
@@ -26,14 +93,21 @@ struct ActivityListView: View {
                 if let e = loader.error {
                     ErrorView(error: e) { Task { await loader.reload(session) } }.listRowBackground(Color.clear)
                 } else if loader.isEmpty {
-                    EmptyState(title: "No activity yet").listRowBackground(Color.clear)
+                    EmptyState(title: "No activity yet", message: query.isFiltered ? "Try another filter." : nil)
+                        .listRowBackground(Color.clear)
                 } else {
                     ProgressView().frame(maxWidth: .infinity, minHeight: 120).listRowBackground(Color.clear)
                 }
             }
             ForEach(loader.items) { item in
-                ActivityRow(item: item, showSalon: salonId == nil)
-                    .task { await loader.loadMoreIfNeeded(after: item, session) }
+                Group {
+                    if salonId == nil, let sid = item.salonId {
+                        NavigationLink(value: AppRoute.salon(id: sid, name: item.salonName)) { ActivityRow(item: item, showSalon: true) }
+                    } else {
+                        ActivityRow(item: item, showSalon: salonId == nil)
+                    }
+                }
+                .task { await loader.loadMoreIfNeeded(after: item, session) }
             }
             if loader.list.canLoadMore, !loader.items.isEmpty {
                 HStack { Spacer(); ProgressView(); Spacer() }.listRowBackground(Color.clear)
@@ -43,16 +117,29 @@ struct ActivityListView: View {
         .background(Theme.background)
         .navigationTitle(salonName.map { Text(verbatim: $0) } ?? Text("Activity"))
         .navigationBarTitleDisplayMode(.inline)
-        .searchable(text: $search, prompt: Text("Search the activity"))
+        .searchable(text: $query.search, prompt: Text("Search the activity"))
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Menu {
+                    Picker(selection: $query.kind) {
+                        ForEach(ActivityQuery.Kind.allCases) { Text($0.label).tag($0) }
+                    } label: { Text("Type") }
+                    Picker(selection: $query.range) {
+                        ForEach(ActivityQuery.Range.allCases) { Text($0.label).tag($0) }
+                    } label: { Text("When") }
+                } label: {
+                    Label("Filter", systemImage: query.isFiltered ? "line.3.horizontal.decrease.circle.fill" : "line.3.horizontal.decrease.circle")
+                }
+            }
+        }
         .refreshable { await loader.reload(session) }
-        .task(id: search) {
-            if !search.isEmpty || loader.loadedOnce {
+        .task(id: query) {
+            if query.search != lastSearch {
                 try? await Task.sleep(for: .milliseconds(400))
                 guard !Task.isCancelled else { return }
+                lastSearch = query.search
             }
-            var f = loader.filters
-            f["search"] = search.trimmingCharacters(in: .whitespaces)
-            await loader.setFilters(f.filter { !$0.value.isEmpty }, session)
+            await loader.setFilters(query.params(), session)
         }
     }
 }

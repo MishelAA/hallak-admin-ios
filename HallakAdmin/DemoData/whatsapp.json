@@ -1,0 +1,66 @@
+{
+  "month": "2026-11",
+  "model": "claude-haiku-5-5",
+  "limit": 1000,
+  "key_set": true,
+  "prices": {
+    "in": 1.0,
+    "out": 5.0
+  },
+  "last_error": {
+    "at": "2026-11-18 22:10",
+    "text": "Whapi: number not connected (Studio 7)"
+  },
+  "totals": {
+    "replies": 1840,
+    "cost": {
+      "amount": 6.4,
+      "currency": "USD",
+      "display": "$6.40"
+    }
+  },
+  "salons": [
+    {
+      "salon_id": 1,
+      "salon_name": "Emmanuel Hairstyle",
+      "feature_on": true,
+      "tokens": {
+        "in": 820000,
+        "out": 160000
+      },
+      "cost": {
+        "amount": 2.1,
+        "currency": "USD",
+        "display": "$2.10"
+      },
+      "limit": 1000,
+      "own_limit": null,
+      "bot_on": true,
+      "number_linked": true,
+      "replies": 640,
+      "chats_need_team": 1
+    },
+    {
+      "salon_id": 7,
+      "salon_name": "Studio 7",
+      "feature_on": true,
+      "tokens": {
+        "in": 0,
+        "out": 0
+      },
+      "cost": {
+        "amount": 0,
+        "currency": "USD",
+        "display": "$0"
+      },
+      "limit": 300,
+      "own_limit": 300,
+      "bot_on": false,
+      "number_linked": false,
+      "replies": 0,
+      "chats_need_team": 2
+    }
+  ],
+  "generated_at": "2026-11-19 13:13",
+  "tz": "Asia/Beirut"
+}

@@ -7,6 +7,12 @@ struct RootView: View {
 
     @MainActor
     init(session: AppSession? = nil) {
+        #if DEBUG
+        if session == nil, let demo = DemoMode.makeSession() {
+            _session = State(initialValue: demo)
+            return
+        }
+        #endif
         _session = State(initialValue: session ?? AppSession())
     }
 
@@ -28,6 +34,8 @@ struct RootView: View {
         .animation(.default, value: session.isLocked)
         // Hide content in the app switcher.
         .blur(radius: scenePhase == .active ? 0 : 24)
+        .environment(\.locale, Locale(identifier: session.language))
+        .environment(\.layoutDirection, session.isRightToLeft ? .rightToLeft : .leftToRight)
         .environment(session)
         .onChange(of: scenePhase) { _, phase in
             switch phase {

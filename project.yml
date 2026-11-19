@@ -12,7 +12,7 @@ configFiles:
 settings:
   base:
     SWIFT_VERSION: "5.0"
-    MARKETING_VERSION: "0.3.0"
+    MARKETING_VERSION: "0.6.0"
     CURRENT_PROJECT_VERSION: "1"
     SWIFT_STRICT_CONCURRENCY: minimal
     LOCALIZATION_PREFERS_STRING_CATALOGS: YES
@@ -48,6 +48,10 @@ targets:
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
         ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
         ENABLE_PREVIEWS: YES
+      configs:
+        Release:
+          # Demo answers (HallakAdmin/DemoData) are for Debug screenshots only.
+          EXCLUDED_SOURCE_FILE_NAMES: "*.json"
     scheme:
       testTargets:
         - HallakAdminTests

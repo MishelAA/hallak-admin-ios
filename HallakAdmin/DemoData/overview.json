@@ -1,0 +1,53 @@
+{
+  "salons": {
+    "total": 23,
+    "active": 22,
+    "suspended": 1
+  },
+  "billing": {
+    "free": 2,
+    "trial": 3,
+    "active": 16,
+    "grace": 1,
+    "overdue": 1
+  },
+  "money": {
+    "mrr": {
+      "amount": 690,
+      "currency": "USD",
+      "display": "$690"
+    },
+    "paid_this_month": {
+      "amount": 520,
+      "currency": "USD",
+      "display": "$520"
+    },
+    "unpaid": {
+      "count": 4,
+      "amount": {
+        "amount": 170,
+        "currency": "USD",
+        "display": "$170"
+      }
+    }
+  },
+  "leads": {
+    "new": 2
+  },
+  "whatsapp": {
+    "replies_month": 1840,
+    "cost_month": {
+      "amount": 6.4,
+      "currency": "USD",
+      "display": "$6.40"
+    },
+    "chats_need_team": 3
+  },
+  "health": {
+    "errors": 0,
+    "warnings": 2
+  },
+  "activity_today": 57,
+  "generated_at": "2026-11-19 13:13",
+  "tz": "Asia/Beirut"
+}

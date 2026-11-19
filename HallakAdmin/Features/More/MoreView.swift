@@ -1,25 +1,69 @@
 import SwiftUI
 
-/// More. M2: settings (connected site, versions, Face ID, log out). Health, Activity, Owners,
-/// WhatsApp and AI come in M5.
+/// More: Health, Activity, Owners, WhatsApp bot, AI assistant, Settings.
+/// Screens whose plugin is off (from /admin/me site.plugins) are hidden.
 struct MoreView: View {
+    @Environment(AppSession.self) private var session
+
+    var body: some View {
+        List {
+            Section {
+                if session.me?.hasCheck ?? true { row(.health, "Health", "stethoscope") }
+                row(.activity(salonId: nil, salonName: nil), "Activity", "list.bullet.rectangle")
+                row(.owners, "Owners", "person.2")
+            }
+            Section {
+                if session.me?.hasWhatsApp ?? true { row(.whatsapp, "WhatsApp bot", "message") }
+                if session.me?.hasAI ?? true { row(.ai, "AI assistant", "sparkles") }
+            }
+            Section {
+                row(.settings, "Settings", "gearshape")
+            } footer: {
+                if let host = session.credentials?.site.host, let user = session.credentials?.username {
+                    Text(verbatim: "\(user) · \(host)")
+                }
+            }
+        }
+        .scrollContentBackground(.hidden)
+        .background(Theme.background)
+        .navigationTitle("More")
+    }
+
+    private func row(_ route: AppRoute, _ title: LocalizedStringKey, _ icon: String) -> some View {
+        NavigationLink(value: route) {
+            Label(title, systemImage: icon)
+        }
+        .frame(minHeight: Theme.minTouch)
+    }
+}
+
+/// Settings: language, Face ID, connected site + user + versions, log out, lost phone.
+struct SettingsView: View {
     @Environment(AppSession.self) private var session
     @State private var confirmLogout = false
 
     var body: some View {
-        @Bindable var session = session
         List {
             Section {
-                NavigationLink(value: AppRoute.activity(salonId: nil, salonName: nil)) {
-                    Label("Activity", systemImage: "list.bullet.rectangle")
+                Picker(selection: Binding(get: { session.languageSetting }, set: { session.languageSetting = $0 })) {
+                    Text("Same as iPhone").tag(AppSession.LanguageSetting.system)
+                    Text(verbatim: "English").tag(AppSession.LanguageSetting.en)
+                    Text(verbatim: "العربية").tag(AppSession.LanguageSetting.ar)
+                } label: {
+                    Label("Language", systemImage: "globe")
                 }
+            } footer: {
+                Text("Some texts change after you close and open the app again.")
             }
 
-            Section("Coming next") {
-                comingRow("Health", "stethoscope", show: session.me?.hasCheck ?? true)
-                comingRow("Owners", "person.2", show: true)
-                comingRow("WhatsApp bot", "message", show: session.me?.hasWhatsApp ?? true)
-                comingRow("AI assistant", "sparkles", show: session.me?.hasAI ?? true)
+            if session.canUseBiometrics {
+                Section {
+                    Toggle(isOn: Binding(get: { session.faceIDEnabled }, set: { session.faceIDEnabled = $0 })) {
+                        Label("Lock with \(session.biometryName)", systemImage: "faceid")
+                    }
+                } footer: {
+                    Text("Asks again after 5 minutes in the background.")
+                }
             }
 
             Section("Connected") {
@@ -29,19 +73,6 @@ struct MoreView: View {
                 row("Hallak core", session.ping?.hallakCore ?? session.me?.site?.hallakCore)
                 row("API", session.ping?.api ?? session.me?.site?.api)
                 row("App", Self.appVersion)
-            }
-
-            Section {
-                if session.canUseBiometrics {
-                    Toggle(isOn: Binding(
-                        get: { session.faceIDEnabled },
-                        set: { session.faceIDEnabled = $0 }
-                    )) {
-                        Label("Lock with \(session.biometryName)", systemImage: "faceid")
-                    }
-                }
-            } footer: {
-                Text("Asks again after 5 minutes in the background.")
             }
 
             Section {
@@ -57,7 +88,7 @@ struct MoreView: View {
         }
         .scrollContentBackground(.hidden)
         .background(Theme.background)
-        .navigationTitle("More")
+        .navigationTitle("Settings")
         .confirmationDialog("Log out of Hallak Admin?", isPresented: $confirmLogout, titleVisibility: .visible) {
             Button("Log out", role: .destructive) { Task { await session.logout() } }
             Button("Cancel", role: .cancel) {}
@@ -70,15 +101,6 @@ struct MoreView: View {
         let v = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "?"
         let b = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String ?? "?"
         return "\(v) (\(b))"
-    }
-
-    @ViewBuilder
-    private func comingRow(_ title: LocalizedStringKey, _ icon: String, show: Bool) -> some View {
-        if show {
-            Label(title, systemImage: icon)
-                .foregroundStyle(Theme.inkSecondary)
-                .badge(Text("M5"))
-        }
     }
 
     private func row(_ label: LocalizedStringKey, _ value: String?) -> some View {

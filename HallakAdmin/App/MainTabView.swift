@@ -7,26 +7,32 @@ struct MainTabView: View {
     var body: some View {
         @Bindable var session = session
         TabView(selection: $session.selectedTab) {
-            NavigationStack { HomeView().appDestinations() }
+            stack(.home) { HomeView() }
                 .tabItem { Label("Home", systemImage: "house") }
                 .tag(AppSession.Tab.home)
 
-            NavigationStack { SalonsView().appDestinations() }
+            stack(.salons) { SalonsView() }
                 .tabItem { Label("Salons", systemImage: "scissors") }
                 .tag(AppSession.Tab.salons)
 
-            NavigationStack { ComingSoonView(title: "Money", milestone: "M4").appDestinations() }
+            stack(.money) { MoneyView() }
                 .tabItem { Label("Money", systemImage: "banknote") }
                 .tag(AppSession.Tab.money)
 
-            NavigationStack { ComingSoonView(title: "Requests", milestone: "M4").appDestinations() }
+            stack(.requests) { RequestsView() }
                 .tabItem { Label("Requests", systemImage: "person.badge.plus") }
                 .tag(AppSession.Tab.requests)
 
-            NavigationStack { MoreView().appDestinations() }
+            stack(.more) { MoreView() }
                 .tabItem { Label("More", systemImage: "ellipsis.circle") }
                 .tag(AppSession.Tab.more)
         }
         .task { await session.refreshMe() }
+    }
+
+    private func stack<Root: View>(_ tab: AppSession.Tab, @ViewBuilder root: () -> Root) -> some View {
+        NavigationStack(path: Binding(get: { session.path(tab) }, set: { session.paths[tab] = $0 })) {
+            root().appDestinations()
+        }
     }
 }

@@ -6,6 +6,8 @@ enum AppRoute: Hashable {
     case invoice(id: Int)
     case activity(salonId: Int?, salonName: String?)
     case salonUsers(id: Int, name: String?)
+    case lead(Lead)
+    case health, owners, whatsapp, ai, settings
 }
 
 extension View {
@@ -17,6 +19,12 @@ extension View {
             case let .invoice(id): InvoiceDetailView(invoiceId: id)
             case let .activity(salonId, salonName): ActivityListView(salonId: salonId, salonName: salonName)
             case let .salonUsers(id, name): SalonUsersView(salonId: id, salonName: name)
+            case let .lead(lead): LeadDetailView(lead: lead)
+            case .health: HealthView()
+            case .owners: OwnersView()
+            case .whatsapp: WhatsAppView()
+            case .ai: AIView()
+            case .settings: SettingsView()
             }
         }
     }

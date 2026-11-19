@@ -1,0 +1,12 @@
+{
+  "code": "smapi_login",
+  "message": "Wrong username or Application Password.",
+  "data": {
+    "status": 401,
+    "check": {
+      "user_exists": "yes",
+      "app_passwords_on": true,
+      "header_received": "yes"
+    }
+  }
+}

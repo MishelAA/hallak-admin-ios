@@ -6,7 +6,10 @@ Run:  python scripts/make_fixtures.py
 import json
 import pathlib
 
-OUT = pathlib.Path(__file__).resolve().parent.parent / "HallakAdminTests" / "Fixtures"
+ROOT = pathlib.Path(__file__).resolve().parent.parent
+OUT = ROOT / "HallakAdminTests" / "Fixtures"
+# Same answers for the Debug-only demo mode (left out of Release builds).
+DEMO = ROOT / "HallakAdmin" / "DemoData"
 META = {"generated_at": "2026-11-19 13:13", "tz": "Asia/Beirut"}
 
 
@@ -225,10 +228,11 @@ FIXTURES = {
 
 
 def main():
-    OUT.mkdir(parents=True, exist_ok=True)
-    for name, body in FIXTURES.items():
-        (OUT / f"{name}.json").write_text(json.dumps(body, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    print(f"{len(FIXTURES)} fixtures in {OUT}")
+    for folder in (OUT, DEMO):
+        folder.mkdir(parents=True, exist_ok=True)
+        for name, body in FIXTURES.items():
+            (folder / f"{name}.json").write_text(json.dumps(body, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    print(f"{len(FIXTURES)} fixtures in {OUT} and {DEMO}")
 
 
 if __name__ == "__main__":

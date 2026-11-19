@@ -94,7 +94,7 @@ struct HomeView: View {
         LazyVGrid(columns: columns, spacing: 12) {
             if let w = o.whatsapp {
                 StatCard(title: "WhatsApp bot", systemImage: "message", value: number(w.repliesMonth),
-                         badge: w.chatsNeedTeam, action: { session.open(.more, .whatsapp) }) {
+                         badge: w.chatsNeedTeam, action: { session.open(.more, .route(.whatsapp)) }) {
                     VStack(alignment: .leading, spacing: 2) {
                         Text("replies this month")
                         HStack(spacing: 4) { Text("Cost"); MoneyText(money: w.costMonth) }
@@ -107,7 +107,7 @@ struct HomeView: View {
 
             if let a = o.ai {
                 StatCard(title: "AI assistant", systemImage: "sparkles", value: number(a.questionsMonth),
-                         action: { session.open(.more, .ai) }) {
+                         action: { session.open(.more, .route(.ai)) }) {
                     VStack(alignment: .leading, spacing: 2) {
                         Text("questions this month")
                         HStack(spacing: 4) { Text("Cost"); MoneyText(money: a.costMonth) }
@@ -119,7 +119,7 @@ struct HomeView: View {
                 StatCard(title: "Health", systemImage: h.isClean ? "checkmark.seal.fill" : "stethoscope",
                          value: h.isClean ? "✓" : number((h.errors ?? 0) + (h.warnings ?? 0)),
                          tint: h.isClean ? Theme.green : ((h.errors ?? 0) > 0 ? Theme.red : Theme.orange),
-                         action: { session.open(.more, .health) }) {
+                         action: { session.open(.more, .route(.health)) }) {
                     if h.isClean {
                         Text("All plugins OK")
                     } else {
@@ -130,7 +130,7 @@ struct HomeView: View {
 
             if let count = o.activityToday {
                 StatCard(title: "Activity today", systemImage: "list.bullet.rectangle", value: number(count),
-                         action: { session.open(.more, .activity) }) {
+                         action: { session.open(.more, .route(.activity(salonId: nil, salonName: nil))) }) {
                     Text("changes in all salons")
                 }
             }

@@ -1,0 +1,41 @@
+{
+  "month": "2026-11",
+  "model": "claude-sonnet-5-5",
+  "limit": 200,
+  "weekly": true,
+  "key_set": false,
+  "prices": {
+    "in": 3.0,
+    "out": 15.0
+  },
+  "totals": {
+    "questions": 212,
+    "cost": {
+      "amount": 1.9,
+      "currency": "USD",
+      "display": "$1.90"
+    }
+  },
+  "salons": [
+    {
+      "salon_id": 1,
+      "salon_name": "Emmanuel Hairstyle",
+      "feature_on": true,
+      "tokens": {
+        "in": 120000,
+        "out": 30000
+      },
+      "cost": {
+        "amount": 0.81,
+        "currency": "USD",
+        "display": "$0.81"
+      },
+      "limit": 200,
+      "own_limit": null,
+      "questions": 140,
+      "summaries": 4
+    }
+  ],
+  "generated_at": "2026-11-19 13:13",
+  "tz": "Asia/Beirut"
+}

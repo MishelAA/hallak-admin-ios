@@ -1,0 +1,22 @@
+{
+  "items": [
+    {
+      "id": 118,
+      "username": "gio",
+      "name": "Gio Emmanuel",
+      "email": "gio@example.com",
+      "last_login": "2026-11-19 09:12",
+      "role": "owner"
+    },
+    {
+      "id": 131,
+      "username": "tony",
+      "name": "Tony",
+      "email": "",
+      "last_login": null,
+      "role": "staff"
+    }
+  ],
+  "generated_at": "2026-11-19 13:13",
+  "tz": "Asia/Beirut"
+}

@@ -1,0 +1,55 @@
+{
+  "available": true,
+  "check_version": "1.0.6",
+  "environment": {
+    "wordpress": "6.8.3",
+    "php": "8.2.27",
+    "memory_limit": "512M",
+    "https": true
+  },
+  "plugins": [
+    {
+      "number": 1,
+      "folder": "salon-manager",
+      "name": "Hallak Core",
+      "installed": "1.4.2",
+      "latest": "1.4.2",
+      "active": true,
+      "up_to_date": true
+    },
+    {
+      "number": 2,
+      "folder": "salon-manager-billing",
+      "name": "Hallak Billing",
+      "installed": "1.1.0",
+      "latest": "1.2.0",
+      "active": true,
+      "up_to_date": false
+    },
+    {
+      "number": 9,
+      "folder": "salon-manager-ai",
+      "name": "Hallak AI",
+      "installed": null,
+      "latest": "1.0.3",
+      "active": false,
+      "up_to_date": null
+    }
+  ],
+  "problems": [
+    {
+      "level": "info",
+      "text": "Hallak AI is not installed."
+    },
+    {
+      "level": "warn",
+      "text": "Hallak Billing 1.1.0 is old: upload 1.2.0."
+    },
+    {
+      "level": "error",
+      "text": "WP-Cron is off: reminders are not sent. Turn it on in wp-config.php."
+    }
+  ],
+  "generated_at": "2026-11-19 13:13",
+  "tz": "Asia/Beirut"
+}

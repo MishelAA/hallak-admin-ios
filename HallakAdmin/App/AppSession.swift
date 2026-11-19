@@ -16,10 +16,18 @@ final class AppSession {
 
     enum Tab: Hashable { case home, salons, money, requests, more }
 
-    /// Where a Home card wants to go inside a tab (used from M3 on).
+    /// Where a Home card wants to go inside a tab.
     enum Destination: Hashable {
+        /// Salons list with a billing filter chip.
         case salons(billing: BillingStatus?)
-        case whatsapp, ai, health, activity
+        /// A screen pushed on the tab (e.g. More → WhatsApp bot).
+        case route(AppRoute)
+    }
+
+    /// Settings → Language.
+    enum LanguageSetting: String, CaseIterable, Identifiable {
+        case system, en, ar
+        var id: String { rawValue }
     }
 
     private(set) var phase: Phase = .loggedOut
@@ -28,6 +36,8 @@ final class AppSession {
     private(set) var ping: Ping?
     var selectedTab: Tab = .home
     var pendingDestination: Destination?
+    /// Navigation of each tab (so Home can open a screen inside another tab).
+    var paths: [Tab: [AppRoute]] = [:]
     /// Shown on the login screen after the app logged itself out (revoked password, not an admin...).
     var loginNotice: String?
 
@@ -59,9 +69,35 @@ final class AppSession {
         }
     }
 
-    /// The app language: the iPhone language (Arabic or English).
+    /// The app language: the Settings choice, or the iPhone language (Arabic or English).
     var language: String {
-        (Locale.preferredLanguages.first ?? "en").hasPrefix("ar") ? "ar" : "en"
+        switch languageSetting {
+        case .en: return "en"
+        case .ar: return "ar"
+        case .system: return (Locale.preferredLanguages.first ?? "en").hasPrefix("ar") ? "ar" : "en"
+        }
+    }
+
+    var isRightToLeft: Bool { language == "ar" }
+
+    /// System / English / Arabic. Screens switch at once; a few system texts follow after reopening the app.
+    var languageSetting: LanguageSetting {
+        get {
+            access(keyPath: \.languageSetting)
+            return LanguageSetting(rawValue: defaults.string(forKey: "appLanguage") ?? "") ?? .system
+        }
+        set {
+            withMutation(keyPath: \.languageSetting) {
+                defaults.set(newValue.rawValue, forKey: "appLanguage")
+                if newValue == .system {
+                    defaults.removeObject(forKey: "AppleLanguages")
+                } else {
+                    defaults.set([newValue.rawValue], forKey: "AppleLanguages")
+                }
+            }
+            let code = language
+            if let client { Task { await client.setLanguage(code) } }
+        }
     }
 
     var credentials: Credentials? { keychain.loadCredentials() }
@@ -126,6 +162,7 @@ final class AppSession {
         isLocked = false
         selectedTab = .home
         pendingDestination = nil
+        paths = [:]
         loginNotice = notice
         phase = .loggedOut
     }
@@ -160,9 +197,20 @@ final class AppSession {
     // MARK: Navigation from Home
 
     func open(_ tab: Tab, _ destination: Destination? = nil) {
-        pendingDestination = destination
+        switch destination {
+        case .route(let r)?:
+            pendingDestination = nil
+            paths[tab] = [r]
+        case .salons?:
+            pendingDestination = destination
+            paths[tab] = []
+        case nil:
+            pendingDestination = nil
+        }
         selectedTab = tab
     }
+
+    func path(_ tab: Tab) -> [AppRoute] { paths[tab] ?? [] }
 
     // MARK: Helpers
 

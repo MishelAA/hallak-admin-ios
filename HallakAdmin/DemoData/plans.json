@@ -1,0 +1,65 @@
+{
+  "items": [
+    {
+      "id": 1,
+      "name": "Basic",
+      "price_month": {
+        "amount": 20,
+        "currency": "USD",
+        "display": "$20"
+      },
+      "price_year": {
+        "amount": 200,
+        "currency": "USD",
+        "display": "$200"
+      },
+      "features": [
+        "appointments",
+        "page"
+      ],
+      "note": "",
+      "active": true
+    },
+    {
+      "id": 2,
+      "name": "Pro",
+      "price_month": {
+        "amount": 30,
+        "currency": "USD",
+        "display": "$30"
+      },
+      "price_year": {
+        "amount": 300,
+        "currency": "USD",
+        "display": "$300"
+      },
+      "features": [
+        "appointments",
+        "page",
+        "loyalty",
+        "wabot"
+      ],
+      "note": "Most salons",
+      "active": true
+    },
+    {
+      "id": 3,
+      "name": "Old Lira plan",
+      "price_month": {
+        "amount": 1800000,
+        "currency": "LBP",
+        "display": "1,800,000 LBP"
+      },
+      "price_year": {
+        "amount": 18000000,
+        "currency": "LBP",
+        "display": "18,000,000 LBP"
+      },
+      "features": [],
+      "note": "",
+      "active": false
+    }
+  ],
+  "generated_at": "2026-11-19 13:13",
+  "tz": "Asia/Beirut"
+}
