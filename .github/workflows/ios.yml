@@ -41,7 +41,7 @@ jobs:
           set +e
           xcodebuild test -project HallakAdmin.xcodeproj -scheme HallakAdmin \
             -destination "id=$UDID" -resultBundlePath TestResults.xcresult \
-            CODE_SIGNING_ALLOWED=NO > test.log 2>&1
+            CODE_SIGN_STYLE=Manual CODE_SIGN_IDENTITY="-" DEVELOPMENT_TEAM="" > test.log 2>&1
           STATUS=$?
           set -e
           grep -E "error:|Test Case .* failed|Executed [0-9]+ test" test.log | head -80 || true
