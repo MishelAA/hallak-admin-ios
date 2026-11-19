@@ -5,8 +5,9 @@ struct RootView: View {
     @State private var session: AppSession
     @Environment(\.scenePhase) private var scenePhase
 
-    init(session: AppSession = AppSession()) {
-        _session = State(initialValue: session)
+    @MainActor
+    init(session: AppSession? = nil) {
+        _session = State(initialValue: session ?? AppSession())
     }
 
     var body: some View {
