@@ -6,15 +6,15 @@ final class DecodingTests: XCTestCase {
     func testPing() throws {
         let p = try Fixture.decode(Ping.self, "ping")
         XCTAssertTrue(p.ok)
-        XCTAssertEqual(p.hallakCore, "1.4.2")
-        XCTAssertEqual(p.api, "1.0.1")
+        XCTAssertEqual(p.hallakCore, "1.12.4")
+        XCTAssertEqual(p.api, "1.2.0")
         XCTAssertEqual(p.generatedAt, "2026-11-19 13:13")
     }
 
     func testMe() throws {
         let me = try Fixture.decode(Me.self, "me")
         XCTAssertEqual(me.user?.username, "mishel-app")
-        XCTAssertFalse(me.canWrite)
+        XCTAssertTrue(me.canWrite, "API 1.2: changes allowed")
         XCTAssertTrue(me.hasBilling)
         XCTAssertFalse(me.hasAI)
         XCTAssertEqual(me.site?.hallakCore, "1.4.2")

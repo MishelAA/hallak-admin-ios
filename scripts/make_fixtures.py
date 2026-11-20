@@ -1,4 +1,4 @@
-"""Writes the JSON fixtures used by the unit tests (one per endpoint of API 1.1.0).
+"""Writes the JSON fixtures used by the unit tests (one per endpoint of API 1.2.0).
 
 Values are realistic but invented: no real passwords, tokens or customer data.
 Run:  python scripts/make_fixtures.py
@@ -66,11 +66,11 @@ INVOICE_UNPAID = {
 FIXTURES = {
     "ping": {
         "ok": True, "user": "mishel-app", "site": "https://hallak.online", "wordpress": "6.8.3",
-        "hallak_core": "1.4.2", "api": "1.0.1", "https": True, **META,
+        "hallak_core": "1.12.4", "api": "1.2.0", "https": True, **META,
     },
     "me": {
         "user": {"id": 2, "username": "mishel-app", "name": "Mishel", "email": "admin@example.com", "last_login": "2026-11-19 13:00"},
-        "language": "en", "can": {"read": True, "write": False, "open_links": True},
+        "language": "en", "can": {"read": True, "write": True, "open_links": True},
         "site": {
             "name": "Hallak", "url": "https://hallak.online", "wordpress": "6.8.3", "hallak_core": "1.4.2", "api": "1.0.1",
             "plugins": {"billing": True, "site": True, "whatsapp": True, "ai": False, "check": True},
@@ -223,6 +223,33 @@ FIXTURES = {
         "url": "https://hallak.online/?hallak_open=" + "0" * 64, "expires_in": 120,
         "opens": "https://hallak.online/salon/emmanuel-hairstyle/appointments/", **META,
     },
+    "salon_created": {
+        "salon": {**SALON_1, "id": 41, "slug": "postman-test", "name": "Postman Test", "notes": "", "fx": None},
+        "features": [{"slug": "wabot", "label": "WhatsApp bot", "on": True}, {"slug": "queue", "label": "Queue", "on": False}],
+        "links": {"dashboard": "https://hallak.online/salon/postman-test/", "page": None, "booking": None,
+                  "whatsapp": "https://wa.me/96170000000"},
+        "invoices": [], "month": {"visits": 0, "revenue": usd(0), "customers": 0},
+        "login": {"username": "postman123", "password": "Xk7pQ2m9wLeT", "login_url": "https://hallak.online/login/",
+                  "whatsapp_link": "https://wa.me/96170000000?text=Hallak%20login"},
+        "warnings": ["The plan has no features: the features you chose were kept."],
+        **META,
+    },
+    "password_reset": {
+        "user": {"id": 118, "username": "gio", "name": "Gio Emmanuel", "email": "gio@example.com", "last_login": None},
+        "password": "Np4vR8sK2wQa", "login_url": "https://hallak.online/login/",
+        "whatsapp_link": "https://wa.me/96170123456?text=New%20password", **META,
+    },
+    "invoice_paid": {
+        "invoice": {**INVOICE_UNPAID, "status": "paid", "method": "whish", "method_label": "Whish", "paid_at": "2026-11-20 10:05"},
+        "subscription": {**BILLING_GRACE, "status": "active", "status_label": "Paid", "until": "2027-11-16", "days_left": 361},
+        **META,
+    },
+    "salon_deleted": {"deleted": True, "id": 41, "name": "Postman Test", "rows": 37, "message": "Salon deleted.", **META},
+    "lead_done": {"lead": {"id": 31, "name": "Karim", "salon": "Karim Barbershop", "phone": "+961 76 123 456",
+                           "email": "karim@example.com", "plan": "Pro", "barbers": "3", "message": "", "status": "done",
+                           "created_at": "2026-11-19 11:02", "whatsapp": "https://wa.me/96176123456"}, "new": 0, **META},
+    "error_conflict": {"code": "sm_user", "message": "This username is already used.",
+                       "data": {"status": 409, "field": "owner.username"}},
     "error_not_found": {"code": "smapi_not_found", "message": "Salon not found.", "data": {"status": 404}},
     "error_login": {
         "code": "smapi_login", "message": "Wrong username or Application Password.",

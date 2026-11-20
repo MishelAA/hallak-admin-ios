@@ -14,7 +14,7 @@ KEYS = set(json.loads((ROOT / "HallakAdmin/Resources/Localizable.xcstrings").rea
 LITERAL = re.compile(r'"((?:[^"\\\n]|\\.)*)"')
 INTERP = re.compile(r"\\\((?:[^()]|\([^()]*\))*\)")
 # Lines whose literals are not UI text.
-SKIP_LINE = ("verbatim", "forKey", "Image(\"", "systemImage:", "case ", "rawValue", "Endpoint(", "identifier:",
+SKIP_LINE = ("verbatim", "forKey", "Image(\"", "rawValue", "Endpoint(", "identifier:",
              "dateFormat", "setValue", "forHTTPHeaderField", "print(", "precondition", "CodingKey", "appendingPathComponent",
              "service:", "Color(\"", "Keychain(", "decode(", "replacingOccurrences", "hasPrefix", "kSec", "#Preview",
              "XCT", "\"Using", "Locale(", "badge(Text(\"M")
@@ -42,6 +42,9 @@ def main():
                 continue
             for m in LITERAL.finditer(line):
                 text = m.group(1)
+                before = line[max(0, m.start() - 20):m.start()]
+                if before.endswith(("systemImage: ", "systemName: ", "Image(")):
+                    continue
                 if SKIP_TEXT.search(text) or " " not in text and text[:1].islower():
                     continue
                 if not any(v in KEYS for v in variants(text)):

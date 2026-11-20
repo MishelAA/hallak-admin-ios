@@ -29,6 +29,16 @@ final class ScreenLoader<T: Decodable> {
     /// Offline banner: the answer on screen is a saved one.
     var isOffline: Bool { (answer?.isStale ?? false) || (answer != nil && error?.behaviour == .offline) }
 
+    /// Show the answer of a change (it is the new state of this screen).
+    func set(_ value: T) {
+        let f = DateFormatter()
+        f.locale = Locale(identifier: "en_US_POSIX")
+        f.timeZone = Formatters.lebanon
+        f.dateFormat = "yyyy-MM-dd HH:mm"
+        answer = Fetched(value: value, generatedAt: f.string(from: Date()), isStale: false, savedAt: Date())
+        error = nil
+    }
+
     /// First appearance: saved answer instantly, then the network.
     func load(_ session: AppSession) async {
         guard let client = session.client else { return }

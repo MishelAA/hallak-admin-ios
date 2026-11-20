@@ -1,0 +1,8 @@
+{
+  "code": "sm_user",
+  "message": "This username is already used.",
+  "data": {
+    "status": 409,
+    "field": "owner.username"
+  }
+}

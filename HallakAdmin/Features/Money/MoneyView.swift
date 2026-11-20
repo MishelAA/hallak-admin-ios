@@ -24,6 +24,11 @@ struct MoneyView: View {
     @State private var features = ScreenLoader<ItemList<Feature>>(.features)
     @State private var part = Part.invoices
     @State private var filter = InvoiceFilter.unpaid
+    @State private var runner = ActionRunner()
+    @State private var paying: Invoice?
+    @State private var cancelling: Invoice?
+    @State private var editingPlan: Plan?
+    @State private var newPlan = false
 
     var body: some View {
         Group {
@@ -44,6 +49,18 @@ struct MoneyView: View {
         }
         .refreshable { await refresh() }
         .task { await summary.load(session) }
+        .onChange(of: session.dataVersion) { _, _ in Task { await refresh() } }
+        .actionErrorAlert(runner)
+        .sheet(item: $paying) { inv in PayInvoiceView(invoice: inv, methods: summary.value?.methods ?? []) { _ in } }
+        .sheet(item: $editingPlan) { p in PlanEditorView(plan: p, features: features.value?.items ?? []) { _ in Task { await plans.refresh(session) } } }
+        .sheet(isPresented: $newPlan) { PlanEditorView(plan: nil, features: features.value?.items ?? []) { _ in Task { await plans.refresh(session) } } }
+        .confirmationDialog("Cancel this invoice?", isPresented: Binding(get: { cancelling != nil }, set: { if !$0 { cancelling = nil } }),
+                            titleVisibility: .visible, presenting: cancelling) { inv in
+            Button("Cancel invoice \(inv.title)", role: .destructive) { Task { _ = await voidInvoice(inv, runner: runner, session: session); cancelling = nil } }
+            Button("Keep it", role: .cancel) {}
+        } message: { _ in
+            Text("The invoice stays in the list as cancelled.")
+        }
         .task(id: filter) { await invoices.setFilters(filter.query, session) }
         .task(id: part) {
             if part == .plans {
@@ -161,6 +178,12 @@ struct MoneyView: View {
             ForEach(invoices.items) { inv in
                 NavigationLink(value: AppRoute.invoice(id: inv.id)) { InvoiceRow(invoice: inv) }
                     .task { await invoices.loadMoreIfNeeded(after: inv, session) }
+                    .swipeActions {
+                        if session.canWrite, inv.status == .unpaid {
+                            Button("Paid") { paying = inv }.tint(Theme.green)
+                            Button("Cancel") { cancelling = inv }.tint(Theme.red)
+                        }
+                    }
             }
             if invoices.list.canLoadMore, !invoices.items.isEmpty {
                 HStack { Spacer(); ProgressView(); Spacer() }
@@ -178,8 +201,18 @@ struct MoneyView: View {
         case .failed(let e):
             ErrorView(error: e) { Task { await plans.refresh(session) } }.listRowBackground(Color.clear)
         case .loaded(let a):
+            if session.canWrite {
+                Section { Button { newPlan = true } label: { Label("New plan", systemImage: "plus.circle") } }
+            }
             ForEach(a.value.items) { plan in
-                Section { PlanCard(plan: plan, featureNames: featureNames) }
+                Section {
+                    if session.canWrite {
+                        Button { editingPlan = plan } label: { PlanCard(plan: plan, featureNames: featureNames) }
+                            .buttonStyle(.plain)
+                    } else {
+                        PlanCard(plan: plan, featureNames: featureNames)
+                    }
+                }
             }
         }
     }

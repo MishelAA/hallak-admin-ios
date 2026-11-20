@@ -46,6 +46,7 @@ struct HomeView: View {
         }
         .refreshable { await loader.refresh(session) }
         .task { await loader.load(session) }
+        .onChange(of: session.dataVersion) { _, _ in Task { await loader.refresh(session) } }
     }
 
     private var offlineTime: String {

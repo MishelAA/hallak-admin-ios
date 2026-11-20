@@ -10,6 +10,23 @@ struct SalonDetailView: View {
     @State private var detail: ScreenLoader<SalonDetail>
     @State private var users: ScreenLoader<ItemList<UserShort>>
     @State private var subscription: ScreenLoader<SubscriptionAnswer>
+    // Actions (API 1.2)
+    @State private var runner = ActionRunner()
+    @State private var sheet: SheetKind?
+    @State private var confirmSuspend = false
+    @State private var resetUser: UserShort?
+    @State private var moveTo: Owner?
+    @State private var pendingFeatures: Set<String> = []
+    @State private var methods: [BillingSummary.Method] = []
+
+    /// Sheets opened from this screen.
+    enum SheetKind: Hashable, Identifiable {
+        case edit, subscription, delete, pickOwner
+        case limit(LimitEditorView.Kind)
+        case invoice(payment: Bool)
+        case login(NewLogin)
+        var id: Self { self }
+    }
 
     init(salonId: Int, initialName: String? = nil) {
         self.salonId = salonId
@@ -35,7 +52,10 @@ struct SalonDetailView: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
-                UpdatedLabel(generatedAt: detail.answer?.generatedAt, isLoading: detail.isLoading)
+                UpdatedLabel(generatedAt: detail.answer?.generatedAt, isLoading: detail.isLoading || runner.isRunning)
+            }
+            if session.canWrite, let d = detail.value {
+                ToolbarItem(placement: .topBarTrailing) { actionsMenu(d) }
             }
         }
         .refreshable { await reload() }
@@ -43,6 +63,124 @@ struct SalonDetailView: View {
         .onChange(of: detail.error) { _, e in
             if e?.behaviour == .notFound, detail.value == nil { dismiss() }
         }
+        .actionErrorAlert(runner)
+        .sheet(item: $sheet) { which in sheetView(which) }
+        .confirmationDialog(detail.value?.salon.isSuspended == true ? Text("Activate this salon?") : Text("Suspend this salon?"),
+                            isPresented: $confirmSuspend, titleVisibility: .visible) {
+            if detail.value?.salon.isSuspended == true {
+                Button("Activate") { Task { await suspend(false) } }
+            } else {
+                Button("Suspend", role: .destructive) { Task { await suspend(true) } }
+            }
+            Button("Cancel", role: .cancel) {}
+        } message: {
+            detail.value?.salon.isSuspended == true ? Text("The team can log in again.") : Text("The owner and the team can no longer log in. Nothing is deleted.")
+        }
+        .confirmationDialog("Make a new password?", isPresented: Binding(get: { resetUser != nil }, set: { if !$0 { resetUser = nil } }),
+                            titleVisibility: .visible, presenting: resetUser) { u in
+            Button("New password for \(u.displayName)", role: .destructive) { Task { await resetPassword(u) } }
+            Button("Cancel", role: .cancel) {}
+        } message: { _ in
+            Text("The old password stops working and the login is signed out everywhere.")
+        }
+        .confirmationDialog("Move this salon?", isPresented: Binding(get: { moveTo != nil }, set: { if !$0 { moveTo = nil } }),
+                            titleVisibility: .visible, presenting: moveTo) { o in
+            Button("Move to \(o.displayName)") { Task { await move(to: o) } }
+            Button("Cancel", role: .cancel) {}
+        } message: { _ in
+            Text("The salon becomes a branch of this owner.")
+        }
+    }
+
+    // MARK: Actions (API 1.2)
+
+    private func actionsMenu(_ d: SalonDetail) -> some View {
+        Menu {
+            Button { sheet = .edit } label: { Label("Edit", systemImage: "pencil") }
+            if d.salon.isSuspended {
+                Button { confirmSuspend = true } label: { Label("Activate", systemImage: "play.circle") }
+            } else {
+                Button { confirmSuspend = true } label: { Label("Suspend", systemImage: "pause.circle") }
+            }
+            Button { sheet = .pickOwner } label: { Label("Move to another owner", systemImage: "arrow.left.arrow.right") }
+            Divider()
+            Button(role: .destructive) { sheet = .delete } label: { Label("Delete salon", systemImage: "trash") }
+        } label: {
+            Label("Actions", systemImage: "ellipsis.circle")
+        }
+        .disabled(runner.isRunning)
+    }
+
+    @ViewBuilder
+    private func sheetView(_ which: SheetKind) -> some View {
+        if let d = detail.value {
+            switch which {
+            case .edit:
+                EditSalonView(detail: d) { detail.set($0) }
+            case .limit(let kind):
+                LimitEditorView(salonId: salonId, kind: kind,
+                                current: kind == .whatsapp ? d.whatsapp?.limit : d.ai?.limit,
+                                ownLimit: (kind == .whatsapp ? d.whatsapp?.ownLimit : d.ai?.ownLimit) ?? false) { detail.set($0) }
+            case .subscription:
+                SubscriptionEditorView(salonId: salonId, current: subscription.value?.subscription) { a in
+                    subscription.set(a)
+                    Task { await detail.refresh(session) }
+                }
+            case .invoice(let payment):
+                InvoiceEditorView(salonId: salonId, recordPayment: payment, methods: methods) { _ in
+                    Task { await reload() }
+                }
+            case .delete:
+                DeleteSalonView(salon: d.salon) { dismiss() }
+            case .pickOwner:
+                OwnerPickerView(exclude: d.salon.owner?.id) { o in
+                    sheet = nil
+                    moveTo = o
+                }
+            case .login(let login):
+                NewLoginSheet(title: "New password", login: login) { sheet = nil }
+            }
+        }
+    }
+
+    private func suspend(_ on: Bool) async {
+        if let d = await runner.run(session, success: on ? String(localized: "Salon suspended") : String(localized: "Salon active again"), {
+            try await ActionRunner.client(session).send(on ? .suspendSalon(salonId) : .activateSalon(salonId), as: SalonDetail.self)
+        }) { detail.set(d) }
+    }
+
+    private func move(to owner: Owner) async {
+        moveTo = nil
+        if let d = await runner.run(session, success: String(localized: "Salon moved"), {
+            try await ActionRunner.client(session).send(.moveSalon(salonId, ownerId: owner.id), as: SalonDetail.self)
+        }) {
+            detail.set(d)
+            await users.refresh(session)
+        }
+    }
+
+    /// Instant switch. On error the switch goes back: it always shows what the server has.
+    private func setFeature(_ slug: String, _ on: Bool) async {
+        pendingFeatures.insert(slug)
+        defer { pendingFeatures.remove(slug) }
+        if let d = await runner.run(session, {
+            try await ActionRunner.client(session).send(.setFeatures(salonId, [slug: on]), as: SalonDetail.self)
+        }) { detail.set(d) }
+    }
+
+    private func resetPassword(_ user: UserShort) async {
+        resetUser = nil
+        if let r = await runner.run(session, {
+            try await ActionRunner.client(session).send(.resetPassword(userId: user.id), as: PasswordReset.self)
+        }) {
+            sheet = .login(r.login)
+        }
+    }
+
+    private func loadMethods() async {
+        guard methods.isEmpty, let client = session.client,
+              let s = try? await client.fetch(.billingSummary, as: BillingSummary.self) else { return }
+        methods = s.value.methods ?? []
     }
 
     private func load() async {
@@ -168,6 +306,14 @@ struct SalonDetailView: View {
                 } else {
                     Text("Not billed").foregroundStyle(Theme.inkSecondary)
                 }
+                if session.canWrite {
+                    Button { sheet = .subscription } label: { Label("Change plan", systemImage: "slider.horizontal.3") }
+                    Button { sheet = .invoice(payment: false) } label: { Label("New invoice", systemImage: "doc.badge.plus") }
+                    Button {
+                        Task { await loadMethods() }
+                        sheet = .invoice(payment: true)
+                    } label: { Label("Record a payment", systemImage: "banknote") }
+                }
                 if let inv = answer.openInvoice {
                     NavigationLink(value: AppRoute.invoice(id: inv.id)) {
                         LabeledContent {
@@ -200,12 +346,23 @@ struct SalonDetailView: View {
         if let f, !f.isEmpty {
             Section {
                 ForEach(f) { feature in
-                    OnOffRow(label: LocalizedStringKey(feature.label ?? feature.slug), isOn: feature.on ?? false)
+                    if session.canWrite {
+                        Toggle(isOn: Binding(get: { feature.on ?? false },
+                                             set: { on in Task { await setFeature(feature.slug, on) } })) {
+                            HStack {
+                                Text(verbatim: feature.label ?? feature.slug)
+                                if pendingFeatures.contains(feature.slug) { ProgressView().controlSize(.small) }
+                            }
+                        }
+                        .disabled(pendingFeatures.contains(feature.slug))
+                    } else {
+                        OnOffRow(label: LocalizedStringKey(feature.label ?? feature.slug), isOn: feature.on ?? false)
+                    }
                 }
             } header: {
                 Text("Features")
             } footer: {
-                if session.me?.canWrite != true { Text("Read only in this version.") }
+                if session.canWrite { Text("Changes apply at once, like the boxes in wp-admin.") }
             }
         }
     }
@@ -222,6 +379,9 @@ struct SalonDetailView: View {
                     InfoRow(label: "Chats waiting for the team", value: String(waiting), valueColor: Theme.orange)
                 }
                 if let c = w.costMonth { LabeledContent { MoneyText(money: c) } label: { Text("Cost this month") } }
+                if session.canWrite {
+                    Button { sheet = .limit(.whatsapp) } label: { Label("Change monthly limit", systemImage: "gauge.with.dots.needle.50percent") }
+                }
             }
         }
     }
@@ -233,6 +393,9 @@ struct SalonDetailView: View {
                 OnOffRow(label: "Feature", isOn: a.featureOn)
                 UsageRow(label: "Questions this month", used: a.questionsMonth, limit: a.limit, ownLimit: a.ownLimit)
                 if let c = a.costMonth { LabeledContent { MoneyText(money: c) } label: { Text("Cost this month") } }
+                if session.canWrite {
+                    Button { sheet = .limit(.ai) } label: { Label("Change monthly limit", systemImage: "gauge.with.dots.needle.50percent") }
+                }
             }
         }
     }
@@ -252,7 +415,19 @@ struct SalonDetailView: View {
     private var teamSection: some View {
         if let team = users.value?.items, !team.isEmpty {
             Section {
-                ForEach(team.prefix(4)) { UserRow(user: $0) }
+                ForEach(team.prefix(4)) { u in
+                    UserRow(user: u)
+                        .swipeActions {
+                            if session.canWrite, u.role == "owner" || u.role == "staff" {
+                                Button("New password") { resetUser = u }.tint(Theme.orange)
+                            }
+                        }
+                        .contextMenu {
+                            if session.canWrite, u.role == "owner" || u.role == "staff" {
+                                Button { resetUser = u } label: { Label("New password", systemImage: "key") }
+                            }
+                        }
+                }
                 if team.count > 4 {
                     NavigationLink(value: AppRoute.salonUsers(id: salonId, name: detail.value?.salon.name)) {
                         Text("All \(team.count) logins")
@@ -443,6 +618,9 @@ struct SalonUsersView: View {
     var salonName: String?
     @Environment(AppSession.self) private var session
     @State private var loader: ScreenLoader<ItemList<UserShort>>
+    @State private var runner = ActionRunner()
+    @State private var resetUser: UserShort?
+    @State private var newLogin: NewLogin?
 
     init(salonId: Int, salonName: String?) {
         self.salonId = salonId
@@ -455,8 +633,39 @@ struct SalonUsersView: View {
             switch loader.state {
             case .loading: ProgressView()
             case .failed(let e): ErrorView(error: e) { Task { await loader.refresh(session) } }
-            case .loaded(let a): ForEach(a.value.items) { UserRow(user: $0) }
+            case .loaded(let a):
+                ForEach(a.value.items) { u in
+                    UserRow(user: u)
+                        .swipeActions {
+                            if session.canWrite, u.role == "owner" || u.role == "staff" {
+                                Button("New password") { resetUser = u }.tint(Theme.orange)
+                            }
+                        }
+                        .contextMenu {
+                            if session.canWrite, u.role == "owner" || u.role == "staff" {
+                                Button { resetUser = u } label: { Label("New password", systemImage: "key") }
+                            }
+                        }
+                }
             }
+        }
+        .actionErrorAlert(runner)
+        .confirmationDialog("Make a new password?", isPresented: Binding(get: { resetUser != nil }, set: { if !$0 { resetUser = nil } }),
+                            titleVisibility: .visible, presenting: resetUser) { u in
+            Button("New password for \(u.displayName)", role: .destructive) {
+                Task {
+                    resetUser = nil
+                    if let r = await runner.run(session, {
+                        try await ActionRunner.client(session).send(.resetPassword(userId: u.id), as: PasswordReset.self)
+                    }) { newLogin = r.login }
+                }
+            }
+            Button("Cancel", role: .cancel) {}
+        } message: { _ in
+            Text("The old password stops working and the login is signed out everywhere.")
+        }
+        .sheet(item: Binding(get: { newLogin.map(LoginItem.init) }, set: { if $0 == nil { newLogin = nil } })) { item in
+            NewLoginSheet(title: "New password", login: item.login) { newLogin = nil }
         }
         .scrollContentBackground(.hidden)
         .background(Theme.background)
@@ -464,4 +673,10 @@ struct SalonUsersView: View {
         .refreshable { await loader.refresh(session) }
         .task { await loader.load(session) }
     }
+}
+
+/// Wraps a one-time login for `.sheet(item:)`.
+struct LoginItem: Identifiable {
+    let login: NewLogin
+    var id: String { login.password }
 }

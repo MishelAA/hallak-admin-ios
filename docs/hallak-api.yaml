@@ -1,11 +1,13 @@
 openapi: 3.1.0
 info:
   title: Hallak admin API
-  version: 1.1.0
-  description: 'Private API for the Hallak super-admin iPhone app (plugin salon-manager-api). Read-only in 1.0. Login: HTTP Basic with your WordPress
-    username and an Application Password, over HTTPS. Only administrators are allowed. Times are Lebanon time (Asia/Beirut). Lists: page / per_page
-    (max 100). Every answer has generated_at and tz. GET answers send an ETag: send it back in If-None-Match to get 304 when nothing changed.
-    Limits: 120 requests per minute; 10 wrong passwords from one address lock it for 15 minutes (429).'
+  version: 1.2.0
+  description: 'Private API for the Hallak super-admin iPhone app (plugin salon-manager-api). 1.0 reads, 1.1 adds one-time sign-in links, 1.2
+    adds changes (create / change / delete salons, features, logins, billing, demo requests), done exactly like wp-admin and logged as "(iPhone
+    app)". Login: HTTP Basic with your WordPress username and an Application Password, over HTTPS. Only administrators are allowed. Times are
+    Lebanon time (Asia/Beirut). Lists: page / per_page (max 100). Every answer has generated_at and tz. GET answers send an ETag: send it back
+    in If-None-Match to get 304 when nothing changed. Limits: 120 requests per minute; 10 wrong passwords from one address lock it for 15 minutes
+    (429).'
 servers:
 - url: https://hallak.online/wp-json/hallak/v1
   description: Live
@@ -94,7 +96,7 @@ paths:
                         type: boolean
                       write:
                         type: boolean
-                        description: false for now (changes come later)
+                        description: 'true from API 1.2: create / change / delete'
                       open_links:
                         type: boolean
                         description: 'true from API 1.1: POST /admin/login-link is available'
@@ -483,6 +485,143 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '429':
           $ref: '#/components/responses/TooMany'
+    post:
+      tags:
+      - Salons
+      summary: Create a salon (and its owner)
+      description: Same as wp-admin → Salons → Add New. Either `owner` (new owner account) or `owner_id` (branch of an existing owner). Optional
+        `language`, `features`, `subscription` are applied right after; their problems come back in `warnings` (the salon is still created). Logged
+        as "(iPhone app)".
+      parameters:
+      - $ref: '#/components/parameters/AcceptLanguage'
+      responses:
+        '201':
+          description: Done
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/SalonDetail'
+                - type: object
+                  properties:
+                    login:
+                      type: object
+                      properties:
+                        username:
+                          type: string
+                        password:
+                          type: string
+                          description: Shown ONCE. Show it with a "Send on WhatsApp" button; never store it.
+                        login_url:
+                          type: string
+                        whatsapp_link:
+                          type:
+                          - string
+                          - 'null'
+                          description: wa.me link with the login message in the salon language.
+                    warnings:
+                      type: array
+                      items:
+                        type: string
+        '400':
+          description: Wrong data. data.field names the field to fix.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooMany'
+        '409':
+          description: sm_user (username taken, field owner.username) or sm_email (email used, field owner.email).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                phone:
+                  type: string
+                address:
+                  type: string
+                currency:
+                  type: string
+                  enum:
+                  - USD
+                  - LBP
+                slug:
+                  type: string
+                  description: Web address part; empty = from the name
+                notes:
+                  type: string
+                language:
+                  type: string
+                  enum:
+                  - en
+                  - ar
+                owner:
+                  type: object
+                  properties:
+                    username:
+                      type: string
+                      description: Letters, numbers, - _ . @
+                    email:
+                      type: string
+                    name:
+                      type: string
+                      description: Shown name
+                    password:
+                      type: string
+                      description: Optional, 8+ characters. Empty = a 12-character password is made.
+                    phone:
+                      type: string
+                      description: 'Optional: where the WhatsApp login message goes (default: salon phone).'
+                  required:
+                  - username
+                  - email
+                owner_id:
+                  type: integer
+                  description: 'Instead of owner: make it a branch of this existing salon owner'
+                features:
+                  type: object
+                  additionalProperties:
+                    type: boolean
+                  description: 'feature slug → on/off, e.g. {"wabot": true, "queue": false}. Slugs: GET /admin/features.'
+                subscription:
+                  type: object
+                  properties:
+                    plan_id:
+                      type: integer
+                      description: 0 = not billed
+                    cycle:
+                      type: string
+                      enum:
+                      - month
+                      - year
+                    until:
+                      type: string
+                      format: date
+                      description: Paid until (YYYY-MM-DD)
+                    price:
+                      type:
+                      - number
+                      - 'null'
+                      description: Own price per cycle; null = plan price
+                    trial:
+                      type: boolean
+                    apply_features:
+                      type: boolean
+                      description: Switch the salon features to the plan features
   /admin/salons/{id}:
     get:
       tags:
@@ -512,6 +651,146 @@ paths:
           $ref: '#/components/responses/TooMany'
         '404':
           $ref: '#/components/responses/NotFound'
+    patch:
+      tags:
+      - Salons
+      summary: Change a salon
+      description: 'Send only what changes. Owner: `owner.email`, `owner.name`. The currency cannot change once the salon has money data (409
+        sm_currency_locked).'
+      parameters:
+      - $ref: '#/components/parameters/AcceptLanguage'
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          minimum: 1
+      responses:
+        '200':
+          description: Done
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SalonDetail'
+        '400':
+          description: Wrong data. data.field names the field to fix.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooMany'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          description: sm_currency_locked or sm_email.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                phone:
+                  type: string
+                address:
+                  type: string
+                currency:
+                  type: string
+                  enum:
+                  - USD
+                  - LBP
+                slug:
+                  type: string
+                notes:
+                  type: string
+                language:
+                  type: string
+                  enum:
+                  - en
+                  - ar
+                owner:
+                  type: object
+                  properties:
+                    email:
+                      type: string
+                    name:
+                      type: string
+    delete:
+      tags:
+      - Salons
+      summary: Delete a salon and ALL its data
+      description: 'Needs `confirm` = the salon name (any letter case), in the JSON body or as ?confirm=. Deletes the owner account too, unless
+        he owns other branches. Cannot be undone: show a red screen where the user types the name. Kept in wp-admin''s list of deleted salons.'
+      parameters:
+      - $ref: '#/components/parameters/AcceptLanguage'
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          minimum: 1
+      responses:
+        '200':
+          description: Done
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  deleted:
+                    type: boolean
+                  id:
+                    type: integer
+                  name:
+                    type: string
+                  rows:
+                    type: integer
+                    description: Rows of data deleted
+                  message:
+                    type: string
+                  generated_at:
+                    type: string
+                    example: 2026-11-17 22:45
+                    description: When the answer was made (Lebanon time).
+                  tz:
+                    type: string
+                    example: Asia/Beirut
+        '400':
+          description: 'smapi_confirm: name does not match, nothing deleted.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooMany'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                confirm:
+                  type: string
+              required:
+              - confirm
   /admin/salons/{id}/users:
     get:
       tags:
@@ -609,6 +888,87 @@ paths:
           $ref: '#/components/responses/TooMany'
         '404':
           $ref: '#/components/responses/NotFound'
+    put:
+      tags:
+      - Billing
+      summary: Set the subscription
+      description: Same as wp-admin → Billing → salon. plan_id 0 = not billed.
+      parameters:
+      - $ref: '#/components/parameters/AcceptLanguage'
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          minimum: 1
+      responses:
+        '200':
+          description: Done
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  salon_id:
+                    type: integer
+                  subscription:
+                    anyOf:
+                    - $ref: '#/components/schemas/Billing'
+                    - type: 'null'
+                  open_invoice:
+                    anyOf:
+                    - $ref: '#/components/schemas/Invoice'
+                    - type: 'null'
+                  generated_at:
+                    type: string
+                    example: 2026-11-17 22:45
+                    description: When the answer was made (Lebanon time).
+                  tz:
+                    type: string
+                    example: Asia/Beirut
+        '400':
+          description: Wrong data. data.field names the field to fix.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooMany'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                plan_id:
+                  type: integer
+                  description: 0 = not billed
+                cycle:
+                  type: string
+                  enum:
+                  - month
+                  - year
+                until:
+                  type: string
+                  format: date
+                  description: Paid until (YYYY-MM-DD)
+                price:
+                  type:
+                  - number
+                  - 'null'
+                  description: Own price per cycle; null = plan price
+                trial:
+                  type: boolean
+                apply_features:
+                  type: boolean
+                  description: Switch the salon features to the plan features
   /admin/owners:
     get:
       tags:
@@ -819,6 +1179,63 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '429':
           $ref: '#/components/responses/TooMany'
+    post:
+      tags:
+      - Billing
+      summary: New plan
+      description: ''
+      parameters:
+      - $ref: '#/components/parameters/AcceptLanguage'
+      responses:
+        '201':
+          description: Done
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  plan:
+                    $ref: '#/components/schemas/Plan'
+                  generated_at:
+                    type: string
+                    example: 2026-11-17 22:45
+                    description: When the answer was made (Lebanon time).
+                  tz:
+                    type: string
+                    example: Asia/Beirut
+        '400':
+          description: Wrong data. data.field names the field to fix.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooMany'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                price_month:
+                  type: number
+                price_year:
+                  type: number
+                features:
+                  type: array
+                  items:
+                    type: string
+                note:
+                  type: string
+                active:
+                  type: boolean
   /admin/invoices:
     get:
       tags:
@@ -1214,9 +1631,9 @@ paths:
       tags:
       - Connection
       summary: One-time sign-in link (open a salon dashboard or wp-admin without logging in)
-      description: 'Returns a link that works ONCE, for 2 minutes. Open it in the in-app browser: the website signs the super admin in
-        there (normal WordPress cookie) and goes to the page. Ask for a new link every time the user taps; never store or share it.
-        Only administrators get links. Opening is listed in wp-admin → Salons → iPhone app (API).'
+      description: 'Returns a link that works ONCE, for 2 minutes. Open it in the in-app browser (SFSafariViewController or ASWebAuthenticationSession
+        / WKWebView): the website signs the super admin in there (normal WordPress cookie) and goes to the page. Ask for a new link every time
+        the user taps; never store or share it. Only administrators get links. Opening is listed in wp-admin → Salons → iPhone app (API).'
       parameters:
       - $ref: '#/components/parameters/AcceptLanguage'
       requestBody:
@@ -1231,12 +1648,30 @@ paths:
                   description: Open this salon. Without it, `to` chooses a platform page.
                 tab:
                   type: string
-                  description: 'With salon_id: dashboard tab (visits, customers, appointments, queue, staff, attendance, services, inventory,
-                    expenses, prepaid, loyalty, messages, mypage, analytics, reports, assistant, whatsapp, branches, subscription, activity,
-                    settings, account). Empty = Overview.'
+                  description: 'With salon_id: dashboard tab: visits, customers, appointments, queue, staff, attendance, services, inventory,
+                    expenses, prepaid, loyalty, messages, mypage, analytics, reports, assistant, whatsapp, branches, subscription, activity, settings,
+                    account. Empty = Overview. A tab the salon does not have opens the Overview.'
                 to:
                   type: string
-                  enum: [dashboard, page, booking, wp-admin, salons, billing, check, site]
+                  enum:
+                  - dashboard
+                  - page
+                  - booking
+                  - wp-admin
+                  - salons
+                  - billing
+                  - check
+                  - site
+                  description: 'With salon_id: dashboard (default), page (public salon page), booking (booking page). Without salon_id: wp-admin,
+                    salons, billing, check (plugins check), site (home page, default).'
+            examples:
+              salon:
+                value:
+                  salon_id: 12
+                  tab: appointments
+              wpadmin:
+                value:
+                  to: wp-admin
       responses:
         '201':
           description: Link created
@@ -1256,10 +1691,48 @@ paths:
                     description: The page it will open (for display).
                   generated_at:
                     type: string
+                    example: 2026-11-17 22:45
+                    description: When the answer was made (Lebanon time).
                   tz:
                     type: string
+                    example: Asia/Beirut
         '400':
           description: 'smapi_bad_target: unknown `to`.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooMany'
+  /admin/salons/{id}/suspend:
+    post:
+      tags:
+      - Salons
+      summary: Suspend (the team can no longer log in)
+      description: ''
+      parameters:
+      - $ref: '#/components/parameters/AcceptLanguage'
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          minimum: 1
+      responses:
+        '200':
+          description: Done
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SalonDetail'
+        '400':
+          description: Wrong data. data.field names the field to fix.
           content:
             application/json:
               schema:
@@ -1268,10 +1741,761 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         '403':
           $ref: '#/components/responses/Forbidden'
-        '404':
-          $ref: '#/components/responses/NotFound'
         '429':
           $ref: '#/components/responses/TooMany'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /admin/salons/{id}/activate:
+    post:
+      tags:
+      - Salons
+      summary: Activate again
+      description: ''
+      parameters:
+      - $ref: '#/components/parameters/AcceptLanguage'
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          minimum: 1
+      responses:
+        '200':
+          description: Done
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SalonDetail'
+        '400':
+          description: Wrong data. data.field names the field to fix.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooMany'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /admin/salons/{id}/move:
+    post:
+      tags:
+      - Salons
+      summary: Move to another owner (branch)
+      description: ''
+      parameters:
+      - $ref: '#/components/parameters/AcceptLanguage'
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          minimum: 1
+      responses:
+        '200':
+          description: Done
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SalonDetail'
+        '400':
+          description: Wrong data. data.field names the field to fix.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooMany'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                owner_id:
+                  type: integer
+              required:
+              - owner_id
+  /admin/salons/{id}/features:
+    patch:
+      tags:
+      - Salons
+      summary: Switch features on / off
+      description: Only the features sent change; the rest stay. Same as the Features boxes in wp-admin, logged.
+      parameters:
+      - $ref: '#/components/parameters/AcceptLanguage'
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          minimum: 1
+      responses:
+        '200':
+          description: Done
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SalonDetail'
+        '400':
+          description: Wrong data. data.field names the field to fix.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooMany'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties:
+                type: boolean
+              description: 'feature slug → on/off, e.g. {"wabot": true, "queue": false}. Slugs: GET /admin/features.'
+  /admin/salons/{id}/limits:
+    patch:
+      tags:
+      - Salons
+      summary: Monthly limits of the WhatsApp bot and AI for this salon
+      description: null = platform default, 0 = no limit.
+      parameters:
+      - $ref: '#/components/parameters/AcceptLanguage'
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          minimum: 1
+      responses:
+        '200':
+          description: Done
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SalonDetail'
+        '400':
+          description: Wrong data. data.field names the field to fix.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooMany'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                whatsapp:
+                  type:
+                  - integer
+                  - 'null'
+                ai:
+                  type:
+                  - integer
+                  - 'null'
+  /admin/users/{id}/reset-password:
+    post:
+      tags:
+      - Salons
+      summary: New password for an owner or team login
+      description: 'Only salon owners and team accounts (never administrators: 403 smapi_not_salon_user). Logs the user out everywhere. The password
+        is shown once with a WhatsApp link.'
+      parameters:
+      - $ref: '#/components/parameters/AcceptLanguage'
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          minimum: 1
+      responses:
+        '200':
+          description: Done
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user:
+                    $ref: '#/components/schemas/UserShort'
+                  password:
+                    type: string
+                  login_url:
+                    type: string
+                  whatsapp_link:
+                    type:
+                    - string
+                    - 'null'
+                  generated_at:
+                    type: string
+                    example: 2026-11-17 22:45
+                    description: When the answer was made (Lebanon time).
+                  tz:
+                    type: string
+                    example: Asia/Beirut
+        '400':
+          description: Wrong data. data.field names the field to fix.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooMany'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /admin/salons/{id}/invoices:
+    post:
+      tags:
+      - Billing
+      summary: New invoice (or record a payment)
+      description: '`paid: true` + `method` records a payment at once (extends paid-until). `amount` null = from the plan.'
+      parameters:
+      - $ref: '#/components/parameters/AcceptLanguage'
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          minimum: 1
+      responses:
+        '201':
+          description: Done
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  invoice:
+                    $ref: '#/components/schemas/Invoice'
+                  subscription:
+                    anyOf:
+                    - $ref: '#/components/schemas/Billing'
+                    - type: 'null'
+                  generated_at:
+                    type: string
+                    example: 2026-11-17 22:45
+                    description: When the answer was made (Lebanon time).
+                  tz:
+                    type: string
+                    example: Asia/Beirut
+        '400':
+          description: Wrong data. data.field names the field to fix.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooMany'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                months:
+                  type: integer
+                  minimum: 1
+                  maximum: 36
+                  default: 1
+                amount:
+                  type:
+                  - number
+                  - 'null'
+                paid:
+                  type: boolean
+                method:
+                  type: string
+                  enum:
+                  - cash
+                  - whish
+                  - omt
+                  - bank
+                  - other
+                note:
+                  type: string
+  /admin/invoices/{id}/pay:
+    post:
+      tags:
+      - Billing
+      summary: Mark an invoice paid
+      description: ''
+      parameters:
+      - $ref: '#/components/parameters/AcceptLanguage'
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          minimum: 1
+      responses:
+        '200':
+          description: Done
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  invoice:
+                    $ref: '#/components/schemas/Invoice'
+                  subscription:
+                    anyOf:
+                    - $ref: '#/components/schemas/Billing'
+                    - type: 'null'
+                  generated_at:
+                    type: string
+                    example: 2026-11-17 22:45
+                    description: When the answer was made (Lebanon time).
+                  tz:
+                    type: string
+                    example: Asia/Beirut
+        '400':
+          description: Wrong data. data.field names the field to fix.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooMany'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          description: 'smb_paid: only an unpaid invoice can be paid.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                method:
+                  type: string
+                  enum:
+                  - cash
+                  - whish
+                  - omt
+                  - bank
+                  - other
+                note:
+                  type: string
+  /admin/invoices/{id}/void:
+    post:
+      tags:
+      - Billing
+      summary: Cancel an unpaid invoice
+      description: ''
+      parameters:
+      - $ref: '#/components/parameters/AcceptLanguage'
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          minimum: 1
+      responses:
+        '200':
+          description: Done
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  invoice:
+                    $ref: '#/components/schemas/Invoice'
+                  generated_at:
+                    type: string
+                    example: 2026-11-17 22:45
+                    description: When the answer was made (Lebanon time).
+                  tz:
+                    type: string
+                    example: Asia/Beirut
+        '400':
+          description: Wrong data. data.field names the field to fix.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooMany'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          description: 'smb_void: only an unpaid invoice can be cancelled.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /admin/plans/{id}:
+    patch:
+      tags:
+      - Billing
+      summary: Change a plan
+      description: 'Send only what changes. `active: false` hides it from new subscriptions.'
+      parameters:
+      - $ref: '#/components/parameters/AcceptLanguage'
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          minimum: 1
+      responses:
+        '200':
+          description: Done
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  plan:
+                    $ref: '#/components/schemas/Plan'
+                  generated_at:
+                    type: string
+                    example: 2026-11-17 22:45
+                    description: When the answer was made (Lebanon time).
+                  tz:
+                    type: string
+                    example: Asia/Beirut
+        '400':
+          description: Wrong data. data.field names the field to fix.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooMany'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                price_month:
+                  type: number
+                price_year:
+                  type: number
+                features:
+                  type: array
+                  items:
+                    type: string
+                note:
+                  type: string
+                active:
+                  type: boolean
+  /admin/leads/{id}:
+    patch:
+      tags:
+      - Requests
+      summary: Mark a demo request new / done
+      description: ''
+      parameters:
+      - $ref: '#/components/parameters/AcceptLanguage'
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          minimum: 1
+      responses:
+        '200':
+          description: Done
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  lead:
+                    $ref: '#/components/schemas/Lead'
+                  new:
+                    type: integer
+                  generated_at:
+                    type: string
+                    example: 2026-11-17 22:45
+                    description: When the answer was made (Lebanon time).
+                  tz:
+                    type: string
+                    example: Asia/Beirut
+        '400':
+          description: Wrong data. data.field names the field to fix.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooMany'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: string
+                  enum:
+                  - new
+                  - done
+              required:
+              - status
+    delete:
+      tags:
+      - Requests
+      summary: Delete a demo request
+      description: ''
+      parameters:
+      - $ref: '#/components/parameters/AcceptLanguage'
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          minimum: 1
+      responses:
+        '200':
+          description: Done
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  deleted:
+                    type: boolean
+                  id:
+                    type: integer
+                  new:
+                    type: integer
+                  generated_at:
+                    type: string
+                    example: 2026-11-17 22:45
+                    description: When the answer was made (Lebanon time).
+                  tz:
+                    type: string
+                    example: Asia/Beirut
+        '400':
+          description: Wrong data. data.field names the field to fix.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooMany'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /admin/leads/{id}/convert:
+    post:
+      tags:
+      - Requests
+      summary: Create the salon from a demo request
+      description: Same body as POST /admin/salons; anything missing comes from the request (salon name, phone, owner name and email; a username
+        is made from the name). The request becomes "done". Answer = POST /admin/salons + `lead`.
+      parameters:
+      - $ref: '#/components/parameters/AcceptLanguage'
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          minimum: 1
+      responses:
+        '201':
+          description: Done
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/SalonDetail'
+                - type: object
+                  properties:
+                    login:
+                      type: object
+                      properties:
+                        username:
+                          type: string
+                        password:
+                          type: string
+                          description: Shown ONCE. Show it with a "Send on WhatsApp" button; never store it.
+                        login_url:
+                          type: string
+                        whatsapp_link:
+                          type:
+                          - string
+                          - 'null'
+                          description: wa.me link with the login message in the salon language.
+                    warnings:
+                      type: array
+                      items:
+                        type: string
+                    lead:
+                      $ref: '#/components/schemas/Lead'
+        '400':
+          description: Wrong data. data.field names the field to fix.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooMany'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          description: 'Username or email already used: send owner.username / owner.email.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                phone:
+                  type: string
+                address:
+                  type: string
+                currency:
+                  type: string
+                  enum:
+                  - USD
+                  - LBP
+                slug:
+                  type: string
+                  description: Web address part; empty = from the name
+                notes:
+                  type: string
+                language:
+                  type: string
+                  enum:
+                  - en
+                  - ar
+                owner:
+                  type: object
+                  properties:
+                    username:
+                      type: string
+                      description: Letters, numbers, - _ . @
+                    email:
+                      type: string
+                    name:
+                      type: string
+                      description: Shown name
+                    password:
+                      type: string
+                      description: Optional, 8+ characters. Empty = a 12-character password is made.
+                    phone:
+                      type: string
+                      description: 'Optional: where the WhatsApp login message goes (default: salon phone).'
+                  required:
+                  - username
+                  - email
+                owner_id:
+                  type: integer
+                  description: 'Instead of owner: make it a branch of this existing salon owner'
+                features:
+                  type: object
+                  additionalProperties:
+                    type: boolean
+                  description: 'feature slug → on/off, e.g. {"wabot": true, "queue": false}. Slugs: GET /admin/features.'
+                subscription:
+                  type: object
+                  properties:
+                    plan_id:
+                      type: integer
+                      description: 0 = not billed
+                    cycle:
+                      type: string
+                      enum:
+                      - month
+                      - year
+                    until:
+                      type: string
+                      format: date
+                      description: Paid until (YYYY-MM-DD)
+                    price:
+                      type:
+                      - number
+                      - 'null'
+                      description: Own price per cycle; null = plan price
+                    trial:
+                      type: boolean
+                    apply_features:
+                      type: boolean
+                      description: Switch the salon features to the plan features
 components:
   securitySchemes:
     appPassword:
@@ -1292,7 +2516,9 @@ components:
       description: Language of labels and error messages.
   responses:
     Unauthorized:
-      description: 'Not logged in. Codes: smapi_no_auth_header (the header did not reach the server), smapi_login (wrong username or password).'
+      description: 'Not logged in. Codes: smapi_no_auth_header (the header did not reach the server), invalid_username / smapi_login_user (unknown
+        username), incorrect_password / smapi_login_password (not one of its Application Passwords), smapi_login_vars (Postman variables not filled),
+        smapi_app_passwords_off, smapi_login (other: data.check lists yes/no what the server received).'
       content:
         application/json:
           schema:

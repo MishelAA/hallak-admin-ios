@@ -79,6 +79,7 @@ struct RequestsView: View {
             }
         }
         .refreshable { await loader.reload(session) }
+        .onChange(of: session.dataVersion) { _, _ in Task { await loader.reload(session) } }
         .task(id: query) {
             if query.search != lastSearch {
                 try? await Task.sleep(for: .milliseconds(400))
@@ -118,8 +119,18 @@ struct LeadRow: View {
 }
 
 /// One demo request: all fields + WhatsApp (API link), call, email.
+/// API 1.2: mark done / new, delete, and create the salon from it (form prefilled).
 struct LeadDetailView: View {
-    let lead: Lead
+    @Environment(AppSession.self) private var session
+    @Environment(\.dismiss) private var dismiss
+    @State private var lead: Lead
+    @State private var runner = ActionRunner()
+    @State private var confirmDelete = false
+    @State private var convert = false
+
+    init(lead: Lead) {
+        _lead = State(initialValue: lead)
+    }
 
     var body: some View {
         List {
@@ -151,14 +162,55 @@ struct LeadDetailView: View {
             if let m = lead.message, !m.isEmpty {
                 Section("Message") { Text(verbatim: m) }
             }
-            Section {
-            } footer: {
-                Text("Changing the status and “Create salon from request” come with the next API version.")
+            if session.canWrite {
+                Section {
+                    Button { convert = true } label: {
+                        Label("Create salon from request", systemImage: "plus.rectangle.on.rectangle")
+                    }
+                    .frame(minHeight: Theme.minTouch)
+                    Button { Task { await setDone(lead.isNew) } } label: {
+                        Label(lead.isNew ? "Mark done" : "Mark as new", systemImage: lead.isNew ? "checkmark.circle" : "arrow.uturn.backward.circle")
+                    }
+                    .frame(minHeight: Theme.minTouch)
+                    Button(role: .destructive) { confirmDelete = true } label: {
+                        Label("Delete request", systemImage: "trash")
+                    }
+                    .frame(minHeight: Theme.minTouch)
+                }
+                .disabled(runner.isRunning)
             }
         }
         .scrollContentBackground(.hidden)
         .background(Theme.background)
         .navigationTitle("Demo request")
         .navigationBarTitleDisplayMode(.inline)
+        .actionErrorAlert(runner)
+        .confirmationDialog("Delete this demo request?", isPresented: $confirmDelete, titleVisibility: .visible) {
+            Button("Delete request", role: .destructive) { Task { await delete() } }
+            Button("Cancel", role: .cancel) {}
+        }
+        .sheet(isPresented: $convert) {
+            NewSalonView(mode: .fromLead(lead)) { id in
+                session.push(.salon(id: id, name: nil))
+            }
+        }
+    }
+
+    private func setDone(_ done: Bool) async {
+        let id = lead.id
+        if let r = await runner.run(session, success: done ? String(localized: "Marked done") : String(localized: "Marked as new"), {
+            try await ActionRunner.client(session).send(.setLeadStatus(id, done: done), as: LeadChange.self)
+        }), let updated = r.lead {
+            lead = updated
+        }
+    }
+
+    private func delete() async {
+        let id = lead.id
+        if await runner.run(session, success: String(localized: "Request deleted"), {
+            try await ActionRunner.client(session).send(.deleteLead(id), as: LeadChange.self)
+        }) != nil {
+            dismiss()
+        }
     }
 }

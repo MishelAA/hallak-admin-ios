@@ -16,6 +16,7 @@ iOS 17+, Swift / SwiftUI, no third-party packages. English + Arabic (RTL).
 | M4 | Money and Requests | done |
 | M5 | More | done |
 | M6 | Polish and Arabic | done (check on the phone for a week) |
+| M7 | Actions (API 1.2): create, change, suspend, delete salons; features; logins; billing; demo requests | done |
 
 ## Layout
 

@@ -1,0 +1,83 @@
+{
+  "salon": {
+    "id": 41,
+    "slug": "postman-test",
+    "name": "Postman Test",
+    "phone": "+961 70 123 456",
+    "address": "Jounieh, main road",
+    "currency": "USD",
+    "language": "ar",
+    "status": "active",
+    "created_at": "2026-09-02 10:15",
+    "last_activity": "2026-11-19 12:40",
+    "owner": {
+      "id": 118,
+      "username": "gio",
+      "name": "Gio Emmanuel",
+      "email": "gio@example.com"
+    },
+    "billing": {
+      "status": "active",
+      "status_label": "Paid",
+      "plan_id": 2,
+      "plan": "Pro",
+      "cycle": "month",
+      "price": {
+        "amount": 30,
+        "currency": "USD",
+        "display": "$30"
+      },
+      "monthly": {
+        "amount": 30,
+        "currency": "USD",
+        "display": "$30"
+      },
+      "own_price": false,
+      "until": "2026-12-07",
+      "days_left": 18,
+      "grace_end": null,
+      "trial": false
+    },
+    "notes": "",
+    "fx": null
+  },
+  "features": [
+    {
+      "slug": "wabot",
+      "label": "WhatsApp bot",
+      "on": true
+    },
+    {
+      "slug": "queue",
+      "label": "Queue",
+      "on": false
+    }
+  ],
+  "links": {
+    "dashboard": "https://hallak.online/salon/postman-test/",
+    "page": null,
+    "booking": null,
+    "whatsapp": "https://wa.me/96170000000"
+  },
+  "invoices": [],
+  "month": {
+    "visits": 0,
+    "revenue": {
+      "amount": 0,
+      "currency": "USD",
+      "display": "$0"
+    },
+    "customers": 0
+  },
+  "login": {
+    "username": "postman123",
+    "password": "Xk7pQ2m9wLeT",
+    "login_url": "https://hallak.online/login/",
+    "whatsapp_link": "https://wa.me/96170000000?text=Hallak%20login"
+  },
+  "warnings": [
+    "The plan has no features: the features you chose were kept."
+  ],
+  "generated_at": "2026-11-19 13:13",
+  "tz": "Asia/Beirut"
+}

@@ -64,7 +64,7 @@ final class SessionTests: XCTestCase {
         try await s.connect(site: "https://example.test/", username: " tester ", password: "abcd efgh ijkl mnop")
 
         guard case .welcome(let ping) = s.phase else { return XCTFail("Expected welcome, got \(s.phase)") }
-        XCTAssertEqual(ping.hallakCore, "1.4.2")
+        XCTAssertEqual(ping.hallakCore, "1.12.4")
         XCTAssertEqual(s.me?.user?.username, "mishel-app")
         XCTAssertEqual(keychain.loadCredentials(), testCredentials, "Saved only after ping ok; username trimmed")
 

@@ -9,7 +9,7 @@
   "language": "en",
   "can": {
     "read": true,
-    "write": false,
+    "write": true,
     "open_links": true
   },
   "site": {

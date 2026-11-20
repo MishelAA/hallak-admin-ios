@@ -39,6 +39,25 @@ final class AppSession {
     var pendingDestination: Destination?
     /// Navigation of each tab (so Home can open a screen inside another tab).
     var paths: [Tab: [AppRoute]] = [:]
+    /// Short success message shown at the bottom ("Saved").
+    var toast: String?
+    /// Goes up after every change made from the app, so lists reload.
+    private(set) var dataVersion = 0
+
+    func showToast(_ text: String) {
+        toast = text
+        let shown = text
+        Task { @MainActor [weak self] in
+            try? await Task.sleep(for: .seconds(2.2))
+            if self?.toast == shown { self?.toast = nil }
+        }
+    }
+
+    /// Call after a change succeeded: lists and Home refresh.
+    func dataChanged() { dataVersion += 1 }
+
+    /// API 1.2 action buttons are shown only when /admin/me says so.
+    var canWrite: Bool { me?.canWrite ?? false }
     /// Shown on the login screen after the app logged itself out (revoked password, not an admin...).
     var loginNotice: String?
 

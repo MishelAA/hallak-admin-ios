@@ -1,0 +1,18 @@
+{
+  "lead": {
+    "id": 31,
+    "name": "Karim",
+    "salon": "Karim Barbershop",
+    "phone": "+961 76 123 456",
+    "email": "karim@example.com",
+    "plan": "Pro",
+    "barbers": "3",
+    "message": "",
+    "status": "done",
+    "created_at": "2026-11-19 11:02",
+    "whatsapp": "https://wa.me/96176123456"
+  },
+  "new": 0,
+  "generated_at": "2026-11-19 13:13",
+  "tz": "Asia/Beirut"
+}

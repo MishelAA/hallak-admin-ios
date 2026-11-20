@@ -32,6 +32,7 @@ struct RootView: View {
             }
         }
         .animation(.default, value: session.isLocked)
+        .toastOverlay(session.toast)
         // Hide content in the app switcher.
         .blur(radius: scenePhase == .active ? 0 : 24)
         .environment(\.locale, Locale(identifier: session.language))

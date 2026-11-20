@@ -78,6 +78,7 @@ struct SalonsView: View {
     @State private var loader = PagedLoader<Salon> { .salons($0) }
     @State private var query = SalonQuery()
     @State private var lastSearch = ""
+    @State private var showNew = false
 
     var body: some View {
         List {
@@ -143,7 +144,16 @@ struct SalonsView: View {
                     Label("Sort", systemImage: "arrow.up.arrow.down")
                 }
             }
+            if session.canWrite {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button { showNew = true } label: { Label("New salon", systemImage: "plus") }
+                }
+            }
         }
+        .sheet(isPresented: $showNew) {
+            NewSalonView(mode: .new) { id in session.push(.salon(id: id, name: nil)) }
+        }
+        .onChange(of: session.dataVersion) { _, _ in Task { await loader.reload(session) } }
         .refreshable { await loader.reload(session) }
         .task(id: query) {
             // Search waits 400 ms after the last key; chips and sort apply at once.

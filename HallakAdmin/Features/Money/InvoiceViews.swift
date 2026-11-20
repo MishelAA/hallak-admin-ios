@@ -60,6 +60,9 @@ struct InvoiceDetailView: View {
     @Environment(AppSession.self) private var session
     @Environment(\.dismiss) private var dismiss
     @State private var loader: ScreenLoader<InvoiceAnswer>
+    @State private var runner = ActionRunner()
+    @State private var paying = false
+    @State private var confirmVoid = false
 
     init(invoiceId: Int) {
         self.invoiceId = invoiceId
@@ -99,6 +102,14 @@ struct InvoiceDetailView: View {
                 if let note = inv.note, !note.isEmpty {
                     Section("Note") { Text(verbatim: note) }
                 }
+                if session.canWrite, inv.status == .unpaid {
+                    Section {
+                        Button { paying = true } label: { Label("Mark paid", systemImage: "checkmark.circle") }
+                            .disabled(runner.isRunning)
+                        Button(role: .destructive) { confirmVoid = true } label: { Label("Cancel invoice", systemImage: "xmark.circle") }
+                            .disabled(runner.isRunning)
+                    }
+                }
             }
         }
         .scrollContentBackground(.hidden)
@@ -114,6 +125,24 @@ struct InvoiceDetailView: View {
         }
         .refreshable { await loader.refresh(session) }
         .task { await loader.load(session) }
+        .actionErrorAlert(runner)
+        .sheet(isPresented: $paying) {
+            if let inv = loader.value?.invoice {
+                PayInvoiceView(invoice: inv) { r in loader.set(InvoiceAnswer(invoice: r.invoice, generatedAt: nil)) }
+            }
+        }
+        .confirmationDialog("Cancel this invoice?", isPresented: $confirmVoid, titleVisibility: .visible) {
+            Button("Cancel invoice", role: .destructive) {
+                Task {
+                    if let inv = loader.value?.invoice, let r = await voidInvoice(inv, runner: runner, session: session) {
+                        loader.set(InvoiceAnswer(invoice: r.invoice, generatedAt: nil))
+                    }
+                }
+            }
+            Button("Keep it", role: .cancel) {}
+        } message: {
+            Text("The invoice stays in the list as cancelled.")
+        }
         .onChange(of: loader.error) { _, e in
             if e?.behaviour == .notFound, loader.value == nil { dismiss() }
         }
