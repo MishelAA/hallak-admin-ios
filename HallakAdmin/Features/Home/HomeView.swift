@@ -86,7 +86,7 @@ struct HomeView: View {
         }
 
         if session.me?.canPlan == true, let plan = planLoader.value, let year = plan.currentYear {
-            PlanCard(year: year, renewals: plan.renewalsDue?.count ?? 0) { session.open(.more, .route(.businessPlan)) }
+            BusinessPlanCard(year: year, renewals: plan.renewalsDue?.count ?? 0) { session.open(.more, .route(.businessPlan)) }
         }
 
         if let b = o.billing {

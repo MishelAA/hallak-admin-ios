@@ -60,7 +60,7 @@ struct BillingCard: View {
 }
 
 /// Home card "Plan" (API 1.3): this year's paying salons of the target, the status, and renewals due.
-struct PlanCard: View {
+struct BusinessPlanCard: View {
     let year: PlanYear
     let renewals: Int
     let action: () -> Void
