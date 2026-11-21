@@ -225,7 +225,7 @@ final class AppSession {
         case .route(let r)?:
             pendingDestination = nil
             paths[tab] = [r]
-        case .salons?:
+        case .salons?, .salonsType?:
             pendingDestination = destination
             paths[tab] = []
         case nil:
