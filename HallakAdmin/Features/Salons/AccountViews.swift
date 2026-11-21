@@ -5,8 +5,10 @@ struct TypeChip: View {
     let billing: Billing?
 
     var body: some View {
-        if let t = billing?.type, t != .unknown {
-            StatusBadge(text: billing?.typeLabel ?? t.label, color: t.color)
+        // Hidden when it would repeat the billing status ("Paid" · "Paid").
+        if let t = billing?.type, t != .unknown, let text = Optional(billing?.typeLabel ?? t.label),
+           text.lowercased() != billing?.statusLabel?.lowercased() {
+            StatusBadge(text: text, color: t.color)
         }
     }
 }
