@@ -1,0 +1,8 @@
+{
+  "code": "smapi_budget",
+  "message": "The budget shares must add up to 100.",
+  "data": {
+    "status": 400,
+    "field": "budget"
+  }
+}

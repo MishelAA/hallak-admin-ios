@@ -1,4 +1,4 @@
-"""Writes the JSON fixtures used by the unit tests (one per endpoint of API 1.2.0).
+"""Writes the JSON fixtures used by the unit tests (one per endpoint of API 1.3.0).
 
 Values are realistic but invented: no real passwords, tokens or customer data.
 Run:  python scripts/make_fixtures.py
@@ -63,14 +63,116 @@ INVOICE_UNPAID = {
     "note": "Asked to pay by OMT", "created_at": "2026-11-16 09:00",
 }
 
+PLAN_META = {"generated_at": "2027-03-14 10:00", "tz": "Asia/Beirut"}
+
+
+def checklist(month, contacts=12, followups=True):
+    items = [
+        {"slug": "contacts", "label": "Salons contacted", "type": "count", "target": 25, "value": contacts,
+         "done": contacts >= 25, "hint": None},
+        {"slug": "demos", "label": "Demos given", "type": "count", "target": 4, "value": 4, "done": True,
+         "hint": "2 demo requests came from the website this month."},
+        {"slug": "offers", "label": "Offers sent", "type": "count", "target": None, "value": 1, "done": None, "hint": None},
+        {"slug": "posts", "label": "Posts on Instagram", "type": "count", "target": 8, "value": 3, "done": False, "hint": None},
+        {"slug": "followups", "label": "Followed up every trial", "type": "check", "target": None, "value": followups,
+         "done": followups, "hint": None},
+        {"slug": "renewals", "label": "Called salons to renew", "type": "check", "target": None, "value": False,
+         "done": False, "hint": "1 salon ends its paid time within 60 days."},
+    ]
+    goal = [i for i in items if i["done"] is not None]
+    return {"month": month, "done": sum(1 for i in goal if i["done"]), "of": len(goal), "items": items}
+
+
+def plan_year(y, name, new, renewed, total, current, status, actual=None, quarters=None):
+    q = quarters or [
+        {"q": i + 1, "new_target": n, "cumulative_target": c, "actions": None, "new": None, "cumulative": None}
+        for i, (n, c) in enumerate(zip([4, 4, 5, 4], [12, 16, 21, total]))
+    ]
+    return {
+        "year": y, "name": name, "objective": "Paying salons at $300 a year, renewed every year.",
+        "priorities": ["Sign the first salons in Jounieh and Byblos", "Answer every demo request the same day"],
+        "success": "10 salons pay for the whole year" if y == 2027 else None,
+        "targets": {"new": new, "renewed": renewed, "total": total, "price": usd(300), "revenue": usd(total * 300),
+                    "monthly": usd(total * 25)},
+        "actual": actual, "quarters": q,
+        "progress": {"status": status, "expected_now": 3 if current else 0, "total_pct": 30 if current else None,
+                     "revenue_pct": 30 if current else None},
+        "current": current,
+    }
+
+
+PLAN = {
+    "title": "Business plan 2027-2029", "subtitle": "From 10 to 45 paying salons",
+    "summary": "Hallak grows from Mount Lebanon to the whole country, one salon at a time.",
+    "assumptions": ["$300 a year per salon", "80% of salons renew"],
+    "currency": "USD", "billing_active": True, "renewal_target": 80,
+    "customized": True, "changed": {"at": "2027-02-01 18:20", "by": "Mishel"},
+    "years": [
+        plan_year(2027, "Launch and establish the business", 10, 0, 10, True, "on_track",
+                  actual={"started": True, "new": 3, "renewed": 0, "total_paying": 3, "revenue": usd(900),
+                          "monthly": usd(75), "renewal_rate": None, "renewal_of": None},
+                  quarters=[
+                      {"q": 1, "new_target": 2, "cumulative_target": 2, "actions": "Visit 25 salons, 4 demos a month",
+                       "new": 3, "cumulative": 3},
+                      {"q": 2, "new_target": 3, "cumulative_target": 5, "actions": None, "new": None, "cumulative": None},
+                      {"q": 3, "new_target": 3, "cumulative_target": 8, "actions": None, "new": None, "cumulative": None},
+                      {"q": 4, "new_target": 2, "cumulative_target": 10, "actions": "Renewal calls", "new": None,
+                       "cumulative": None},
+                  ]),
+        plan_year(2028, "Grow in Mount Lebanon", 17, 8, 25, False, "not_started"),
+        plan_year(2029, "Cover all of Lebanon", 24, 21, 45, False, "not_started"),
+    ],
+    "three_year": {"target_revenue": usd(24000), "actual_revenue": usd(900)},
+    "kpis": [
+        {"slug": "paying", "label": "Paying salons", "what": "Salons with paid time running today.", "value": 3},
+        {"slug": "new", "label": "New salons", "what": "First payment this month / quarter.",
+         "value": {"month": 1, "quarter": 3}},
+        {"slug": "renewal", "label": "Renewal rate", "what": "Of last year's paying salons, how many paid again.",
+         "value": None},
+        {"slug": "pipeline", "label": "Sales pipeline", "what": "This month.",
+         "value": {"contacted": 12, "demos": 4, "offers": 1, "website_requests": 2}},
+        {"slug": "cash", "label": "Cash collected", "what": "From paid invoices.",
+         "value": {"month": usd(300), "year": usd(900), "unpaid": {"count": 1, "amount": usd(300)}}},
+        {"slug": "satisfaction", "label": "Salon satisfaction", "what": "Ask each salon once a quarter.", "value": None},
+    ],
+    "renewals_due": [
+        {"salon_id": 1, "salon_name": "Emmanuel Hairstyle", "status": "active", "until": "2027-04-20", "days_left": 37,
+         "amount": usd(300), "phone": "+961 70 123 456", "whatsapp_link": "https://wa.me/96170123456?text=Renewal"},
+        {"salon_id": 7, "salon_name": "Studio 7", "status": "grace", "until": "2027-03-10", "days_left": -4,
+         "amount": usd(300), "phone": None, "whatsapp_link": None},
+    ],
+    "checklist": checklist("2027-03"),
+    "roadmap": [
+        {"priority": "critical", "capability": "Appointments and visits", "timing": 2027, "status": "ready",
+         "plugins": ["salon-manager-core"]},
+        {"priority": "high", "capability": "WhatsApp bot", "timing": 2027, "status": "partial", "plugins": ["hallak-whatsapp"]},
+        {"priority": "medium", "capability": "Online payments", "timing": 2028, "status": "planned", "plugins": []},
+    ],
+    "budget": {
+        "year": 2027, "base": usd(900), "base_target": usd(3000), "note": "Shares of the cash collected this year.",
+        "items": [
+            {"slug": sl, "label": lb, "share": sh, "amount": usd(9 * sh), "amount_target": usd(30 * sh)}
+            for sl, lb, sh in [("hosting", "Hosting", 15), ("marketing", "Marketing", 30), ("development", "Development", 25),
+                               ("unexpected", "Unexpected", 10), ("reserve", "Reserve", 20)]
+        ],
+    },
+    "tiers": {"items": [
+        {"name": "Basic", "price": usd(240), "positioning": "One barber, appointments and visits."},
+        {"name": "Pro", "price": usd(300), "positioning": "The whole team, WhatsApp bot, reports."},
+    ], "note": "Ideas only: prices are set in Billing."},
+    "recommendation": "Keep one price in 2027; add tiers when 10 salons pay.",
+    "note": "Real numbers come from paid invoices in Billing.",
+    **PLAN_META,
+}
+
 FIXTURES = {
     "ping": {
         "ok": True, "user": "mishel-app", "site": "https://hallak.online", "wordpress": "6.8.3",
-        "hallak_core": "1.12.4", "api": "1.2.0", "https": True, **META,
+        "hallak_core": "1.12.4", "api": "1.3.0", "https": True, **META,
     },
     "me": {
         "user": {"id": 2, "username": "mishel-app", "name": "Mishel", "email": "admin@example.com", "last_login": "2026-11-19 13:00"},
-        "language": "en", "can": {"read": True, "write": True, "open_links": True},
+        "language": "en", "can": {"read": True, "write": True, "open_links": True, "plan": True},
         "site": {
             "name": "Hallak", "url": "https://hallak.online", "wordpress": "6.8.3", "hallak_core": "1.4.2", "api": "1.0.1",
             "plugins": {"billing": True, "site": True, "whatsapp": True, "ai": False, "check": True},
@@ -248,6 +350,10 @@ FIXTURES = {
     "lead_done": {"lead": {"id": 31, "name": "Karim", "salon": "Karim Barbershop", "phone": "+961 76 123 456",
                            "email": "karim@example.com", "plan": "Pro", "barbers": "3", "message": "", "status": "done",
                            "created_at": "2026-11-19 11:02", "whatsapp": "https://wa.me/96176123456"}, "new": 0, **META},
+    "plan": PLAN,
+    "plan_checklist": {**checklist("2027-02", contacts=25, followups=False), **PLAN_META},
+    "error_budget": {"code": "smapi_budget", "message": "The budget shares must add up to 100.",
+                     "data": {"status": 400, "field": "budget"}},
     "error_conflict": {"code": "sm_user", "message": "This username is already used.",
                        "data": {"status": 409, "field": "owner.username"}},
     "error_not_found": {"code": "smapi_not_found", "message": "Salon not found.", "data": {"status": 404}},

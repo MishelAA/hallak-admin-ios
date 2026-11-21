@@ -13,7 +13,7 @@ final class ActionRunner {
     var errorField: String? { error?.field }
 
     @discardableResult
-    func run<T>(_ session: AppSession, success: String? = nil, _ work: () async throws -> T) async -> T? {
+    func run<T>(_ session: AppSession, success: String? = nil, refreshLists: Bool = true, _ work: () async throws -> T) async -> T? {
         guard !isRunning else { return nil }
         isRunning = true
         error = nil
@@ -21,7 +21,7 @@ final class ActionRunner {
         do {
             let result = try await work()
             Haptics.success()
-            session.dataChanged()
+            if refreshLists { session.dataChanged() }
             if let success { session.showToast(success) }
             return result
         } catch let e as APIError {

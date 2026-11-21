@@ -4,6 +4,8 @@ import SwiftUI
 struct HomeView: View {
     @Environment(AppSession.self) private var session
     @State private var loader = ScreenLoader<Overview>(.overview)
+    /// API 1.3: the Plan card (only when /admin/me can.plan).
+    @State private var planLoader = ScreenLoader<BusinessPlan>(.businessPlan)
 
     @Environment(\.dynamicTypeSize) private var typeSize
 
@@ -46,7 +48,15 @@ struct HomeView: View {
         }
         .refreshable { await loader.refresh(session) }
         .task { await loader.load(session) }
-        .onChange(of: session.dataVersion) { _, _ in Task { await loader.refresh(session) } }
+        .task(id: session.me?.canPlan ?? false) {
+            if session.me?.canPlan == true { await planLoader.load(session) }
+        }
+        .onChange(of: session.dataVersion) { _, _ in
+            Task {
+                await loader.refresh(session)
+                if session.me?.canPlan == true { await planLoader.refresh(session) }
+            }
+        }
     }
 
     private var offlineTime: String {
@@ -73,6 +83,10 @@ struct HomeView: View {
                     Text((l.new ?? 0) == 1 ? LocalizedStringKey("new request") : LocalizedStringKey("new requests"))
                 }
             }
+        }
+
+        if session.me?.canPlan == true, let plan = planLoader.value, let year = plan.currentYear {
+            PlanCard(year: year, renewals: plan.renewalsDue?.count ?? 0) { session.open(.more, .route(.businessPlan)) }
         }
 
         if let b = o.billing {

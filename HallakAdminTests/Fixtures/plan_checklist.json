@@ -1,0 +1,63 @@
+{
+  "month": "2027-02",
+  "done": 2,
+  "of": 5,
+  "items": [
+    {
+      "slug": "contacts",
+      "label": "Salons contacted",
+      "type": "count",
+      "target": 25,
+      "value": 25,
+      "done": true,
+      "hint": null
+    },
+    {
+      "slug": "demos",
+      "label": "Demos given",
+      "type": "count",
+      "target": 4,
+      "value": 4,
+      "done": true,
+      "hint": "2 demo requests came from the website this month."
+    },
+    {
+      "slug": "offers",
+      "label": "Offers sent",
+      "type": "count",
+      "target": null,
+      "value": 1,
+      "done": null,
+      "hint": null
+    },
+    {
+      "slug": "posts",
+      "label": "Posts on Instagram",
+      "type": "count",
+      "target": 8,
+      "value": 3,
+      "done": false,
+      "hint": null
+    },
+    {
+      "slug": "followups",
+      "label": "Followed up every trial",
+      "type": "check",
+      "target": null,
+      "value": false,
+      "done": false,
+      "hint": null
+    },
+    {
+      "slug": "renewals",
+      "label": "Called salons to renew",
+      "type": "check",
+      "target": null,
+      "value": false,
+      "done": false,
+      "hint": "1 salon ends its paid time within 60 days."
+    }
+  ],
+  "generated_at": "2027-03-14 10:00",
+  "tz": "Asia/Beirut"
+}

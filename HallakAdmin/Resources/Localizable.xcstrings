@@ -81,6 +81,16 @@
         }
       }
     },
+    "%lld of %lld done": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld من %lld منجز"
+          }
+        }
+      }
+    },
     "%lld requests": {
       "localizations": {
         "ar": {
@@ -107,6 +117,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "%lld ملخصات"
+          }
+        }
+      }
+    },
+    "%lld to renew soon": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld للتجديد قريبًا"
+          }
+        }
+      }
+    },
+    "3 years:": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "3 سنوات:"
           }
         }
       }
@@ -221,6 +251,16 @@
         }
       }
     },
+    "Add one": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "زد واحدًا"
+          }
+        }
+      }
+    },
     "Address": {
       "localizations": {
         "ar": {
@@ -267,6 +307,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "كل الأنواع"
+          }
+        }
+      }
+    },
+    "All your changes to the targets, budget and goals are removed.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تُحذف كل تغييراتك على الأهداف والميزانية والغايات."
           }
         }
       }
@@ -351,6 +401,16 @@
         }
       }
     },
+    "Assumptions": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الفرضيات"
+          }
+        }
+      }
+    },
     "Back": {
       "localizations": {
         "ar": {
@@ -361,12 +421,32 @@
         }
       }
     },
+    "Back to the original plan": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "العودة إلى الخطة الأصلية"
+          }
+        }
+      }
+    },
     "Bank transfer": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "تحويل مصرفي"
+          }
+        }
+      }
+    },
+    "Behind": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "متأخر"
           }
         }
       }
@@ -411,6 +491,16 @@
         }
       }
     },
+    "Billing is off: the real numbers stay at 0.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الفوترة متوقفة: الأرقام الحقيقية تبقى 0."
+          }
+        }
+      }
+    },
     "Booking page": {
       "localizations": {
         "ar": {
@@ -447,6 +537,46 @@
           "stringUnit": {
             "state": "translated",
             "value": "البوت شغّال"
+          }
+        }
+      }
+    },
+    "Budget": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الميزانية"
+          }
+        }
+      }
+    },
+    "Budget %@": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الميزانية %@"
+          }
+        }
+      }
+    },
+    "Budget shares": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حصص الميزانية"
+          }
+        }
+      }
+    },
+    "Business plan": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "خطة العمل"
           }
         }
       }
@@ -517,6 +647,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "نقدًا"
+          }
+        }
+      }
+    },
+    "Cash collected this year:": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "المال المحصّل هذه السنة:"
           }
         }
       }
@@ -631,6 +771,26 @@
         }
       }
     },
+    "Contact salons 60 days before their paid time ends.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تواصل مع الصالونات قبل 60 يومًا من انتهاء المدة المدفوعة."
+          }
+        }
+      }
+    },
+    "Contacted": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تم التواصل"
+          }
+        }
+      }
+    },
     "Copied": {
       "localizations": {
         "ar": {
@@ -727,6 +887,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "تاريخ الإنشاء"
+          }
+        }
+      }
+    },
+    "Critical": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حرج"
           }
         }
       }
@@ -841,6 +1011,16 @@
         }
       }
     },
+    "Demos": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عروض تجريبية"
+          }
+        }
+      }
+    },
     "Details": {
       "localizations": {
         "ar": {
@@ -897,6 +1077,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "تعديل الصالون"
+          }
+        }
+      }
+    },
+    "Edit targets": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعديل الأهداف"
           }
         }
       }
@@ -981,6 +1171,16 @@
         }
       }
     },
+    "Expected now: %lld": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "المتوقع الآن: %lld"
+          }
+        }
+      }
+    },
     "Feature": {
       "localizations": {
         "ar": {
@@ -1027,6 +1227,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "تقدّم"
+          }
+        }
+      }
+    },
+    "Go back to the original plan?": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "العودة إلى الخطة الأصلية؟"
+          }
+        }
+      }
+    },
+    "Goal reached": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تحقّق الهدف"
           }
         }
       }
@@ -1087,6 +1307,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "الصحة"
+          }
+        }
+      }
+    },
+    "High": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عالية"
           }
         }
       }
@@ -1207,6 +1437,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "أبقِ إصبعك على الزر ثانيتين."
+          }
+        }
+      }
+    },
+    "Key numbers": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أرقام أساسية"
           }
         }
       }
@@ -1461,6 +1701,16 @@
         }
       }
     },
+    "Medium": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "متوسطة"
+          }
+        }
+      }
+    },
     "Message": {
       "localizations": {
         "ar": {
@@ -1477,6 +1727,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "طريقة الدفع"
+          }
+        }
+      }
+    },
+    "Minus one": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ناقص واحد"
+          }
+        }
+      }
+    },
+    "Missed": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لم يتحقّق"
           }
         }
       }
@@ -1527,6 +1797,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "شهري"
+          }
+        }
+      }
+    },
+    "Monthly checklist goals": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أهداف القائمة الشهرية"
           }
         }
       }
@@ -1661,6 +1941,16 @@
         }
       }
     },
+    "New = new salons in the quarter. Paying = paying salons at the end of the quarter (milestone).": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "جديد = صالونات جديدة في الربع. تدفع = الصالونات التي تدفع في آخر الربع (المحطة)."
+          }
+        }
+      }
+    },
     "New invoice": {
       "localizations": {
         "ar": {
@@ -1721,12 +2011,32 @@
         }
       }
     },
+    "New salons": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "صالونات جديدة"
+          }
+        }
+      }
+    },
     "New “Book a free demo” requests from the website show here.": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "طلبات «احجز تجربة مجانية» من الموقع تظهر هنا."
+          }
+        }
+      }
+    },
+    "New: %@ of %lld": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "جديد: %@ من %lld"
           }
         }
       }
@@ -1851,6 +2161,16 @@
         }
       }
     },
+    "No salon to renew in the next 60 days.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا صالون للتجديد في الـ 60 يومًا القادمة."
+          }
+        }
+      }
+    },
     "No salons yet": {
       "localizations": {
         "ar": {
@@ -1971,12 +2291,32 @@
         }
       }
     },
+    "Of last year's paying salons, how many should pay again.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "من صالونات السنة الماضية التي دفعت، كم يجب أن يدفع من جديد."
+          }
+        }
+      }
+    },
     "Off": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "مطفأ"
+          }
+        }
+      }
+    },
+    "Offers": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عروض أسعار"
           }
         }
       }
@@ -1997,6 +2337,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "شغّال"
+          }
+        }
+      }
+    },
+    "On track": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "على المسار"
           }
         }
       }
@@ -2171,6 +2521,16 @@
         }
       }
     },
+    "Partial": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "جزئي"
+          }
+        }
+      }
+    },
     "Passcode": {
       "localizations": {
         "ar": {
@@ -2197,6 +2557,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "كلمة المرور (اختيارية، ٨ أحرف أو أكثر)"
+          }
+        }
+      }
+    },
+    "Paying": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تدفع"
+          }
+        }
+      }
+    },
+    "Paying salons at the end of the year": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "صالونات تدفع في آخر السنة"
+          }
+        }
+      }
+    },
+    "Paying salons per quarter, target and real": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الصالونات التي تدفع في كل ربع، الهدف والحقيقي"
           }
         }
       }
@@ -2291,12 +2681,32 @@
         }
       }
     },
+    "Plan saved": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تم حفظ الخطة"
+          }
+        }
+      }
+    },
     "Plan wanted": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "الباقة المطلوبة"
+          }
+        }
+      }
+    },
+    "Planned": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مخطط"
           }
         }
       }
@@ -2381,6 +2791,16 @@
         }
       }
     },
+    "Price per salon a year": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "السعر لكل صالون في السنة"
+          }
+        }
+      }
+    },
     "Price per year": {
       "localizations": {
         "ar": {
@@ -2391,12 +2811,42 @@
         }
       }
     },
+    "Pricing ideas": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أفكار للأسعار"
+          }
+        }
+      }
+    },
+    "Priorities": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الأولويات"
+          }
+        }
+      }
+    },
     "Problems": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "المشاكل"
+          }
+        }
+      }
+    },
+    "Quarters": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الأرباع"
           }
         }
       }
@@ -2431,12 +2881,42 @@
         }
       }
     },
+    "Reached": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تحقّق"
+          }
+        }
+      }
+    },
     "Read only in this version.": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "للقراءة فقط في هذه النسخة."
+          }
+        }
+      }
+    },
+    "Ready ✓": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "جاهز ✓"
+          }
+        }
+      }
+    },
+    "Recommendation": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "التوصية"
           }
         }
       }
@@ -2467,6 +2947,46 @@
           "stringUnit": {
             "state": "translated",
             "value": "إعادة تحميل"
+          }
+        }
+      }
+    },
+    "Renew soon": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "للتجديد قريبًا"
+          }
+        }
+      }
+    },
+    "Renewal rate (goal)": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نسبة التجديد (الهدف)"
+          }
+        }
+      }
+    },
+    "Renewal target": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "هدف التجديد"
+          }
+        }
+      }
+    },
+    "Renewed salons": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "صالونات جدّدت"
           }
         }
       }
@@ -2537,6 +3057,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "المدخول"
+          }
+        }
+      }
+    },
+    "Roadmap": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "خارطة الطريق"
           }
         }
       }
@@ -2831,6 +3361,16 @@
         }
       }
     },
+    "Starts 1 Jan": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يبدأ في 1 كانون الثاني"
+          }
+        }
+      }
+    },
     "Status": {
       "localizations": {
         "ar": {
@@ -2847,6 +3387,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "الاشتراك"
+          }
+        }
+      }
+    },
+    "Success test: %@": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختبار النجاح: %@"
           }
         }
       }
@@ -2897,6 +3447,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "شغّل ميزات الباقة"
+          }
+        }
+      }
+    },
+    "Targets changed from the original plan": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تغيّرت الأهداف عن الخطة الأصلية"
+          }
+        }
+      }
+    },
+    "Targets changed on %@": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تغيّرت الأهداف في %@"
+          }
+        }
+      }
+    },
+    "Targets changed on %@ by %@": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تغيّرت الأهداف في %@ بواسطة %@"
           }
         }
       }
@@ -3061,6 +3641,16 @@
         }
       }
     },
+    "The shares must add up to 100.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يجب أن يكون مجموع الحصص 100."
+          }
+        }
+      }
+    },
     "The site must use https.": {
       "localizations": {
         "ar": {
@@ -3151,6 +3741,16 @@
         }
       }
     },
+    "This quarter": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "هذا الربع"
+          }
+        }
+      }
+    },
     "This salon has its own limit.": {
       "localizations": {
         "ar": {
@@ -3167,6 +3767,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "هذه الشاشة تأتي في النسخ القادمة."
+          }
+        }
+      }
+    },
+    "This year": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "هذه السنة"
           }
         }
       }
@@ -3207,6 +3817,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "طلبات كثيرة، انتظر دقيقة."
+          }
+        }
+      }
+    },
+    "Total": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "المجموع"
+          }
+        }
+      }
+    },
+    "Track yourself": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تابعه بنفسك"
           }
         }
       }
@@ -3431,6 +4061,16 @@
         }
       }
     },
+    "Website requests": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "طلبات من الموقع"
+          }
+        }
+      }
+    },
     "WhatsApp": {
       "localizations": {
         "ar": {
@@ -3501,6 +4141,16 @@
         }
       }
     },
+    "Year": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "السنة"
+          }
+        }
+      }
+    },
     "Yearly": {
       "localizations": {
         "ar": {
@@ -3541,6 +4191,16 @@
         }
       }
     },
+    "goal": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الهدف"
+          }
+        }
+      }
+    },
     "months": {
       "localizations": {
         "ar": {
@@ -3571,6 +4231,36 @@
         }
       }
     },
+    "of": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "من"
+          }
+        }
+      }
+    },
+    "paying salons": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "صالونات تدفع"
+          }
+        }
+      }
+    },
+    "paying salons of the target": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "صالونات تدفع من الهدف"
+          }
+        }
+      }
+    },
     "questions this month": {
       "localizations": {
         "ar": {
@@ -3587,6 +4277,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "ردود هذا الشهر"
+          }
+        }
+      }
+    },
+    "· goal": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "· الهدف"
           }
         }
       }

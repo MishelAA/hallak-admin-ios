@@ -58,3 +58,26 @@ struct BillingCard: View {
         .accessibilityAddTraits(.isButton)
     }
 }
+
+/// Home card "Plan" (API 1.3): this year's paying salons of the target, the status, and renewals due.
+struct PlanCard: View {
+    let year: PlanYear
+    let renewals: Int
+    let action: () -> Void
+
+    var body: some View {
+        StatCard(title: "Business plan", systemImage: "chart.line.uptrend.xyaxis",
+                 value: "\(year.actual?.totalPaying ?? 0) / \(year.targets?.total ?? 0)",
+                 tint: year.status == .notStarted ? Theme.ink : year.status.color,
+                 badge: renewals, action: action) {
+            VStack(alignment: .leading, spacing: 2) {
+                Text(verbatim: "\(year.year) · \(year.status.label)")
+                    .foregroundStyle(year.status.color)
+                Text("paying salons of the target")
+                if renewals > 0 {
+                    Text("\(renewals) to renew soon").foregroundStyle(Theme.orange)
+                }
+            }
+        }
+    }
+}

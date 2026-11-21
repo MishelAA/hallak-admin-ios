@@ -1,0 +1,565 @@
+{
+  "title": "Business plan 2027-2029",
+  "subtitle": "From 10 to 45 paying salons",
+  "summary": "Hallak grows from Mount Lebanon to the whole country, one salon at a time.",
+  "assumptions": [
+    "$300 a year per salon",
+    "80% of salons renew"
+  ],
+  "currency": "USD",
+  "billing_active": true,
+  "renewal_target": 80,
+  "customized": true,
+  "changed": {
+    "at": "2027-02-01 18:20",
+    "by": "Mishel"
+  },
+  "years": [
+    {
+      "year": 2027,
+      "name": "Launch and establish the business",
+      "objective": "Paying salons at $300 a year, renewed every year.",
+      "priorities": [
+        "Sign the first salons in Jounieh and Byblos",
+        "Answer every demo request the same day"
+      ],
+      "success": "10 salons pay for the whole year",
+      "targets": {
+        "new": 10,
+        "renewed": 0,
+        "total": 10,
+        "price": {
+          "amount": 300,
+          "currency": "USD",
+          "display": "$300"
+        },
+        "revenue": {
+          "amount": 3000,
+          "currency": "USD",
+          "display": "$3,000"
+        },
+        "monthly": {
+          "amount": 250,
+          "currency": "USD",
+          "display": "$250"
+        }
+      },
+      "actual": {
+        "started": true,
+        "new": 3,
+        "renewed": 0,
+        "total_paying": 3,
+        "revenue": {
+          "amount": 900,
+          "currency": "USD",
+          "display": "$900"
+        },
+        "monthly": {
+          "amount": 75,
+          "currency": "USD",
+          "display": "$75"
+        },
+        "renewal_rate": null,
+        "renewal_of": null
+      },
+      "quarters": [
+        {
+          "q": 1,
+          "new_target": 2,
+          "cumulative_target": 2,
+          "actions": "Visit 25 salons, 4 demos a month",
+          "new": 3,
+          "cumulative": 3
+        },
+        {
+          "q": 2,
+          "new_target": 3,
+          "cumulative_target": 5,
+          "actions": null,
+          "new": null,
+          "cumulative": null
+        },
+        {
+          "q": 3,
+          "new_target": 3,
+          "cumulative_target": 8,
+          "actions": null,
+          "new": null,
+          "cumulative": null
+        },
+        {
+          "q": 4,
+          "new_target": 2,
+          "cumulative_target": 10,
+          "actions": "Renewal calls",
+          "new": null,
+          "cumulative": null
+        }
+      ],
+      "progress": {
+        "status": "on_track",
+        "expected_now": 3,
+        "total_pct": 30,
+        "revenue_pct": 30
+      },
+      "current": true
+    },
+    {
+      "year": 2028,
+      "name": "Grow in Mount Lebanon",
+      "objective": "Paying salons at $300 a year, renewed every year.",
+      "priorities": [
+        "Sign the first salons in Jounieh and Byblos",
+        "Answer every demo request the same day"
+      ],
+      "success": null,
+      "targets": {
+        "new": 17,
+        "renewed": 8,
+        "total": 25,
+        "price": {
+          "amount": 300,
+          "currency": "USD",
+          "display": "$300"
+        },
+        "revenue": {
+          "amount": 7500,
+          "currency": "USD",
+          "display": "$7,500"
+        },
+        "monthly": {
+          "amount": 625,
+          "currency": "USD",
+          "display": "$625"
+        }
+      },
+      "actual": null,
+      "quarters": [
+        {
+          "q": 1,
+          "new_target": 4,
+          "cumulative_target": 12,
+          "actions": null,
+          "new": null,
+          "cumulative": null
+        },
+        {
+          "q": 2,
+          "new_target": 4,
+          "cumulative_target": 16,
+          "actions": null,
+          "new": null,
+          "cumulative": null
+        },
+        {
+          "q": 3,
+          "new_target": 5,
+          "cumulative_target": 21,
+          "actions": null,
+          "new": null,
+          "cumulative": null
+        },
+        {
+          "q": 4,
+          "new_target": 4,
+          "cumulative_target": 25,
+          "actions": null,
+          "new": null,
+          "cumulative": null
+        }
+      ],
+      "progress": {
+        "status": "not_started",
+        "expected_now": 0,
+        "total_pct": null,
+        "revenue_pct": null
+      },
+      "current": false
+    },
+    {
+      "year": 2029,
+      "name": "Cover all of Lebanon",
+      "objective": "Paying salons at $300 a year, renewed every year.",
+      "priorities": [
+        "Sign the first salons in Jounieh and Byblos",
+        "Answer every demo request the same day"
+      ],
+      "success": null,
+      "targets": {
+        "new": 24,
+        "renewed": 21,
+        "total": 45,
+        "price": {
+          "amount": 300,
+          "currency": "USD",
+          "display": "$300"
+        },
+        "revenue": {
+          "amount": 13500,
+          "currency": "USD",
+          "display": "$13,500"
+        },
+        "monthly": {
+          "amount": 1125,
+          "currency": "USD",
+          "display": "$1,125"
+        }
+      },
+      "actual": null,
+      "quarters": [
+        {
+          "q": 1,
+          "new_target": 4,
+          "cumulative_target": 12,
+          "actions": null,
+          "new": null,
+          "cumulative": null
+        },
+        {
+          "q": 2,
+          "new_target": 4,
+          "cumulative_target": 16,
+          "actions": null,
+          "new": null,
+          "cumulative": null
+        },
+        {
+          "q": 3,
+          "new_target": 5,
+          "cumulative_target": 21,
+          "actions": null,
+          "new": null,
+          "cumulative": null
+        },
+        {
+          "q": 4,
+          "new_target": 4,
+          "cumulative_target": 45,
+          "actions": null,
+          "new": null,
+          "cumulative": null
+        }
+      ],
+      "progress": {
+        "status": "not_started",
+        "expected_now": 0,
+        "total_pct": null,
+        "revenue_pct": null
+      },
+      "current": false
+    }
+  ],
+  "three_year": {
+    "target_revenue": {
+      "amount": 24000,
+      "currency": "USD",
+      "display": "$24,000"
+    },
+    "actual_revenue": {
+      "amount": 900,
+      "currency": "USD",
+      "display": "$900"
+    }
+  },
+  "kpis": [
+    {
+      "slug": "paying",
+      "label": "Paying salons",
+      "what": "Salons with paid time running today.",
+      "value": 3
+    },
+    {
+      "slug": "new",
+      "label": "New salons",
+      "what": "First payment this month / quarter.",
+      "value": {
+        "month": 1,
+        "quarter": 3
+      }
+    },
+    {
+      "slug": "renewal",
+      "label": "Renewal rate",
+      "what": "Of last year's paying salons, how many paid again.",
+      "value": null
+    },
+    {
+      "slug": "pipeline",
+      "label": "Sales pipeline",
+      "what": "This month.",
+      "value": {
+        "contacted": 12,
+        "demos": 4,
+        "offers": 1,
+        "website_requests": 2
+      }
+    },
+    {
+      "slug": "cash",
+      "label": "Cash collected",
+      "what": "From paid invoices.",
+      "value": {
+        "month": {
+          "amount": 300,
+          "currency": "USD",
+          "display": "$300"
+        },
+        "year": {
+          "amount": 900,
+          "currency": "USD",
+          "display": "$900"
+        },
+        "unpaid": {
+          "count": 1,
+          "amount": {
+            "amount": 300,
+            "currency": "USD",
+            "display": "$300"
+          }
+        }
+      }
+    },
+    {
+      "slug": "satisfaction",
+      "label": "Salon satisfaction",
+      "what": "Ask each salon once a quarter.",
+      "value": null
+    }
+  ],
+  "renewals_due": [
+    {
+      "salon_id": 1,
+      "salon_name": "Emmanuel Hairstyle",
+      "status": "active",
+      "until": "2027-04-20",
+      "days_left": 37,
+      "amount": {
+        "amount": 300,
+        "currency": "USD",
+        "display": "$300"
+      },
+      "phone": "+961 70 123 456",
+      "whatsapp_link": "https://wa.me/96170123456?text=Renewal"
+    },
+    {
+      "salon_id": 7,
+      "salon_name": "Studio 7",
+      "status": "grace",
+      "until": "2027-03-10",
+      "days_left": -4,
+      "amount": {
+        "amount": 300,
+        "currency": "USD",
+        "display": "$300"
+      },
+      "phone": null,
+      "whatsapp_link": null
+    }
+  ],
+  "checklist": {
+    "month": "2027-03",
+    "done": 2,
+    "of": 5,
+    "items": [
+      {
+        "slug": "contacts",
+        "label": "Salons contacted",
+        "type": "count",
+        "target": 25,
+        "value": 12,
+        "done": false,
+        "hint": null
+      },
+      {
+        "slug": "demos",
+        "label": "Demos given",
+        "type": "count",
+        "target": 4,
+        "value": 4,
+        "done": true,
+        "hint": "2 demo requests came from the website this month."
+      },
+      {
+        "slug": "offers",
+        "label": "Offers sent",
+        "type": "count",
+        "target": null,
+        "value": 1,
+        "done": null,
+        "hint": null
+      },
+      {
+        "slug": "posts",
+        "label": "Posts on Instagram",
+        "type": "count",
+        "target": 8,
+        "value": 3,
+        "done": false,
+        "hint": null
+      },
+      {
+        "slug": "followups",
+        "label": "Followed up every trial",
+        "type": "check",
+        "target": null,
+        "value": true,
+        "done": true,
+        "hint": null
+      },
+      {
+        "slug": "renewals",
+        "label": "Called salons to renew",
+        "type": "check",
+        "target": null,
+        "value": false,
+        "done": false,
+        "hint": "1 salon ends its paid time within 60 days."
+      }
+    ]
+  },
+  "roadmap": [
+    {
+      "priority": "critical",
+      "capability": "Appointments and visits",
+      "timing": 2027,
+      "status": "ready",
+      "plugins": [
+        "salon-manager-core"
+      ]
+    },
+    {
+      "priority": "high",
+      "capability": "WhatsApp bot",
+      "timing": 2027,
+      "status": "partial",
+      "plugins": [
+        "hallak-whatsapp"
+      ]
+    },
+    {
+      "priority": "medium",
+      "capability": "Online payments",
+      "timing": 2028,
+      "status": "planned",
+      "plugins": []
+    }
+  ],
+  "budget": {
+    "year": 2027,
+    "base": {
+      "amount": 900,
+      "currency": "USD",
+      "display": "$900"
+    },
+    "base_target": {
+      "amount": 3000,
+      "currency": "USD",
+      "display": "$3,000"
+    },
+    "note": "Shares of the cash collected this year.",
+    "items": [
+      {
+        "slug": "hosting",
+        "label": "Hosting",
+        "share": 15,
+        "amount": {
+          "amount": 135,
+          "currency": "USD",
+          "display": "$135"
+        },
+        "amount_target": {
+          "amount": 450,
+          "currency": "USD",
+          "display": "$450"
+        }
+      },
+      {
+        "slug": "marketing",
+        "label": "Marketing",
+        "share": 30,
+        "amount": {
+          "amount": 270,
+          "currency": "USD",
+          "display": "$270"
+        },
+        "amount_target": {
+          "amount": 900,
+          "currency": "USD",
+          "display": "$900"
+        }
+      },
+      {
+        "slug": "development",
+        "label": "Development",
+        "share": 25,
+        "amount": {
+          "amount": 225,
+          "currency": "USD",
+          "display": "$225"
+        },
+        "amount_target": {
+          "amount": 750,
+          "currency": "USD",
+          "display": "$750"
+        }
+      },
+      {
+        "slug": "unexpected",
+        "label": "Unexpected",
+        "share": 10,
+        "amount": {
+          "amount": 90,
+          "currency": "USD",
+          "display": "$90"
+        },
+        "amount_target": {
+          "amount": 300,
+          "currency": "USD",
+          "display": "$300"
+        }
+      },
+      {
+        "slug": "reserve",
+        "label": "Reserve",
+        "share": 20,
+        "amount": {
+          "amount": 180,
+          "currency": "USD",
+          "display": "$180"
+        },
+        "amount_target": {
+          "amount": 600,
+          "currency": "USD",
+          "display": "$600"
+        }
+      }
+    ]
+  },
+  "tiers": {
+    "items": [
+      {
+        "name": "Basic",
+        "price": {
+          "amount": 240,
+          "currency": "USD",
+          "display": "$240"
+        },
+        "positioning": "One barber, appointments and visits."
+      },
+      {
+        "name": "Pro",
+        "price": {
+          "amount": 300,
+          "currency": "USD",
+          "display": "$300"
+        },
+        "positioning": "The whole team, WhatsApp bot, reports."
+      }
+    ],
+    "note": "Ideas only: prices are set in Billing."
+  },
+  "recommendation": "Keep one price in 2027; add tiers when 10 salons pay.",
+  "note": "Real numbers come from paid invoices in Billing.",
+  "generated_at": "2027-03-14 10:00",
+  "tz": "Asia/Beirut"
+}

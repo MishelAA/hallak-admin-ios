@@ -12,6 +12,8 @@ enum AppRoute: Hashable {
     /// A page opened signed in through a one-time link (POST /admin/login-link). `fallback` opens without it.
     case signedIn(LinkTarget, title: String, fallback: URL?)
     case health, owners, whatsapp, ai, settings
+    /// API 1.3: business plan 2027–2029.
+    case businessPlan
 }
 
 extension View {
@@ -31,6 +33,7 @@ extension View {
             case .whatsapp: WhatsAppView()
             case .ai: AIView()
             case .settings: SettingsView()
+            case .businessPlan: BusinessPlanView()
             }
         }
     }

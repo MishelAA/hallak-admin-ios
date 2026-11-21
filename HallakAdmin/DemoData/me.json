@@ -10,7 +10,8 @@
   "can": {
     "read": true,
     "write": true,
-    "open_links": true
+    "open_links": true,
+    "plan": true
   },
   "site": {
     "name": "Hallak",

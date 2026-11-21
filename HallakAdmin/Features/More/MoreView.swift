@@ -11,6 +11,7 @@ struct MoreView: View {
                 if session.me?.hasCheck ?? true { row(.health, "Health", "stethoscope") }
                 row(.activity(salonId: nil, salonName: nil), "Activity", "list.bullet.rectangle")
                 row(.owners, "Owners", "person.2")
+                if session.me?.canPlan == true { row(.businessPlan, "Business plan", "chart.line.uptrend.xyaxis") }
             }
             Section {
                 if session.me?.hasWhatsApp ?? true { row(.whatsapp, "WhatsApp bot", "message") }
