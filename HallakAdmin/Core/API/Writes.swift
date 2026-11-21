@@ -90,8 +90,13 @@ struct SubscriptionForm: Hashable {
     var ownPrice: Double?
     var trial = false
     var applyFeatures = false
+    /// API 1.4: the account type. nil = the API is older (plan_id / trial only).
+    var type: AccountType?
+    /// For a trial: "7", "14", "1m", "2m", "3m".
+    var trialLength = TrialLength.month1.rawValue
 
     var body: JSONBody {
+        if let type, type != .unknown { return typedBody(type) }
         var b: JSONBody = ["plan_id": planId, "cycle": cycle, "trial": trial, "apply_features": applyFeatures,
                            "price": ownPrice.map { $0 as Any } ?? NSNull()]
         if planId != 0 { b["until"] = Self.day(until) }
@@ -107,6 +112,29 @@ struct SubscriptionForm: Hashable {
         return f.string(from: date)
     }
 
+    /// API 1.4: paid needs a plan; trial needs a length (and the plan billed after it, if any); free and demo: the type only.
+    private func typedBody(_ type: AccountType) -> JSONBody {
+        var b: JSONBody = ["type": type.rawValue]
+        switch type {
+        case .paid:
+            b["plan_id"] = planId
+            b["cycle"] = cycle
+            b["until"] = Self.day(until)
+            b["price"] = ownPrice.map { $0 as Any } ?? NSNull()
+            b["apply_features"] = applyFeatures
+        case .trial:
+            b["trial_length"] = trialLength
+            if planId != 0 { b["plan_id"] = planId }
+            b["apply_features"] = applyFeatures
+        case .free, .demo, .unknown:
+            break
+        }
+        return b
+    }
+
+    /// A paid salon needs a plan.
+    var isComplete: Bool { type != .paid || planId != 0 }
+
     init() {}
 
     /// Starts from the salon's current subscription.
@@ -116,6 +144,13 @@ struct SubscriptionForm: Hashable {
         until = Formatters.date(b?.until) ?? Calendar.current.date(byAdding: .month, value: 1, to: Date()) ?? Date()
         ownPrice = (b?.ownPrice == true) ? b?.price?.amount : nil
         trial = b?.trial ?? false
+        if let t = b?.type, t != .unknown { type = t }
+    }
+
+    /// API 1.4 without billing.type (older Billing plugin): the type from plan / trial.
+    mutating func guessType() {
+        guard type == nil else { return }
+        type = planId == 0 ? .free : (trial ? .trial : .paid)
     }
 }
 

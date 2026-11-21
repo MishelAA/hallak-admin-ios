@@ -40,7 +40,9 @@
     "until": "2027-11-16",
     "days_left": 361,
     "grace_end": "2026-11-23",
-    "trial": false
+    "trial": false,
+    "type": "paid",
+    "type_label": "Paid"
   },
   "generated_at": "2026-11-19 13:13",
   "tz": "Asia/Beirut"

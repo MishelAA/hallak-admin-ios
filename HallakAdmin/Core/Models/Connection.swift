@@ -33,6 +33,8 @@ struct Me: Decodable, Hashable {
         let openLinks: Bool?
         /// API 1.3: /admin/plan is available.
         let plan: Bool?
+        /// API 1.4 + Demo plugin 1.1: /admin/demos.
+        let demos: Bool?
     }
     struct Plugins: Decodable, Hashable {
         let billing: Bool?

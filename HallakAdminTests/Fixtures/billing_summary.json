@@ -20,6 +20,7 @@
   },
   "salons": {
     "free": 2,
+    "demo": 2,
     "trial": 3,
     "active": 16,
     "grace": 1,

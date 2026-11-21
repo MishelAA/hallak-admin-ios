@@ -208,6 +208,49 @@ struct SubscriptionEditorView: View {
     var body: some View {
         NavigationStack {
             Form {
+                if session.hasAccountTypes {
+                    AccountTypeSection(form: $form, plans: plans.value?.items ?? [], runner: runner)
+                    if form.type == .paid {
+                        Section {
+                            Toggle("Own price", isOn: $hasOwnPrice)
+                            if hasOwnPrice {
+                                LabeledContent("Price per cycle") {
+                                    TextField("", value: $price, format: .number.precision(.fractionLength(0...2)).locale(Locale(identifier: "en_US")))
+                                        .keyboardType(.decimalPad)
+                                        .multilineTextAlignment(.trailing)
+                                }
+                                FieldError(runner: runner, field: "price")
+                            }
+                        }
+                    }
+                    Section {
+                        ActionButton(title: "Save", runner: runner, enabled: form.isComplete) { await save() }
+                    }
+                } else {
+                    legacySections
+                }
+            }
+            .navigationTitle("Subscription")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar { ToolbarItem(placement: .cancellationAction) { Button("Cancel") { dismiss() } } }
+            .interactiveDismissDisabled(runner.isRunning)
+            .actionErrorAlert(runner)
+            .task {
+                if !filled {
+                    filled = true
+                    form = SubscriptionForm(from: current)
+                    if session.hasAccountTypes { form.guessType() } else { form.type = nil }
+                    hasOwnPrice = form.ownPrice != nil
+                    price = form.ownPrice ?? current?.price?.amount ?? 0
+                }
+                await plans.load(session)
+            }
+        }
+    }
+
+    /// Before API 1.4: plan (0 = not billed), cycle, paid until, own price, trial.
+    @ViewBuilder
+    private var legacySections: some View {
                 Section {
                     Picker("Plan", selection: $form.planId) {
                         Text("Not billed").tag(0)
@@ -239,27 +282,12 @@ struct SubscriptionEditorView: View {
                 Section {
                     ActionButton(title: "Save", runner: runner) { await save() }
                 }
-            }
-            .navigationTitle("Subscription")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar { ToolbarItem(placement: .cancellationAction) { Button("Cancel") { dismiss() } } }
-            .interactiveDismissDisabled(runner.isRunning)
-            .actionErrorAlert(runner)
-            .task {
-                if !filled {
-                    filled = true
-                    form = SubscriptionForm(from: current)
-                    hasOwnPrice = form.ownPrice != nil
-                    price = form.ownPrice ?? current?.price?.amount ?? 0
-                }
-                await plans.load(session)
-            }
-        }
     }
 
     private func save() async {
         var f = form
-        f.ownPrice = (hasOwnPrice && f.planId != 0) ? price : nil
+        let priced = f.type.map { $0 == .paid } ?? (f.planId != 0)
+        f.ownPrice = (hasOwnPrice && priced) ? price : nil
         if let a = await runner.run(session, success: String(localized: "Saved"), {
             try await ActionRunner.client(session).send(.setSubscription(salonId, f), as: SubscriptionAnswer.self)
         }) {

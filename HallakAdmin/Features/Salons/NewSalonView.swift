@@ -176,8 +176,27 @@ struct NewSalonView: View {
         }
     }
 
+    /// API 1.4: the account type decides; before: "Billed" toggle.
+    private var typed: Bool { session.hasAccountTypes }
+    /// The plan features replace the feature switches.
+    private var usesPlanFeatures: Bool {
+        if typed { return (subscription.type == .paid || subscription.type == .trial) && subscription.planId != 0 && subscription.applyFeatures }
+        return billed && subscription.applyFeatures
+    }
+
     private var planStep: some View {
         Group {
+            if typed {
+                AccountTypeSection(form: $subscription, plans: plans.value?.items ?? [], runner: runner)
+            } else {
+                legacyPlanSection
+            }
+            featureSection
+        }
+        .onAppear { if typed, subscription.type == nil { subscription.type = .trial } }
+    }
+
+    private var legacyPlanSection: some View {
             Section {
                 Toggle("Billed (has a plan)", isOn: $billed)
                 if billed {
@@ -200,7 +219,11 @@ struct NewSalonView: View {
             } header: {
                 Text("Plan")
             }
-            if !(billed && subscription.applyFeatures), let list = featureList.value?.items, !list.isEmpty {
+    }
+
+    @ViewBuilder
+    private var featureSection: some View {
+            if !usesPlanFeatures, let list = featureList.value?.items, !list.isEmpty {
                 Section("Features") {
                     ForEach(list) { f in
                         Toggle(isOn: Binding(get: { features[f.slug] ?? false }, set: { features[f.slug] = $0 })) {
@@ -212,7 +235,6 @@ struct NewSalonView: View {
                     }
                 }
             }
-        }
     }
 
     // MARK: Helpers
@@ -239,13 +261,13 @@ struct NewSalonView: View {
         case .owner:
             if newOwner { return isLead || (!username.trimmingCharacters(in: .whitespaces).isEmpty && email.contains("@")) }
             return existingOwner != nil
-        case .plan: return !billed || subscription.planId != 0
+        case .plan: return typed ? subscription.isComplete : (!billed || subscription.planId != 0)
         }
     }
 
     static func step(for field: String) -> Step {
         if field.hasPrefix("owner") { return .owner }
-        if ["plan_id", "until", "cycle", "price", "features"].contains(field) || field.hasPrefix("subscription") { return .plan }
+        if ["plan_id", "until", "cycle", "price", "features", "type", "trial_length"].contains(field) || field.hasPrefix("subscription") { return .plan }
         return .salon
     }
 
@@ -259,6 +281,7 @@ struct NewSalonView: View {
         if let wanted = lead.plan?.lowercased(), let p = plans.value?.items.first(where: { $0.name?.lowercased() == wanted }) {
             billed = true
             subscription.planId = p.id
+            if session.hasAccountTypes, subscription.type == nil { subscription.type = .trial }
         }
     }
 
@@ -284,8 +307,16 @@ struct NewSalonView: View {
         } else if let id = existingOwner?.id {
             b["owner_id"] = id
         }
-        if billed { b["subscription"] = subscription.body }
-        if !(billed && subscription.applyFeatures), !features.isEmpty { b["features"] = features }
+        if typed {
+            var s = subscription
+            if s.type == nil { s.type = .trial }
+            b["subscription"] = s.body
+        } else if billed {
+            var s = subscription
+            s.type = nil
+            b["subscription"] = s.body
+        }
+        if !usesPlanFeatures, !features.isEmpty { b["features"] = features }
         return b
     }
 

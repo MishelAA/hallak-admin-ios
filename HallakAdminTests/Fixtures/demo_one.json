@@ -1,0 +1,24 @@
+{
+  "demo": {
+    "key": "2",
+    "name": "Karim Barber Shop (demo)",
+    "built": true,
+    "salon_id": 91,
+    "language": "ar",
+    "public": true,
+    "nightly": false,
+    "main": false,
+    "built_at": "2026-11-20 03:00",
+    "owner_login": "demo2",
+    "barber_login": "demo2-barber",
+    "password": "demo1234",
+    "barber_password": "barber1234",
+    "links": {
+      "owner": "https://hallak.online/?hallak_demo=2&as=owner",
+      "barber": "https://hallak.online/?hallak_demo=2&as=barber"
+    },
+    "dashboard": "https://hallak.online/salon/demo2/"
+  },
+  "generated_at": "2026-11-19 13:13",
+  "tz": "Asia/Beirut"
+}

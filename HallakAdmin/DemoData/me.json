@@ -11,7 +11,8 @@
     "read": true,
     "write": true,
     "open_links": true,
-    "plan": true
+    "plan": true,
+    "demos": true
   },
   "site": {
     "name": "Hallak",

@@ -1,4 +1,4 @@
-"""Writes the JSON fixtures used by the unit tests (one per endpoint of API 1.3.0).
+"""Writes the JSON fixtures used by the unit tests (one per endpoint of API 1.4.0).
 
 Values are realistic but invented: no real passwords, tokens or customer data.
 Run:  python scripts/make_fixtures.py
@@ -29,11 +29,13 @@ BILLING_ACTIVE = {
     "status": "active", "status_label": "Paid", "plan_id": 2, "plan": "Pro", "cycle": "month",
     "price": usd(30), "monthly": usd(30), "own_price": False,
     "until": "2026-12-07", "days_left": 18, "grace_end": None, "trial": False,
+    "type": "paid", "type_label": "Paid",
 }
 BILLING_GRACE = {
     "status": "grace", "status_label": "Payment due", "plan_id": 1, "plan": "Basic", "cycle": "year",
     "price": usd(240), "monthly": usd(20), "own_price": True,
     "until": "2026-11-16", "days_left": -3, "grace_end": "2026-11-23", "trial": False,
+    "type": "paid", "type_label": "Paid",
 }
 
 SALON_1 = {
@@ -165,14 +167,40 @@ PLAN = {
     **PLAN_META,
 }
 
+BILLING_TRIAL = {
+    "status": "trial", "status_label": "Trial", "plan_id": 2, "plan": "Pro", "cycle": "month",
+    "price": usd(30), "monthly": usd(30), "own_price": False,
+    "until": "2026-11-24", "days_left": 5, "grace_end": None, "trial": True,
+    "type": "trial", "type_label": "Free trial",
+}
+
+
+def demo(key, name, lang, public, nightly, main, salon_id):
+    n = "" if key == "1" else key
+    d = {
+        "key": key, "name": name, "built": True, "salon_id": salon_id, "language": lang,
+        "public": public, "nightly": nightly, "main": main, "built_at": "2026-11-20 03:00",
+        "owner_login": "demo" + n, "barber_login": "demo" + n + "-barber",
+        "password": "demo1234", "barber_password": "barber1234",
+        "links": None, "dashboard": "https://hallak.online/salon/demo" + n + "/",
+    }
+    if public:
+        d["links"] = {"owner": "https://hallak.online/?hallak_demo=" + key + "&as=owner",
+                      "barber": "https://hallak.online/?hallak_demo=" + key + "&as=barber"}
+    return d
+
+
+DEMO_1 = demo("1", "Hallak demo (English)", "en", True, True, True, 90)
+DEMO_2 = demo("2", "Karim Barber Shop (demo)", "ar", True, False, False, 91)
+
 FIXTURES = {
     "ping": {
         "ok": True, "user": "mishel-app", "site": "https://hallak.online", "wordpress": "6.8.3",
-        "hallak_core": "1.12.4", "api": "1.3.0", "https": True, **META,
+        "hallak_core": "1.12.4", "api": "1.4.0", "https": True, **META,
     },
     "me": {
         "user": {"id": 2, "username": "mishel-app", "name": "Mishel", "email": "admin@example.com", "last_login": "2026-11-19 13:00"},
-        "language": "en", "can": {"read": True, "write": True, "open_links": True, "plan": True},
+        "language": "en", "can": {"read": True, "write": True, "open_links": True, "plan": True, "demos": True},
         "site": {
             "name": "Hallak", "url": "https://hallak.online", "wordpress": "6.8.3", "hallak_core": "1.4.2", "api": "1.0.1",
             "plugins": {"billing": True, "site": True, "whatsapp": True, "ai": False, "check": True},
@@ -181,7 +209,8 @@ FIXTURES = {
     },
     "overview": {
         "salons": {"total": 23, "active": 22, "suspended": 1},
-        "billing": {"free": 2, "trial": 3, "active": 16, "grace": 1, "overdue": 1},
+        "billing": {"free": 2, "demo": 2, "trial": 3, "active": 16, "grace": 1, "overdue": 1},
+        "types": {"paid": 18, "trial": 3, "free": 2, "demo": 2},
         "money": {"mrr": usd(690), "paid_this_month": usd(520), "unpaid": {"count": 4, "amount": usd(170)}},
         "leads": {"new": 2},
         "whatsapp": {"replies_month": 1840, "cost_month": usd(6.4), "chats_need_team": 3},
@@ -264,7 +293,7 @@ FIXTURES = {
     "billing_summary": {
         "currency": "USD", "mrr": usd(690), "paid_this_month": usd(520),
         "unpaid": {"count": 4, "amount": usd(170)},
-        "salons": {"free": 2, "trial": 3, "active": 16, "grace": 1, "overdue": 1},
+        "salons": {"free": 2, "demo": 2, "trial": 3, "active": 16, "grace": 1, "overdue": 1},
         "due_soon": [
             {"salon_id": 7, "salon_name": "Studio 7", "status": "grace", "until": "2026-11-16", "days_left": -3},
             {"salon_id": 1, "salon_name": "Emmanuel Hairstyle", "status": "active", "until": "2026-12-07", "days_left": 18},
@@ -354,6 +383,10 @@ FIXTURES = {
     "plan_checklist": {**checklist("2027-02", contacts=25, followups=False), **PLAN_META},
     "error_budget": {"code": "smapi_budget", "message": "The budget shares must add up to 100.",
                      "data": {"status": 400, "field": "budget"}},
+    "demos": {"items": [DEMO_1, DEMO_2], "max": 10, "can_add": True, "missing": [], "languages": ["en", "ar"], **META},
+    "demo_one": {"demo": DEMO_2, **META},
+    "subscription_trial": {"salon_id": 41, "subscription": BILLING_TRIAL, "open_invoice": None, **META},
+    "error_plan": {"code": "smb_plan", "message": "A paid account needs a plan.", "data": {"status": 400, "field": "plan_id"}},
     "error_conflict": {"code": "sm_user", "message": "This username is already used.",
                        "data": {"status": 409, "field": "owner.username"}},
     "error_not_found": {"code": "smapi_not_found", "message": "Salon not found.", "data": {"status": 404}},

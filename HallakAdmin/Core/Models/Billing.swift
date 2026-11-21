@@ -2,7 +2,7 @@ import Foundation
 
 /// Billing status of a salon. free = not billed, grace = payment due (still working), overdue = past the grace days.
 enum BillingStatus: String, Decodable, CaseIterable, Hashable {
-    case free, trial, active, grace, overdue, unknown
+    case free, demo, trial, active, grace, overdue, unknown
 
     init(from decoder: Decoder) throws {
         let raw = try decoder.singleValueContainer().decode(String.self)
@@ -27,6 +27,10 @@ struct Billing: Decodable, Hashable {
     let daysLeft: Int?
     let graceEnd: String?
     let trial: Bool?
+    /// API 1.4 (Billing 1.1): paid | trial | free | demo.
+    let type: AccountType?
+    /// "Free trial", in the app language.
+    let typeLabel: String?
 }
 
 /// GET /admin/salons/{id}/subscription
@@ -45,6 +49,7 @@ struct BillingSummary: Decodable, Hashable {
     }
     struct Counts: Decodable, Hashable {
         let free: Int?
+        let demo: Int?
         let trial: Int?
         let active: Int?
         let grace: Int?

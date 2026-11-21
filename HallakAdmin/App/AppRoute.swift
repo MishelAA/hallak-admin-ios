@@ -14,6 +14,9 @@ enum AppRoute: Hashable {
     case health, owners, whatsapp, ai, settings
     /// API 1.3: business plan 2027–2029.
     case businessPlan
+    /// API 1.4: demo salons.
+    case demos
+    case demo(DemoSalon)
 }
 
 extension View {
@@ -34,6 +37,8 @@ extension View {
             case .ai: AIView()
             case .settings: SettingsView()
             case .businessPlan: BusinessPlanView()
+            case .demos: DemoListView()
+            case let .demo(d): DemoDetailView(demo: d)
             }
         }
     }

@@ -81,6 +81,16 @@
         }
       }
     },
+    "%lld of %lld": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld من %lld"
+          }
+        }
+      }
+    },
     "%lld of %lld done": {
       "localizations": {
         "ar": {
@@ -131,6 +141,46 @@
         }
       }
     },
+    "1 month": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "شهر واحد"
+          }
+        }
+      }
+    },
+    "14 days": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "14 يومًا"
+          }
+        }
+      }
+    },
+    "2 months": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "شهران"
+          }
+        }
+      }
+    },
+    "3 months": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "3 أشهر"
+          }
+        }
+      }
+    },
     "3 years:": {
       "localizations": {
         "ar": {
@@ -141,12 +191,32 @@
         }
       }
     },
+    "7 days": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "7 أيام"
+          }
+        }
+      }
+    },
     "A number": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "رقم"
+          }
+        }
+      }
+    },
+    "A paid salon needs a plan": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الصالون المدفوع يحتاج إلى باقة"
           }
         }
       }
@@ -177,6 +247,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "API"
+          }
+        }
+      }
+    },
+    "Account": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الحساب"
+          }
+        }
+      }
+    },
+    "Account types": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أنواع الحسابات"
           }
         }
       }
@@ -441,6 +531,26 @@
         }
       }
     },
+    "Barber": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الحلاق"
+          }
+        }
+      }
+    },
+    "Barber link": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "رابط الحلاق"
+          }
+        }
+      }
+    },
     "Behind": {
       "localizations": {
         "ar": {
@@ -457,6 +567,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "مع اشتراك (له باقة)"
+          }
+        }
+      }
+    },
+    "Billed on its plan.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يُفوتَر حسب باقته."
           }
         }
       }
@@ -567,6 +687,46 @@
           "stringUnit": {
             "state": "translated",
             "value": "حصص الميزانية"
+          }
+        }
+      }
+    },
+    "Build the demo": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ابنِ الصالون التجريبي"
+          }
+        }
+      }
+    },
+    "Building takes 5 to 20 seconds. If it stops with an error, refresh the list before trying again: the demo may already be there.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يستغرق البناء من 5 إلى 20 ثانية. إذا توقف بخطأ، حدّث القائمة قبل المحاولة من جديد: قد يكون الصالون موجودًا."
+          }
+        }
+      }
+    },
+    "Building the demo salon…": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "جارٍ بناء الصالون التجريبي…"
+          }
+        }
+      }
+    },
+    "Built %@": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بُني %@"
           }
         }
       }
@@ -721,6 +881,16 @@
         }
       }
     },
+    "Choose how long the free trial lasts": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختر مدة التجربة المجانية"
+          }
+        }
+      }
+    },
     "Choose the owner": {
       "localizations": {
         "ar": {
@@ -797,6 +967,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "تم النسخ"
+          }
+        }
+      }
+    },
+    "Copy": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نسخ"
           }
         }
       }
@@ -951,6 +1131,16 @@
         }
       }
     },
+    "Delete demo": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حذف الصالون التجريبي"
+          }
+        }
+      }
+    },
     "Delete request": {
       "localizations": {
         "ar": {
@@ -981,12 +1171,62 @@
         }
       }
     },
+    "Delete this demo salon?": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حذف هذا الصالون التجريبي؟"
+          }
+        }
+      }
+    },
     "Deleting “%@” removes the salon and all its data: visits, customers, appointments, money. The owner account is deleted too, unless the owner has other branches.": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "حذف «%@» يزيل الصالون وكل بياناته: الزيارات، الزبائن، المواعيد، المال. ويُحذف حساب المالك أيضًا إلا إذا كان له فروع أخرى."
+          }
+        }
+      }
+    },
+    "Demo": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تجريبي"
+          }
+        }
+      }
+    },
+    "Demo back to the start": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عاد الصالون التجريبي إلى البداية"
+          }
+        }
+      }
+    },
+    "Demo deleted": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تم حذف الصالون التجريبي"
+          }
+        }
+      }
+    },
+    "Demo logins are public on purpose: share them with the salon you visit.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تسجيلات دخول الصالون التجريبي عامة عن قصد: شاركها مع الصالون الذي تزوره."
           }
         }
       }
@@ -1007,6 +1247,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "طلبات التجربة"
+          }
+        }
+      }
+    },
+    "Demo salon ready": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الصالون التجريبي جاهز"
+          }
+        }
+      }
+    },
+    "Demo salons": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "صالونات تجريبية"
           }
         }
       }
@@ -1151,6 +1411,16 @@
         }
       }
     },
+    "Everything visitors did is removed. This takes 5 to 20 seconds.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يُحذف كل ما فعله الزوار. يستغرق ذلك من 5 إلى 20 ثانية."
+          }
+        }
+      }
+    },
     "Existing owner (branch)": {
       "localizations": {
         "ar": {
@@ -1221,12 +1491,52 @@
         }
       }
     },
+    "For example the salon you are visiting: “Karim Barber Shop”.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مثلًا الصالون الذي تزوره: «Karim Barber Shop»."
+          }
+        }
+      }
+    },
     "Forward": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "تقدّم"
+          }
+        }
+      }
+    },
+    "Free": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مجاني"
+          }
+        }
+      }
+    },
+    "Free trial": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تجربة مجانية"
+          }
+        }
+      }
+    },
+    "Free until the end of the trial, then billed on the plan. The first payment makes it paid.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مجاني حتى نهاية التجربة، ثم يُفوتَر حسب الباقة. أول دفعة تجعله مدفوعًا."
           }
         }
       }
@@ -1337,6 +1647,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "الرئيسية"
+          }
+        }
+      }
+    },
+    "Home page": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الصفحة الرئيسية"
+          }
+        }
+      }
+    },
+    "Home page demo changed": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تغيّر الصالون التجريبي للصفحة الرئيسية"
           }
         }
       }
@@ -1631,6 +1961,16 @@
         }
       }
     },
+    "Logins": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تسجيلات الدخول"
+          }
+        }
+      }
+    },
     "Lost phone? In wp-admin → Users → Profile → Application Passwords, revoke “Hallak iPhone”. The app stops working at once.": {
       "localizations": {
         "ar": {
@@ -1761,6 +2101,16 @@
         }
       }
     },
+    "Modules the demo needs are off: %@": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "وحدات يحتاجها الصالون التجريبي متوقفة: %@"
+          }
+        }
+      }
+    },
     "Money": {
       "localizations": {
         "ar": {
@@ -1881,6 +2231,16 @@
         }
       }
     },
+    "Name (optional)": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الاسم (اختياري)"
+          }
+        }
+      }
+    },
     "Name, login or email": {
       "localizations": {
         "ar": {
@@ -1921,6 +2281,26 @@
         }
       }
     },
+    "Never billed, and left out of the business numbers.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا يُفوتَر أبدًا، ولا يدخل في أرقام العمل."
+          }
+        }
+      }
+    },
+    "Never billed, never suspended.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا يُفوتَر أبدًا ولا يُوقف أبدًا."
+          }
+        }
+      }
+    },
     "Never logged in": {
       "localizations": {
         "ar": {
@@ -1947,6 +2327,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "جديد = صالونات جديدة في الربع. تدفع = الصالونات التي تدفع في آخر الربع (المحطة)."
+          }
+        }
+      }
+    },
+    "New demo": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "صالون تجريبي جديد"
           }
         }
       }
@@ -2081,6 +2471,16 @@
         }
       }
     },
+    "No demo salon yet.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا يوجد صالون تجريبي بعد."
+          }
+        }
+      }
+    },
     "No invoices": {
       "localizations": {
         "ar": {
@@ -2181,6 +2581,16 @@
         }
       }
     },
+    "None": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا شيء"
+          }
+        }
+      }
+    },
     "Not active": {
       "localizations": {
         "ar": {
@@ -2197,6 +2607,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "بدون اشتراك"
+          }
+        }
+      }
+    },
+    "Not built yet": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لم يُبنَ بعد"
           }
         }
       }
@@ -2391,6 +2811,36 @@
         }
       }
     },
+    "Open the demo without a password.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "افتح الصالون التجريبي بدون كلمة مرور."
+          }
+        }
+      }
+    },
+    "Open to everyone": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مفتوح للجميع"
+          }
+        }
+      }
+    },
+    "Open to everyone (share links)": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مفتوح للجميع (روابط مشاركة)"
+          }
+        }
+      }
+    },
     "Open wp-admin": {
       "localizations": {
         "ar": {
@@ -2457,6 +2907,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "المالك"
+          }
+        }
+      }
+    },
+    "Owner link": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "رابط المالك"
           }
         }
       }
@@ -2667,6 +3127,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "الباقة"
+          }
+        }
+      }
+    },
+    "Plan after the trial": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الباقة بعد التجربة"
           }
         }
       }
@@ -3041,6 +3511,56 @@
         }
       }
     },
+    "Reset": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إعادة"
+          }
+        }
+      }
+    },
+    "Reset this demo to the start?": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إعادة هذا الصالون التجريبي إلى البداية؟"
+          }
+        }
+      }
+    },
+    "Reset to the start": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "العودة إلى البداية"
+          }
+        }
+      }
+    },
+    "Resets nightly": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يعود للبداية كل ليلة"
+          }
+        }
+      }
+    },
+    "Resets nightly at 03:00": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يعود للبداية كل ليلة الساعة 03:00"
+          }
+        }
+      }
+    },
     "Retry": {
       "localizations": {
         "ar": {
@@ -3107,6 +3627,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "تم حذف الصالون"
+          }
+        }
+      }
+    },
+    "Salon in the app": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الصالون في التطبيق"
           }
         }
       }
@@ -3191,6 +3721,16 @@
         }
       }
     },
+    "Same language": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نفس اللغة"
+          }
+        }
+      }
+    },
     "Save": {
       "localizations": {
         "ar": {
@@ -3267,6 +3807,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "مشاركة"
+          }
+        }
+      }
+    },
+    "Share links": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "روابط المشاركة"
           }
         }
       }
@@ -3531,6 +4081,26 @@
         }
       }
     },
+    "The demo salon, its data and its two logins are deleted.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يُحذف الصالون التجريبي وبياناته وتسجيلا الدخول."
+          }
+        }
+      }
+    },
+    "The home-page “Try the demo” button opens this one.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "زر «جرّب النسخة التجريبية» في الصفحة الرئيسية يفتح هذا الصالون."
+          }
+        }
+      }
+    },
     "The invoice stays in the list as cancelled.": {
       "localizations": {
         "ar": {
@@ -3691,6 +4261,16 @@
         }
       }
     },
+    "There are already %lld demo salons: delete one to add another.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يوجد %lld صالونات تجريبية: احذف واحدًا لإضافة آخر."
+          }
+        }
+      }
+    },
     "This account is not an administrator.": {
       "localizations": {
         "ar": {
@@ -3771,6 +4351,16 @@
         }
       }
     },
+    "This takes 5 to 20 seconds.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يستغرق ذلك من 5 إلى 20 ثانية."
+          }
+        }
+      }
+    },
     "This year": {
       "localizations": {
         "ar": {
@@ -3847,6 +4437,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "تجربة"
+          }
+        }
+      }
+    },
+    "Trial ends in %lld days": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تنتهي التجربة بعد %lld أيام"
+          }
+        }
+      }
+    },
+    "Trial ends today": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تنتهي التجربة اليوم"
+          }
+        }
+      }
+    },
+    "Trial length": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مدة التجربة"
           }
         }
       }
@@ -4007,6 +4627,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "استخدم %@"
+          }
+        }
+      }
+    },
+    "Use for the home page": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "استخدمه في الصفحة الرئيسية"
+          }
+        }
+      }
+    },
+    "Used for the home page": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مستخدم في الصفحة الرئيسية"
           }
         }
       }

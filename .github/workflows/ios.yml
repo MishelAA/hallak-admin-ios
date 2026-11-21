@@ -70,11 +70,11 @@ jobs:
           for s in "home home none" "salons salons none" "salon salons salon" "money money none" "invoice money invoice" \
                    "requests requests none" "lead requests lead" "more more none" "health more health" \
                    "owners more owners" "whatsapp more whatsapp" "ai more ai" "activity more activity" "settings more settings" \
-                   "web salons web" "plan more plan"; do
+                   "web salons web" "plan more plan" "demos more demos"; do
             set -- $s
             demo "en-light-$1" en "$2" "$3"
           done
-          for s in "home home none" "salons salons none" "salon salons salon" "money money none" "health more health" "settings more settings" "plan more plan"; do
+          for s in "home home none" "salons salons none" "salon salons salon" "money money none" "health more health" "settings more settings" "plan more plan" "demos more demos"; do
             set -- $s
             demo "ar-light-$1" ar "$2" "$3"
           done

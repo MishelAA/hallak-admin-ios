@@ -9,12 +9,20 @@ struct Overview: Decodable, Hashable {
     }
     struct BillingCounts: Decodable, Hashable {
         let free: Int?
+        let demo: Int?
         let trial: Int?
         let active: Int?
         let grace: Int?
         let overdue: Int?
         /// Payment due + overdue: red badge on Home when > 0.
         var late: Int { (grace ?? 0) + (overdue ?? 0) }
+    }
+    /// API 1.4: salons by account type.
+    struct Types: Decodable, Hashable {
+        let paid: Int?
+        let trial: Int?
+        let free: Int?
+        let demo: Int?
     }
     struct Unpaid: Decodable, Hashable {
         let count: Int?
@@ -46,6 +54,7 @@ struct Overview: Decodable, Hashable {
 
     let salons: Salons?
     let billing: BillingCounts?
+    let types: Types?
     let money: MoneyBlock?
     let leads: Leads?
     let whatsapp: WhatsApp?

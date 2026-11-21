@@ -38,7 +38,7 @@ enum SalonFilter: String, CaseIterable, Identifiable, Hashable {
         case .grace: self = .due
         case .overdue: self = .overdue
         case .free: self = .notBilled
-        case .unknown, .none: self = .all
+        case .demo, .unknown, .none: self = .all
         }
     }
 }
@@ -62,9 +62,12 @@ struct SalonQuery: Hashable {
     var search = ""
     var filter = SalonFilter.all
     var sort = SalonSort.new
+    /// API 1.4: account type filter (nil = all).
+    var type: AccountType?
 
     var params: [String: String] {
         var p = filter.query
+        if let type { p["type"] = type.rawValue }
         let s = search.trimmingCharacters(in: .whitespaces)
         if !s.isEmpty { p["search"] = s }
         if sort != .new { p["sort"] = sort.rawValue }
@@ -86,6 +89,11 @@ struct SalonsView: View {
                 chips
                     .listRowInsets(EdgeInsets(top: 4, leading: 0, bottom: 4, trailing: 0))
                     .listRowBackground(Color.clear)
+                if session.hasAccountTypes {
+                    typeChips
+                        .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 4, trailing: 0))
+                        .listRowBackground(Color.clear)
+                }
             }
 
             if loader.isOffline {
@@ -192,11 +200,50 @@ struct SalonsView: View {
         }
     }
 
-    /// A Home card asked for a billing filter.
+    /// API 1.4: All · Paid · Trial · Free · Demo → ?type=
+    private var typeChips: some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 8) {
+                Text("Account").font(.caption.weight(.semibold)).foregroundStyle(Theme.inkSecondary)
+                typeChip(nil, String(localized: "All"))
+                ForEach(AccountType.choices) { t in typeChip(t, t.label) }
+            }
+            .padding(.horizontal, 16)
+        }
+    }
+
+    private func typeChip(_ t: AccountType?, _ label: String) -> some View {
+        let on = query.type == t
+        return Button {
+            Haptics.tap()
+            query.type = t
+        } label: {
+            Text(verbatim: label)
+                .font(.footnote.weight(.medium))
+                .padding(.horizontal, 12)
+                .frame(minHeight: 32)
+                .foregroundStyle(on ? Color.white : (t?.color ?? Theme.ink))
+                .background(Capsule().fill(on ? (t?.color ?? Theme.navy) : Theme.card))
+                .overlay(Capsule().stroke((t?.color ?? Theme.inkSecondary).opacity(0.3)))
+        }
+        .buttonStyle(.plain)
+        .accessibilityAddTraits(on ? .isSelected : [])
+    }
+
+    /// A Home card asked for a billing or account type filter.
     private func takeHomeFilter() {
-        guard case .salons(let billing)? = session.pendingDestination else { return }
-        session.pendingDestination = nil
-        query.filter = SalonFilter(billing: billing)
+        switch session.pendingDestination {
+        case .salons(let billing)?:
+            session.pendingDestination = nil
+            query.filter = SalonFilter(billing: billing)
+            query.type = nil
+        case .salonsType(let t)?:
+            session.pendingDestination = nil
+            query.filter = .all
+            query.type = t
+        default:
+            return
+        }
     }
 }
 
@@ -217,6 +264,7 @@ struct SalonRow: View {
                 } else if let label = salon.billing?.statusLabel {
                     StatusBadge(text: label, color: Theme.color(for: salon.billing?.status))
                 }
+                TypeChip(billing: salon.billing)
             }
             HStack(spacing: 4) {
                 if let owner = salon.owner?.name, !owner.isEmpty { Text(verbatim: owner) }

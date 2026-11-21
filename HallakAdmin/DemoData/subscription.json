@@ -20,7 +20,9 @@
     "until": "2026-11-16",
     "days_left": -3,
     "grace_end": "2026-11-23",
-    "trial": false
+    "trial": false,
+    "type": "paid",
+    "type_label": "Paid"
   },
   "open_invoice": {
     "id": 15,

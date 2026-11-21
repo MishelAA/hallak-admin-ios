@@ -36,7 +36,9 @@
       "until": "2026-12-07",
       "days_left": 18,
       "grace_end": null,
-      "trial": false
+      "trial": false,
+      "type": "paid",
+      "type_label": "Paid"
     },
     "notes": "Pays on the 7th.",
     "fx": {

@@ -7,7 +7,7 @@ final class DecodingTests: XCTestCase {
         let p = try Fixture.decode(Ping.self, "ping")
         XCTAssertTrue(p.ok)
         XCTAssertEqual(p.hallakCore, "1.12.4")
-        XCTAssertEqual(p.api, "1.3.0")
+        XCTAssertEqual(p.api, "1.4.0")
         XCTAssertEqual(p.generatedAt, "2026-11-19 13:13")
     }
 

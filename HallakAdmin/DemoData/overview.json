@@ -6,10 +6,17 @@
   },
   "billing": {
     "free": 2,
+    "demo": 2,
     "trial": 3,
     "active": 16,
     "grace": 1,
     "overdue": 1
+  },
+  "types": {
+    "paid": 18,
+    "trial": 3,
+    "free": 2,
+    "demo": 2
   },
   "money": {
     "mrr": {

@@ -1,0 +1,8 @@
+{
+  "code": "smb_plan",
+  "message": "A paid account needs a plan.",
+  "data": {
+    "status": 400,
+    "field": "plan_id"
+  }
+}

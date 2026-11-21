@@ -37,7 +37,9 @@
         "until": "2026-12-07",
         "days_left": 18,
         "grace_end": null,
-        "trial": false
+        "trial": false,
+        "type": "paid",
+        "type_label": "Paid"
       }
     },
     {
@@ -72,7 +74,9 @@
         "until": "2026-11-16",
         "days_left": -3,
         "grace_end": "2026-11-23",
-        "trial": false
+        "trial": false,
+        "type": "paid",
+        "type_label": "Paid"
       },
       "unknown_future_field": {
         "ignored": true

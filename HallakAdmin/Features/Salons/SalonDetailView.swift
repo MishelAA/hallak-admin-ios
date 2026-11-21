@@ -245,6 +245,14 @@ struct SalonDetailView: View {
                     if let label = s.billing?.statusLabel {
                         StatusBadge(text: label, color: Theme.color(for: s.billing?.status))
                     }
+                    TypeChip(billing: s.billing)
+                }
+                if let n = s.billing?.trialEndsSoon {
+                    Label {
+                        Text(n == 0 ? String(localized: "Trial ends today") : String(localized: "Trial ends in \(n) days"))
+                    } icon: { Image(systemName: "hourglass") }
+                    .font(.subheadline.weight(.semibold))
+                    .foregroundStyle(Theme.orange)
                 }
                 HStack(spacing: 24) {
                     ContactButton(title: "Call", systemImage: "phone.fill", url: Contact.phoneURL(s.phone))

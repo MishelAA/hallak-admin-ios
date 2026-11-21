@@ -1,0 +1,30 @@
+{
+  "salon_id": 41,
+  "subscription": {
+    "status": "trial",
+    "status_label": "Trial",
+    "plan_id": 2,
+    "plan": "Pro",
+    "cycle": "month",
+    "price": {
+      "amount": 30,
+      "currency": "USD",
+      "display": "$30"
+    },
+    "monthly": {
+      "amount": 30,
+      "currency": "USD",
+      "display": "$30"
+    },
+    "own_price": false,
+    "until": "2026-11-24",
+    "days_left": 5,
+    "grace_end": null,
+    "trial": true,
+    "type": "trial",
+    "type_label": "Free trial"
+  },
+  "open_invoice": null,
+  "generated_at": "2026-11-19 13:13",
+  "tz": "Asia/Beirut"
+}

@@ -93,6 +93,10 @@ struct HomeView: View {
             BillingCard(counts: b) { status in session.open(.salons, .salons(billing: status)) }
         }
 
+        if session.hasAccountTypes, let t = o.types {
+            AccountTypesRow(types: t) { type in session.open(.salons, .salonsType(type)) }
+        }
+
         if let m = o.money {
             StatCard(title: "Money this month", systemImage: "banknote", value: m.mrr?.display, action: { session.open(.money) }) {
                 VStack(alignment: .leading, spacing: 4) {

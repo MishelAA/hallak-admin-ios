@@ -18,6 +18,8 @@ enum Theme {
     static let red = Color("StatusRed")
     static let grey = Color("StatusGrey")
     static let blue = Color("StatusBlue")
+    /// Demo accounts (API 1.4).
+    static let purple = Color(red: 0.49, green: 0.33, blue: 0.75)
 
     static let cardRadius: CGFloat = 14
     static let minTouch: CGFloat = 44
@@ -29,6 +31,7 @@ enum Theme {
         case .trial: return blue
         case .grace: return orange
         case .overdue: return red
+        case .demo: return purple
         case .free, .unknown, .none: return grey
         }
     }

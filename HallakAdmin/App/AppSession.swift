@@ -21,6 +21,8 @@ final class AppSession {
     enum Destination: Hashable {
         /// Salons list with a billing filter chip.
         case salons(billing: BillingStatus?)
+        /// Salons list with an account type filter (API 1.4).
+        case salonsType(AccountType)
         /// A screen pushed on the tab (e.g. More → WhatsApp bot).
         case route(AppRoute)
     }

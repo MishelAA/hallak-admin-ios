@@ -227,6 +227,7 @@ extension BillingStatus {
     var label: String {
         switch self {
         case .free: return String(localized: "Not billed")
+        case .demo: return String(localized: "Demo")
         case .trial: return String(localized: "Trial")
         case .active: return String(localized: "Paid")
         case .grace: return String(localized: "Payment due")

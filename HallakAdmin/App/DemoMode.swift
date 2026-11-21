@@ -42,6 +42,7 @@ enum DemoMode {
         case "ai": route = .ai
         case "settings": route = .settings
         case "plan": route = .businessPlan
+        case "demos": route = .demos
         case "activity": route = .activity(salonId: nil, salonName: nil)
         case "web": route = .web(url: URL(string: "https://hallak.online/")!, title: "Salon page")
         default: route = nil
@@ -67,6 +68,7 @@ enum DemoMode {
         case ("invoices", 2): return "invoice"
         case ("billing", 2): return "billing_summary"
         case ("plan", 2): return "plan_checklist"
+        case ("demos", 2), ("demos", 3): return "demo_one"
         case (_, 1): return first
         default: return nil
         }
