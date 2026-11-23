@@ -245,7 +245,7 @@ struct CheckRow: View {
         case .bad: return String(localized: "Fix now")
         case .warn: return String(localized: "Should be fixed")
         case .ok: return String(localized: "Passed")
-        case .info, .unknown: return """"
+        case .info, .unknown: return ""
         }
     }
 }
