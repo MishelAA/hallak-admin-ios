@@ -80,8 +80,26 @@ struct Security: Decodable, Hashable {
         /// Newest first (20).
         let recent: [Event]?
 
-        // "failed_24h" → convertFromSnakeCase gives "failed24h".
-        private enum CodingKeys: String, CodingKey { case blockedNow, failed24h, blocked24h, recent }
+        // "failed_24h": convertFromSnakeCase makes "failed24H" (capital H). Both spellings are read.
+        private struct Key: CodingKey {
+            let stringValue: String
+            init(_ s: String) { stringValue = s }
+            init?(stringValue: String) { self.stringValue = stringValue }
+            var intValue: Int? { nil }
+            init?(intValue: Int) { nil }
+        }
+
+        init(from decoder: Decoder) throws {
+            let c = try decoder.container(keyedBy: Key.self)
+            func int(_ names: String...) -> Int? {
+                for n in names { if let v = try? c.decodeIfPresent(Int.self, forKey: Key(n)) { return v } }
+                return nil
+            }
+            blockedNow = int("blockedNow", "blocked_now")
+            failed24h = int("failed24H", "failed24h", "failed_24h")
+            blocked24h = int("blocked24H", "blocked24h", "blocked_24h")
+            recent = try? c.decodeIfPresent([Event].self, forKey: Key("recent"))
+        }
     }
     struct TwoStep: Decodable, Hashable {
         let admins: Int?
