@@ -6,6 +6,7 @@ struct SecurityView: View {
     @Environment(AppSession.self) private var session
     @State private var loader = ScreenLoader<Security>(.security)
     @State private var showOK = false
+    @Environment(\.dynamicTypeSize) private var typeSize
 
     var body: some View {
         Group {
@@ -69,14 +70,18 @@ struct SecurityView: View {
 
     private func header(_ s: Security) -> some View {
         Section {
-            HStack(spacing: 18) {
+            // Biggest text sizes: the counts go under the ring.
+            let layout = typeSize.isAccessibilitySize
+                ? AnyLayout(VStackLayout(alignment: .leading, spacing: 14))
+                : AnyLayout(HStackLayout(spacing: 18))
+            layout {
                 let score = s.score ?? 0
                 ProgressRing(fraction: Double(score) / 100, color: Security.scoreColor(score),
                              value: String(score), caption: "of 100", size: 112)
                 VStack(alignment: .leading, spacing: 8) {
                     count(s.summary?.bad ?? s.badCount, "Fix now", .bad)
                     count(s.summary?.warn ?? s.warnCount, "Should be fixed", .warn)
-                    count(s.summary?.ok ?? 0, "OK", .ok)
+                    count(s.summary?.ok ?? 0, "Passed", .ok)
                 }
                 Spacer(minLength: 0)
             }
@@ -239,8 +244,8 @@ struct CheckRow: View {
         switch check.state {
         case .bad: return String(localized: "Fix now")
         case .warn: return String(localized: "Should be fixed")
-        case .ok: return String(localized: "OK")
-        case .info, .unknown: return ""
+        case .ok: return String(localized: "Passed")
+        case .info, .unknown: return """"
         }
     }
 }

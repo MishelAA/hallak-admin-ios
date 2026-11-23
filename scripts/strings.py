@@ -533,6 +533,7 @@ AR = {
     "Fix now": "أصلحه الآن",
     "Should be fixed": "يجب إصلاحه",
     "Checks": "الفحوصات",
+    "Passed": "سليم",
     "%lld checks are OK": "%lld فحوصات سليمة",
     "Last check": "آخر فحص",
     "Never checked": "لم يُفحص أبدًا",

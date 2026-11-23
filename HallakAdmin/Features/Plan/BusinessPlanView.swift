@@ -235,9 +235,14 @@ struct ProgressRing: View {
                 }
                 Text(verbatim: value)
                     .font(.title2.bold().monospacedDigit())
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.4)
                     .environment(\.layoutDirection, .leftToRight)
                 Text(caption).font(.caption).foregroundStyle(Theme.inkSecondary)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.4)
             }
+            .padding(.horizontal, 18)
         }
         .frame(width: size, height: size)
         .accessibilityElement(children: .combine)
