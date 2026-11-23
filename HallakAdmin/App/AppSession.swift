@@ -37,6 +37,8 @@ final class AppSession {
     private(set) var client: APIClient?
     private(set) var me: Me?
     private(set) var ping: Ping?
+    /// GET /admin/security answered 404 smapi_no_security: hide the Security screen and card.
+    var securityOff = false
     var selectedTab: Tab = .home
     var pendingDestination: Destination?
     /// Navigation of each tab (so Home can open a screen inside another tab).

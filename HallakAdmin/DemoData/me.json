@@ -25,7 +25,8 @@
       "site": true,
       "whatsapp": true,
       "ai": false,
-      "check": true
+      "check": true,
+      "security": true
     }
   },
   "generated_at": "2026-11-19 13:13",

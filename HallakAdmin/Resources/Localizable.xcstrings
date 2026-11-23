@@ -31,6 +31,36 @@
         }
       }
     },
+    "%lld checks are OK": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld فحوصات سليمة"
+          }
+        }
+      }
+    },
+    "%lld checks should be fixed": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld فحوصات يجب إصلاحها"
+          }
+        }
+      }
+    },
+    "%lld checks to fix now": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld فحوصات للإصلاح الآن"
+          }
+        }
+      }
+    },
     "%lld days late": {
       "localizations": {
         "ar": {
@@ -61,6 +91,16 @@
         }
       }
     },
+    "%lld files to look at": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld ملفات للمراجعة"
+          }
+        }
+      }
+    },
     "%lld invoices": {
       "localizations": {
         "ar": {
@@ -87,6 +127,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "%lld من %lld"
+          }
+        }
+      }
+    },
+    "%lld of %lld administrators": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld من %lld مديرين"
           }
         }
       }
@@ -381,6 +431,26 @@
         }
       }
     },
+    "All checks OK": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "كل الفحوصات سليمة"
+          }
+        }
+      }
+    },
+    "All files look as expected": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "كل الملفات كما هو متوقع"
+          }
+        }
+      }
+    },
     "All plugins OK": {
       "localizations": {
         "ar": {
@@ -621,6 +691,26 @@
         }
       }
     },
+    "Blocked in 24 hours": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حُظر خلال 24 ساعة"
+          }
+        }
+      }
+    },
+    "Blocked now": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "محظور الآن"
+          }
+        }
+      }
+    },
     "Booking page": {
       "localizations": {
         "ar": {
@@ -841,6 +931,26 @@
         }
       }
     },
+    "Changed WordPress files": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ملفات ووردبريس تغيّرت"
+          }
+        }
+      }
+    },
+    "Changed files": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ملفات تغيّرت"
+          }
+        }
+      }
+    },
     "Changes apply at once, like the boxes in wp-admin.": {
       "localizations": {
         "ar": {
@@ -867,6 +977,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "محادثات تنتظر الفريق"
+          }
+        }
+      }
+    },
+    "Checks": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الفحوصات"
           }
         }
       }
@@ -1391,6 +1511,16 @@
         }
       }
     },
+    "Every administrator should turn on two-step login.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يجب على كل مدير تفعيل تسجيل الدخول بخطوتين."
+          }
+        }
+      }
+    },
     "Every month": {
       "localizations": {
         "ar": {
@@ -1451,6 +1581,16 @@
         }
       }
     },
+    "Failed in 24 hours": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فشل خلال 24 ساعة"
+          }
+        }
+      }
+    },
     "Feature": {
       "localizations": {
         "ar": {
@@ -1481,12 +1621,52 @@
         }
       }
     },
+    "Files": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الملفات"
+          }
+        }
+      }
+    },
+    "Files WordPress does not have": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ملفات ليست من ووردبريس"
+          }
+        }
+      }
+    },
     "Filter": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "فلتر"
+          }
+        }
+      }
+    },
+    "Fix now": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أصلحه الآن"
+          }
+        }
+      }
+    },
+    "Fixes and “These changes are mine” are done in wp-admin → Salons → Security. The app only shows the report.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الإصلاحات و«هذه التغييرات مني» تتم في wp-admin ← Salons ← Security. التطبيق يعرض التقرير فقط."
           }
         }
       }
@@ -1681,6 +1861,16 @@
         }
       }
     },
+    "If you did not upload these files yourself, someone may have planted code.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إذا لم ترفع هذه الملفات بنفسك، فقد يكون أحدهم زرع شيفرة."
+          }
+        }
+      }
+    },
     "In wp-admin, open Users → Profile.": {
       "localizations": {
         "ar": {
@@ -1817,6 +2007,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "آخر نشاط"
+          }
+        }
+      }
+    },
+    "Last check": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "آخر فحص"
           }
         }
       }
@@ -2301,6 +2501,16 @@
         }
       }
     },
+    "Never checked": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لم يُفحص أبدًا"
+          }
+        }
+      }
+    },
     "Never logged in": {
       "localizations": {
         "ar": {
@@ -2337,6 +2547,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "صالون تجريبي جديد"
+          }
+        }
+      }
+    },
+    "New files": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ملفات جديدة"
           }
         }
       }
@@ -2777,6 +2997,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "افتح حلّاق - الإدارة"
+          }
+        }
+      }
+    },
+    "Open Security in wp-admin": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "افتح الأمان في wp-admin"
           }
         }
       }
@@ -3311,6 +3541,16 @@
         }
       }
     },
+    "Program files in uploads": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ملفات برامج داخل uploads"
+          }
+        }
+      }
+    },
     "Quarters": {
       "localizations": {
         "ar": {
@@ -3417,6 +3657,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "إعادة تحميل"
+          }
+        }
+      }
+    },
+    "Removed files": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ملفات حُذفت"
           }
         }
       }
@@ -3761,6 +4011,36 @@
         }
       }
     },
+    "Security": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الأمان"
+          }
+        }
+      }
+    },
+    "Security in wp-admin": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الأمان في wp-admin"
+          }
+        }
+      }
+    },
+    "Security is off": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الأمان متوقف"
+          }
+        }
+      }
+    },
     "Send on WhatsApp": {
       "localizations": {
         "ar": {
@@ -3817,6 +4097,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "روابط المشاركة"
+          }
+        }
+      }
+    },
+    "Should be fixed": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يجب إصلاحه"
           }
         }
       }
@@ -4057,6 +4347,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "إضافة Hallak check غير مفعّلة"
+          }
+        }
+      }
+    },
+    "The Security plugin is not active on the site.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إضافة الأمان غير مفعّلة على الموقع."
           }
         }
       }
@@ -4521,6 +4821,16 @@
         }
       }
     },
+    "Two-step login": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تسجيل الدخول بخطوتين"
+          }
+        }
+      }
+    },
     "Type": {
       "localizations": {
         "ar": {
@@ -4877,6 +5187,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "من"
+          }
+        }
+      }
+    },
+    "of 100": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "من 100"
           }
         }
       }

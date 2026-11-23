@@ -80,7 +80,7 @@ extension APIError {
         case "smapi_app_passwords_off", "smapi_login": return .loginMessage
         case "smapi_forbidden", "smapi_https": return .logOut
         case "smapi_not_found": return .notFound
-        case "smapi_no_billing", "smapi_no_site", "smapi_no_whatsapp", "smapi_no_ai": return .pluginOff
+        case "smapi_no_billing", "smapi_no_site", "smapi_no_whatsapp", "smapi_no_ai", "smapi_no_security": return .pluginOff
         case "smapi_slow_down": return .slowDown
         case "smapi_locked": return .locked
         case "offline", "server": return .offline

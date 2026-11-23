@@ -1,4 +1,4 @@
-"""Writes the JSON fixtures used by the unit tests (one per endpoint of API 1.4.0).
+"""Writes the JSON fixtures used by the unit tests (one per endpoint of API 1.5.0).
 
 Values are realistic but invented: no real passwords, tokens or customer data.
 Run:  python scripts/make_fixtures.py
@@ -193,17 +193,34 @@ def demo(key, name, lang, public, nightly, main, salon_id):
 DEMO_1 = demo("1", "Hallak demo (English)", "en", True, True, True, 90)
 DEMO_2 = demo("2", "Karim Barber Shop (demo)", "ar", True, False, False, 91)
 
+# GET /admin/security (API 1.5): the example answer from the task, as given.
+SECURITY = {
+    "available": True, "score": 50,
+    "summary": {"ok": 1, "warn": 1, "bad": 1},
+    "checks": [{"state": "bad", "label": "Code editor in wp-admin off",
+                "help": "Someone with an admin login could type code into plugins."}],
+    "files": {"last_check": "2026-11-23 04:00", "to_look_at": 2,
+              "counts": {"changed": 0, "new": 1, "removed": 0, "uploads": 0, "wordpress_changed": 0, "unknown_in_wordpress": 1},
+              "items": [{"group": "new", "path": "wp-content/plugins/x/new.php"},
+                        {"group": "unknown_in_wordpress", "path": "default.php"}]},
+    "logins": {"blocked_now": 3, "failed_24h": 7, "blocked_24h": 1,
+               "recent": [{"time": "2026-11-23 10:07", "type": "login_fail", "level": "warn", "text": "Wrong password",
+                           "ip": "1.2.3.4", "user": "admin"}]},
+    "two_step": {"admins": 2, "with_two_step": 1, "all_protected": False},
+    "generated_at": "2026-11-23 10:07", "tz": "Asia/Beirut",
+}
+
 FIXTURES = {
     "ping": {
         "ok": True, "user": "mishel-app", "site": "https://hallak.online", "wordpress": "6.8.3",
-        "hallak_core": "1.12.4", "api": "1.4.0", "https": True, **META,
+        "hallak_core": "1.12.4", "api": "1.5.0", "https": True, **META,
     },
     "me": {
         "user": {"id": 2, "username": "mishel-app", "name": "Mishel", "email": "admin@example.com", "last_login": "2026-11-19 13:00"},
         "language": "en", "can": {"read": True, "write": True, "open_links": True, "plan": True, "demos": True},
         "site": {
             "name": "Hallak", "url": "https://hallak.online", "wordpress": "6.8.3", "hallak_core": "1.4.2", "api": "1.0.1",
-            "plugins": {"billing": True, "site": True, "whatsapp": True, "ai": False, "check": True},
+            "plugins": {"billing": True, "site": True, "whatsapp": True, "ai": False, "check": True, "security": True},
         },
         **META,
     },
@@ -387,6 +404,8 @@ FIXTURES = {
     "demo_one": {"demo": DEMO_2, **META},
     "subscription_trial": {"salon_id": 41, "subscription": BILLING_TRIAL, "open_invoice": None, **META},
     "error_plan": {"code": "smb_plan", "message": "A paid account needs a plan.", "data": {"status": 400, "field": "plan_id"}},
+    "security": SECURITY,
+    "error_no_security": {"code": "smapi_no_security", "message": "The Security plugin is not active.", "data": {"status": 404}},
     "error_conflict": {"code": "sm_user", "message": "This username is already used.",
                        "data": {"status": 409, "field": "owner.username"}},
     "error_not_found": {"code": "smapi_not_found", "message": "Salon not found.", "data": {"status": 404}},

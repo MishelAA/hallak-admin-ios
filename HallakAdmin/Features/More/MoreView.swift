@@ -9,6 +9,7 @@ struct MoreView: View {
         List {
             Section {
                 if session.me?.hasCheck ?? true { row(.health, "Health", "stethoscope") }
+                if session.showsSecurity { row(.security, "Security", "lock.shield") }
                 row(.activity(salonId: nil, salonName: nil), "Activity", "list.bullet.rectangle")
                 row(.owners, "Owners", "person.2")
                 if session.me?.canPlan == true { row(.businessPlan, "Business plan", "chart.line.uptrend.xyaxis") }

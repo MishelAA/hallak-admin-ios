@@ -17,6 +17,8 @@ enum AppRoute: Hashable {
     /// API 1.4: demo salons.
     case demos
     case demo(DemoSalon)
+    /// API 1.5: read-only security report.
+    case security
 }
 
 extension View {
@@ -39,6 +41,7 @@ extension View {
             case .businessPlan: BusinessPlanView()
             case .demos: DemoListView()
             case let .demo(d): DemoDetailView(demo: d)
+            case .security: SecurityView()
             }
         }
     }

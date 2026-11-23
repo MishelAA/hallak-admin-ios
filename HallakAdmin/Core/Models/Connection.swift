@@ -42,6 +42,8 @@ struct Me: Decodable, Hashable {
         let whatsapp: Bool?
         let ai: Bool?
         let check: Bool?
+        /// API 1.5: Security plugin 1.0.1+.
+        let security: Bool?
     }
     struct Site: Decodable, Hashable {
         let name: String?

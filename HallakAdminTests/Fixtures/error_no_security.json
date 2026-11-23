@@ -1,0 +1,7 @@
+{
+  "code": "smapi_no_security",
+  "message": "The Security plugin is not active.",
+  "data": {
+    "status": 404
+  }
+}

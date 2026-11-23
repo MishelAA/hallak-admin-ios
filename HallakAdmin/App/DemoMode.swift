@@ -43,6 +43,7 @@ enum DemoMode {
         case "settings": route = .settings
         case "plan": route = .businessPlan
         case "demos": route = .demos
+        case "security": route = .security
         case "activity": route = .activity(salonId: nil, salonName: nil)
         case "web": route = .web(url: URL(string: "https://hallak.online/")!, title: "Salon page")
         default: route = nil

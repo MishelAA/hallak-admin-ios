@@ -1,0 +1,60 @@
+{
+  "available": true,
+  "score": 50,
+  "summary": {
+    "ok": 1,
+    "warn": 1,
+    "bad": 1
+  },
+  "checks": [
+    {
+      "state": "bad",
+      "label": "Code editor in wp-admin off",
+      "help": "Someone with an admin login could type code into plugins."
+    }
+  ],
+  "files": {
+    "last_check": "2026-11-23 04:00",
+    "to_look_at": 2,
+    "counts": {
+      "changed": 0,
+      "new": 1,
+      "removed": 0,
+      "uploads": 0,
+      "wordpress_changed": 0,
+      "unknown_in_wordpress": 1
+    },
+    "items": [
+      {
+        "group": "new",
+        "path": "wp-content/plugins/x/new.php"
+      },
+      {
+        "group": "unknown_in_wordpress",
+        "path": "default.php"
+      }
+    ]
+  },
+  "logins": {
+    "blocked_now": 3,
+    "failed_24h": 7,
+    "blocked_24h": 1,
+    "recent": [
+      {
+        "time": "2026-11-23 10:07",
+        "type": "login_fail",
+        "level": "warn",
+        "text": "Wrong password",
+        "ip": "1.2.3.4",
+        "user": "admin"
+      }
+    ]
+  },
+  "two_step": {
+    "admins": 2,
+    "with_two_step": 1,
+    "all_protected": false
+  },
+  "generated_at": "2026-11-23 10:07",
+  "tz": "Asia/Beirut"
+}

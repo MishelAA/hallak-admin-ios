@@ -6,6 +6,8 @@ struct HomeView: View {
     @State private var loader = ScreenLoader<Overview>(.overview)
     /// API 1.3: the Plan card (only when /admin/me can.plan).
     @State private var planLoader = ScreenLoader<BusinessPlan>(.businessPlan)
+    /// API 1.5: the Security card (only when the plugin is on).
+    @State private var securityLoader = ScreenLoader<Security>(.security)
 
     @Environment(\.dynamicTypeSize) private var typeSize
 
@@ -48,6 +50,12 @@ struct HomeView: View {
         }
         .refreshable { await loader.refresh(session) }
         .task { await loader.load(session) }
+        .task(id: session.showsSecurity) {
+            if session.showsSecurity { await securityLoader.load(session) }
+        }
+        .onChange(of: securityLoader.error?.code) { _, code in
+            if code == "smapi_no_security" { session.securityOff = true }
+        }
         .task(id: session.me?.canPlan ?? false) {
             if session.me?.canPlan == true { await planLoader.load(session) }
         }
@@ -55,6 +63,7 @@ struct HomeView: View {
             Task {
                 await loader.refresh(session)
                 if session.me?.canPlan == true { await planLoader.refresh(session) }
+                if session.showsSecurity { await securityLoader.refresh(session) }
             }
         }
     }
@@ -87,6 +96,10 @@ struct HomeView: View {
 
         if session.me?.canPlan == true, let plan = planLoader.value, let year = plan.currentYear {
             BusinessPlanCard(year: year, renewals: plan.renewalsDue?.count ?? 0) { session.open(.more, .route(.businessPlan)) }
+        }
+
+        if session.showsSecurity, let s = securityLoader.value {
+            SecurityCard(security: s) { session.open(.more, .route(.security)) }
         }
 
         if let b = o.billing {
